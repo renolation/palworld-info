@@ -2,10 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { PalsService } from './pals.service';
 import { CreatePalDto } from './dto/create-pal.dto';
 import { UpdatePalDto } from './dto/update-pal.dto';
+import { ElementService } from "./services/element.service";
 
 @Controller('pals')
 export class PalsController {
-  constructor(private readonly palsService: PalsService) {}
+  constructor(
+    private readonly palsService: PalsService,
+    private readonly elementService: ElementService
+  ) {}
 
   @Post()
   create(@Body() createPalDto: CreatePalDto) {
@@ -14,7 +18,7 @@ export class PalsController {
 
   @Get()
   findAll() {
-    return this.palsService.findAll();
+    return this.elementService.crawlElement();
   }
 
   @Get(':id')
