@@ -18,15 +18,22 @@ export class PalsController {
 
   @Get()
   findAll() {
-    return this.elementService.crawlElement();
+    return this.elementService.crawlWork();
   }
 
   @Get('crawl-elements')
   async crawlElements(){
     const arrayElements = await this.elementService.crawlElement();
-    // console.log(arrayElements);
     for (const element of arrayElements) {
       await this.palsService.createElement(element.name, element.iconUrl);
+    }
+  }
+
+  @Get('crawl-work')
+  async crawlWork(){
+    const arrayWork = await this.elementService.crawlWork();
+    for (const work of arrayWork) {
+      await this.palsService.createWork(work.name, work.iconUrl);
     }
   }
 

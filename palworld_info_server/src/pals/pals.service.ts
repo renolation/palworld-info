@@ -5,6 +5,7 @@ import { Pal } from "./entities/pal.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Element } from "./entities/element.entity";
+import { WorkSuitability } from "./entities/work_suitability.entity";
 
 @Injectable()
 export class PalsService {
@@ -12,6 +13,8 @@ export class PalsService {
   constructor(
     @InjectRepository(Pal) private repo: Repository<Pal>,
     @InjectRepository(Element) private elementsRepo: Repository<Element>,
+    @InjectRepository(WorkSuitability) private workSuitabilityRepository: Repository<WorkSuitability>,
+
   ) {
   }
 
@@ -23,10 +26,15 @@ export class PalsService {
     const elementEntity = this.elementsRepo.create({
       ...{name, iconUrl},
     });
-    // console.log(elementEntity);
     await this.elementsRepo.save(elementEntity);
-    // return JSON.stringify(elementEntity);
 }
+
+  async createWork(name: string, iconUrl: string){
+    const workEntity = this.workSuitabilityRepository.create({
+      ...{name, iconUrl},
+    });
+    await this.workSuitabilityRepository.save(workEntity);
+  }
 
   findAll() {
     return `This action returns all pals`;

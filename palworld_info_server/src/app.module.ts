@@ -5,8 +5,8 @@ import { PalsModule } from './pals/pals.module';
 import { TypeOrmModule} from '@nestjs/typeorm';
 import { Pal } from './pals/entities/pal.entity';
 import { Element } from "./pals/entities/element.entity";
-import { PartnerSkill } from "./pals/entities/partner_skill.entity";
-import { WorkSuitability } from "./pals/entities/work_suitability.entity";
+import { Skill } from "./pals/entities/skill.entity";
+import { LevelWorkSuitability, WorkSuitability } from "./pals/entities/work_suitability.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -16,7 +16,7 @@ import { WorkSuitability } from "./pals/entities/work_suitability.entity";
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element, PartnerSkill, WorkSuitability],
+      entities: [Pal ,Element, Skill, WorkSuitability, LevelWorkSuitability],
       synchronize: true,
     }),
     PalsModule

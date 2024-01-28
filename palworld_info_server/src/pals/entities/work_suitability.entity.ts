@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity()
 export class WorkSuitability {
@@ -8,10 +8,21 @@ export class WorkSuitability {
     @Column()
     name: string
 
-    @Column()
-    rank: number
-
     @Column({nullable: true})
     iconUrl: string
 
 }
+
+@Entity()
+export class LevelWorkSuitability {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @ManyToOne(() => WorkSuitability)
+    @JoinColumn({ name: 'workSuitabilityId' })
+    workSuitability: WorkSuitability;
+
+    @Column()
+    level: number
+}
+

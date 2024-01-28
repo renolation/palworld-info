@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class PartnerSkill {
+export class Skill {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -9,7 +9,7 @@ export class PartnerSkill {
     name: string
     
     @Column()
-    rank: number
+    level: number
 
     @Column({nullable: true})
     iconUrl: string
