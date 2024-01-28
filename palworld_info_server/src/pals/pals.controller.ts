@@ -21,6 +21,15 @@ export class PalsController {
     return this.elementService.crawlElement();
   }
 
+  @Get('crawl-elements')
+  async crawlElements(){
+    const arrayElements = await this.elementService.crawlElement();
+    // console.log(arrayElements);
+    for (const element of arrayElements) {
+      await this.palsService.createElement(element.name, element.iconUrl);
+    }
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.palsService.findOne(+id);
