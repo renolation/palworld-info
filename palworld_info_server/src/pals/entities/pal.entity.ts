@@ -13,66 +13,66 @@ export class Pal {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({unique: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   title: string;
 
-  @ManyToMany(() => Element)
-  @JoinTable()
-  elements: Element[]
+  // @ManyToMany(() => Element)
+  // @JoinTable()
+  // elements: Element[]
+  //
+  // @ManyToMany(() => LevelWorkSuitability)
+  // @JoinTable()
+  // levelWorkSuitability: LevelWorkSuitability[]
+  //
+  // @Column({
+  //   type: "enum",
+  //   enum: PalSize,
+  //   default: PalSize.M
+  // })
+  // size: PalSize;
 
-  @ManyToMany(() => LevelWorkSuitability)
-  @JoinTable()
-  levelWorkSuitability: LevelWorkSuitability[]
-
-  @Column({
-    type: "enum",
-    enum: PalSize,
-    default: PalSize.M
-  })
-  size: PalSize;
-
-  @Column()
+  @Column({nullable: true})
   rarity: number;
 
-  @Column()
+  @Column({nullable: true})
   hp: number;
 
-  @Column()
+  @Column({nullable: true})
   meleeAttack: number;
 
-  @Column()
+  @Column({nullable: true})
   magicAttack: number;
 
-  @Column()
+  @Column({nullable: true})
   defense: number;
 
-  @Column()
+  @Column({nullable: true})
   support: number;
 
-  @Column()
+  @Column({nullable: true})
   craftSpeed: number;
 
-  @Column()
+  @Column({nullable: true})
   captureRate: number;
 
-  @Column()
+  @Column({nullable: true})
   price: number;
 
-  @Column()
+  @Column({nullable: true})
   slowWalkSpeed: number;
 
-  @Column()
+  @Column({nullable: true})
   runSpeed: number;
 
-  @Column()
+  @Column({nullable: true})
   rideSprintSpeed: number;
 
-  @Column()
+  @Column({nullable: true})
   foodAmount: number;
 
-  @Column()
+  @Column({nullable: true})
   maleProbability: number;
 }

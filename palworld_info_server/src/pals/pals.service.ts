@@ -36,6 +36,13 @@ export class PalsService {
     await this.workSuitabilityRepository.save(workEntity);
   }
 
+  async createPal(name: string){
+    const palEntity = this.repo.create({
+      ...{name},
+    });
+    await this.repo.save(palEntity);
+  }
+
   findAll() {
     return `This action returns all pals`;
   }

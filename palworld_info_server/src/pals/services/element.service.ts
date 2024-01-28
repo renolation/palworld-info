@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import axios from "axios";
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
+
 @Injectable()
 export class ElementService {
 
@@ -39,6 +40,24 @@ export class ElementService {
       // console.log('Buttons Array:', buttonsArray);
 
       return buttonsArray;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  async crawlPals(){
+    try {
+      const response = await axios.get('https://palworldtrainer.com/');
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      const palNamesArray = Array.from($('.content .card')).map((card) => {
+        const palNameElement = $(card).find('.h6.pal-name');
+        return palNameElement.text();
+      });
+return palNamesArray;
+
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
