@@ -11,10 +11,16 @@ export class CreatePalDto {
   title: string;
 
   @IsString()
+  iconUrl: string;
+
+  @IsString()
   slug: string;
 
   @IsArray()
   element: Element[]
+
+  @IsString()
+  summary: string;
 
   @IsString()
   size: string;

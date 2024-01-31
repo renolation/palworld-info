@@ -8,6 +8,7 @@ import { Element } from "./entities/element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./entities/work_suitability.entity";
 import axios from "axios";
 import * as cheerio from "cheerio";
+
 @Injectable()
 export class PalsService {
 
@@ -15,8 +16,7 @@ export class PalsService {
     @InjectRepository(Pal) private repo: Repository<Pal>,
     @InjectRepository(Element) private elementsRepo: Repository<Element>,
     @InjectRepository(WorkSuitability) private workSuitabilityRepository: Repository<WorkSuitability>,
-    @InjectRepository(LevelWorkSuitability) private levelWorkSuitabilityRepository: Repository<LevelWorkSuitability>,
-
+    @InjectRepository(LevelWorkSuitability) private levelWorkSuitabilityRepository: Repository<LevelWorkSuitability>
   ) {
   }
 
@@ -24,23 +24,23 @@ export class PalsService {
     return "This action adds a new pal";
   }
 
-  async createElement(name: string, iconUrl: string){
+  async createElement(name: string, iconUrl: string) {
     const elementEntity = this.elementsRepo.create({
-      ...{name, iconUrl},
+      ...{ name, iconUrl }
     });
     await this.elementsRepo.save(elementEntity);
-}
+  }
 
-  async createWork(name: string, iconUrl: string){
+  async createWork(name: string, iconUrl: string) {
     const workEntity = this.workSuitabilityRepository.create({
-      ...{name, iconUrl},
+      ...{ name, iconUrl }
     });
     await this.workSuitabilityRepository.save(workEntity);
   }
 
-  async createPal(name: string){
+  async createPal(name: string) {
     const palEntity = this.repo.create({
-      ...{name},
+      ...{ name }
     });
     await this.repo.save(palEntity);
   }
@@ -54,7 +54,7 @@ export class PalsService {
         elements: true,
         levelWorkSuitability: {
           workSuitability: true
-        },
+        }
       }
     });
   }
@@ -68,13 +68,13 @@ export class PalsService {
         elements: true,
         levelWorkSuitability: {
           workSuitability: true
-        },
+        }
       }
-    })
+    });
   }
 
   async findByListID(listID: number[]) {
-    return await this.levelWorkSuitabilityRepository.findBy({id: In(listID)})
+    return await this.levelWorkSuitabilityRepository.findBy({ id: In(listID) });
   }
 
   update(id: number, updatePalDto: UpdatePalDto) {
@@ -82,11 +82,12 @@ export class PalsService {
   }
 
   async updatePalMerge(slug: string, updatePalDto: UpdatePalDto) {
-    const palToUpdate = await this.repo.findOne({ where: { slug } ,
+    const palToUpdate = await this.repo.findOne({
+      where: { slug },
       relations: {
-      elements: true
+        elements: true
       }
-    },);
+    });
     if (!palToUpdate) {
       throw new Error(`Pal with ID: ${slug} not found.`);
     }
@@ -122,29 +123,29 @@ export class PalsService {
     try {
       const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
       const $ = cheerio.load(response.data);
-      const content = $('.pal');
+      const content = $(".pal");
 
       return {
-        name: content.find('.header .pal-name').html(),
-        title: content.find('.header .pal-title').html(),
-        size: content.find('.row:has(.label:contains("Size")) .right .value').text(),
-        rarity: content.find('.row:has(.label:contains("Rarity")) .right .value').text(),
-        hp: content.find('.row:has(.label:contains("HP")) .right .value').text(),
-        meleeAttack: content.find('.row:has(.label:contains("Melee Attack")) .right .value').text(),
-        magicAttack: content.find('.row:has(.label:contains("Magic Attack")) .right .value').text(),
-        defense: content.find('.row:has(.label:contains("Defense")) .right .value').text(),
-        support: content.find('.row:has(.label:contains("Support")) .right .value').text(),
-        craftSpeed: content.find('.row:has(.label:contains("Craft Speed")) .right .value').text(),
-        captureRate: content.find('.row:has(.label:contains("Capture Rate")) .right .value').text(),
-        price: content.find('.row:has(.label:contains("Price")) .right .value').text(),
-        slowWalkSpeed: content.find('.row:has(.label:contains("Slow Walk Speed")) .right .value').text(),
-        runSpeed: content.find('.row:has(.label:contains("Run Speed")) .right .value').text(),
-        rideSprintSpeed: content.find('.row:has(.label:contains("Ride Sprint Speed")) .right .value').text(),
-        foodAmount: content.find('.row:has(.label:contains("Food Amount")) .right .value').text(),
-        maleProbability: content.find('.row:has(.label:contains("Male Probability")) .right .value').text()
+        name: content.find(".header .pal-name").html(),
+        title: content.find(".header .pal-title").html(),
+        size: content.find(".row:has(.label:contains(\"Size\")) .right .value").text(),
+        rarity: content.find(".row:has(.label:contains(\"Rarity\")) .right .value").text(),
+        hp: content.find(".row:has(.label:contains(\"HP\")) .right .value").text(),
+        meleeAttack: content.find(".row:has(.label:contains(\"Melee Attack\")) .right .value").text(),
+        magicAttack: content.find(".row:has(.label:contains(\"Magic Attack\")) .right .value").text(),
+        defense: content.find(".row:has(.label:contains(\"Defense\")) .right .value").text(),
+        support: content.find(".row:has(.label:contains(\"Support\")) .right .value").text(),
+        craftSpeed: content.find(".row:has(.label:contains(\"Craft Speed\")) .right .value").text(),
+        captureRate: content.find(".row:has(.label:contains(\"Capture Rate\")) .right .value").text(),
+        price: content.find(".row:has(.label:contains(\"Price\")) .right .value").text(),
+        slowWalkSpeed: content.find(".row:has(.label:contains(\"Slow Walk Speed\")) .right .value").text(),
+        runSpeed: content.find(".row:has(.label:contains(\"Run Speed\")) .right .value").text(),
+        rideSprintSpeed: content.find(".row:has(.label:contains(\"Ride Sprint Speed\")) .right .value").text(),
+        foodAmount: content.find(".row:has(.label:contains(\"Food Amount\")) .right .value").text(),
+        maleProbability: content.find(".row:has(.label:contains(\"Male Probability\")) .right .value").text()
       };
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   }
 
@@ -152,15 +153,15 @@ export class PalsService {
     try {
       const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
       const $ = cheerio.load(response.data);
-      const content = $('.pal');
-      const imgUrl = content.find('.banner-icon').attr('src');
+      const content = $(".pal");
+      const imgUrl = content.find(".banner-icon").attr("src");
       let element = await this.elementsRepo.findOneBy({
         iconUrl: imgUrl
       });
       const letWorkArray: number[] = [];
-      const workArray = await Promise.all(Array.from($('.suitability').find('.work-pill')).map(async (work) => {
-        const imgIcon = $(work).find('.icon').attr('src');
-        const rank = $(work).find('.rank').text();
+      const workArray = await Promise.all(Array.from($(".suitability").find(".work-pill")).map(async (work) => {
+        const imgIcon = $(work).find(".icon").attr("src");
+        const rank = $(work).find(".rank").text();
         let workSuitability = await this.workSuitabilityRepository.findOneBy({
           iconUrl: imgIcon
         });
@@ -168,13 +169,13 @@ export class PalsService {
         levelWorkSuitability.workSuitability = workSuitability;
         levelWorkSuitability.level = Number(rank);
         const levelWorkEntity = this.levelWorkSuitabilityRepository.create({
-          ...levelWorkSuitability,
+          ...levelWorkSuitability
         });
         try {
           await this.levelWorkSuitabilityRepository.save(levelWorkEntity);
           letWorkArray.push(levelWorkEntity.id);
-        } catch (error){
-          if (error instanceof QueryFailedError && error.message.includes('duplicate key value violates unique constraint')) {
+        } catch (error) {
+          if (error instanceof QueryFailedError && error.message.includes("duplicate key value violates unique constraint")) {
 
             // Handle the unique constraint violation exception
             const existingRecord = await this.levelWorkSuitabilityRepository.findOne({
@@ -188,7 +189,7 @@ export class PalsService {
               console.log(`Id of duplicate record: ${existingRecord.id}`);
               letWorkArray.push(existingRecord.id);
             } else {
-              console.log('Duplicate record not found');
+              console.log("Duplicate record not found");
             }
 
           } else {
@@ -202,12 +203,14 @@ export class PalsService {
       return {
         element: [element],
         levelWork: letWorkArray
-      }
+      };
 
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   }
+
+
   //endregion
 
 }

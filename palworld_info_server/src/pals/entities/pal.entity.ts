@@ -38,6 +38,12 @@ export class Pal {
   // size: PalSize;
 
   @Column({nullable: true})
+  iconUrl: string;
+
+  @Column({nullable: true})
+  summary: string;
+
+  @Column({nullable: true})
   size: string;
 
   @Column({nullable: true})

@@ -1,5 +1,5 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreatePalDto } from './create-pal.dto';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreatePalDto } from "./create-pal.dto";
 import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray } from "class-validator";
 import { LevelWorkSuitability } from "../entities/work_suitability.entity";
 import { Element } from "../entities/element.entity";
@@ -20,9 +20,17 @@ export class UpdatePalDto extends PartialType(CreatePalDto) {
 
   @IsArray()
   @IsOptional()
-  element: Element[]
+  element: Element[];
 
-  levelWorkSuitability: LevelWorkSuitability[]
+  levelWorkSuitability: LevelWorkSuitability[];
+
+  @IsString()
+  @IsOptional()
+  iconUrl: string;
+
+  @IsString()
+  @IsOptional()
+  summary: string;
 
   @IsString()
   @IsOptional()
