@@ -106,8 +106,8 @@ export class PalsController {
     const pal = await this.palsService.crawlPalHeader(id);
     let updatePalDto = new UpdatePalDto();
       updatePalDto.element = pal.element;
+      updatePalDto.levelWorkSuitability = pal.levelWork;
     return await this.palsService.updatePal(id, updatePalDto);
-
   }
 
   @Get(':id')

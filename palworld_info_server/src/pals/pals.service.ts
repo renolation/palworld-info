@@ -87,7 +87,7 @@ export class PalsService {
     }
 
     palToUpdate.elements = updatePalDto.element;
-    console.log(palToUpdate);
+    palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
 
     await this.repo.save(palToUpdate);
 
@@ -138,7 +138,7 @@ export class PalsService {
       let element = await this.elementsRepo.findOneBy({
         iconUrl: imgUrl
       });
-
+      const letWorkArray: LevelWorkSuitability[] = [];
       const workArray = await Promise.all(Array.from($('.suitability').find('.work-pill')).map(async (work) => {
         const imgIcon = $(work).find('.icon').attr('src');
         const rank = $(work).find('.rank').text();
@@ -148,15 +148,14 @@ export class PalsService {
         let levelWorkSuitability = new LevelWorkSuitability();
         levelWorkSuitability.workSuitability = workSuitability;
         levelWorkSuitability.level = Number(rank);
-
-        return { levelWorkSuitability: levelWorkSuitability };
+        letWorkArray.push(levelWorkSuitability);
       }));
 
 
-    // console.log(workArray[0].levelWorkSuitability.workSuitability.name);
+    console.log(letWorkArray);
       return {
         element: [element],
-        levelWorkSuitability: workArray
+        levelWork: letWorkArray
       }
 
     } catch (error) {
