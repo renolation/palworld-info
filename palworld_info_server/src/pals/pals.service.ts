@@ -6,7 +6,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Element } from "./entities/element.entity";
 import { WorkSuitability } from "./entities/work_suitability.entity";
-
+import axios from "axios";
+import * as cheerio from "cheerio";
 @Injectable()
 export class PalsService {
 
@@ -55,7 +56,53 @@ export class PalsService {
     return `This action updates a #${id} pal`;
   }
 
+  async updatePal(slug: string, updatePalDto: UpdatePalDto) {
+    const palToUpdate = await this.repo.findOne({ where: { slug } });
+
+    if (!palToUpdate) {
+      throw new Error(`Pal with ID: ${slug} not found.`);
+    }
+
+    const updatedPal = this.repo.merge(palToUpdate, updatePalDto);
+    await this.repo.save(updatedPal);
+
+    return updatedPal;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} pal`;
   }
+
+  //region crawl data
+  async crawlPalData(slug: string) {
+    try {
+      const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
+      const $ = cheerio.load(response.data);
+      const content = $('.pal');
+
+      return {
+        name: content.find('.header .pal-name').html(),
+        title: content.find('.header .pal-title').html(),
+        size: content.find('.row:has(.label:contains("Size")) .right .value').text(),
+        rarity: content.find('.row:has(.label:contains("Rarity")) .right .value').text(),
+        hp: content.find('.row:has(.label:contains("HP")) .right .value').text(),
+        meleeAttack: content.find('.row:has(.label:contains("Melee Attack")) .right .value').text(),
+        magicAttack: content.find('.row:has(.label:contains("Magic Attack")) .right .value').text(),
+        defense: content.find('.row:has(.label:contains("Defense")) .right .value').text(),
+        support: content.find('.row:has(.label:contains("Support")) .right .value').text(),
+        craftSpeed: content.find('.row:has(.label:contains("Craft Speed")) .right .value').text(),
+        captureRate: content.find('.row:has(.label:contains("Capture Rate")) .right .value').text(),
+        price: content.find('.row:has(.label:contains("Price")) .right .value').text(),
+        slowWalkSpeed: content.find('.row:has(.label:contains("Slow Walk Speed")) .right .value').text(),
+        runSpeed: content.find('.row:has(.label:contains("Run Speed")) .right .value').text(),
+        rideSprintSpeed: content.find('.row:has(.label:contains("Ride Sprint Speed")) .right .value').text(),
+        foodAmount: content.find('.row:has(.label:contains("Food Amount")) .right .value').text(),
+        maleProbability: content.find('.row:has(.label:contains("Male Probability")) .right .value').text()
+      };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+  //endregion
+
 }

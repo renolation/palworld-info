@@ -45,6 +45,32 @@ export class PalsController {
     }
   }
 
+  @Get('crawl-pal/:id')
+  async crawlPal(@Param('id') id: string){
+    const pal = await this.palsService.crawlPalData(id);
+    console.log(pal);
+    let updatePalDto = new UpdatePalDto();
+    updatePalDto.name = pal.name;
+    updatePalDto.title = pal.title;
+    updatePalDto.size = pal.size;
+    updatePalDto.rarity = parseInt(pal.rarity);
+    updatePalDto.hp = parseInt(pal.hp);
+    updatePalDto.meleeAttack = parseInt(pal.meleeAttack);
+    updatePalDto.magicAttack = parseInt(pal.magicAttack);
+    updatePalDto.defense = parseInt(pal.defense);
+    updatePalDto.support = parseInt(pal.support);
+    updatePalDto.craftSpeed = parseInt(pal.craftSpeed);
+    updatePalDto.captureRate = parseInt(pal.captureRate);
+    updatePalDto.price = parseInt(pal.price);
+    updatePalDto.slowWalkSpeed = parseInt(pal.slowWalkSpeed);
+    updatePalDto.runSpeed = parseInt(pal.runSpeed);
+    updatePalDto.rideSprintSpeed = parseInt(pal.rideSprintSpeed);
+    updatePalDto.foodAmount = parseInt(pal.foodAmount);
+    updatePalDto.maleProbability = parseInt(pal.maleProbability);
+
+    return await this.palsService.updatePal(id, updatePalDto);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.palsService.findOne(+id);

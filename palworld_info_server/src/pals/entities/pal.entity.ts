@@ -19,6 +19,9 @@ export class Pal {
   @Column({nullable: true})
   title: string;
 
+  @Column({nullable: true})
+  slug: string;
+
   // @ManyToMany(() => Element)
   // @JoinTable()
   // elements: Element[]
@@ -33,6 +36,9 @@ export class Pal {
   //   default: PalSize.M
   // })
   // size: PalSize;
+
+  @Column({nullable: true})
+  size: string;
 
   @Column({nullable: true})
   rarity: number;
