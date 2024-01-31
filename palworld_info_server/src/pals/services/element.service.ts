@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { contents } from "cheerio/lib/api/traversing";
 
 @Injectable()
 export class ElementService {
@@ -75,11 +76,10 @@ export class ElementService {
 
     async crawlPalIcon(slug: string){
         try {
-      const response = await axios.get("https://palworldtrainer.com/");
+      const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
       const html = response.data;
       const $ = cheerio.load(html);
-
-    return $('.header .pal-statue .statue').attr("src");
+      return $('.header .pal-statue .statue').attr("src");
 
 
     } catch (error) {

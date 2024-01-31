@@ -144,6 +144,18 @@ export class PalsController {
     await Promise.all(promises);
   }
 
+  @Get("crawl-all-icon")
+  async crawlAllIcon() {
+    const pals = await this.palsService.findAll();
+    const promises = pals.map(async (pal) => {
+      const iconUrl = await this.elementService.crawlPalIcon(pal.slug);
+      let updatePalDto = new UpdatePalDto();
+      updatePalDto.iconUrl = iconUrl;
+      await this.palsService.updatePalMerge(pal.slug, updatePalDto);
+    });
+    await Promise.all(promises);
+  }
+
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.palsService.findOne(+id);
