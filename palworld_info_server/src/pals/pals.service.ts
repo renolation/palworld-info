@@ -3,7 +3,7 @@ import { CreatePalDto } from "./dto/create-pal.dto";
 import { UpdatePalDto } from "./dto/update-pal.dto";
 import { Pal } from "./entities/pal.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, QueryFailedError, Repository } from "typeorm";
 import { Element } from "./entities/element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./entities/work_suitability.entity";
 import axios from "axios";
@@ -15,6 +15,7 @@ export class PalsService {
     @InjectRepository(Pal) private repo: Repository<Pal>,
     @InjectRepository(Element) private elementsRepo: Repository<Element>,
     @InjectRepository(WorkSuitability) private workSuitabilityRepository: Repository<WorkSuitability>,
+    @InjectRepository(LevelWorkSuitability) private levelWorkSuitabilityRepository: Repository<LevelWorkSuitability>,
 
   ) {
   }
@@ -55,9 +56,15 @@ export class PalsService {
       },
       relations: {
         elements: true,
-        levelWorkSuitability: true
+        levelWorkSuitability: {
+          workSuitability: true
+        },
       }
     })
+  }
+
+  async findByListID(listID: number[]) {
+    return await this.levelWorkSuitabilityRepository.findBy({id: In(listID)})
   }
 
   update(id: number, updatePalDto: UpdatePalDto) {
@@ -87,10 +94,12 @@ export class PalsService {
     }
 
     palToUpdate.elements = updatePalDto.element;
+
+
     palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
 
     await this.repo.save(palToUpdate);
-
+    // return updatePalDto.levelWorkSuitability;
     return palToUpdate;
   }
 
@@ -138,7 +147,7 @@ export class PalsService {
       let element = await this.elementsRepo.findOneBy({
         iconUrl: imgUrl
       });
-      const letWorkArray: LevelWorkSuitability[] = [];
+      const letWorkArray: number[] = [];
       const workArray = await Promise.all(Array.from($('.suitability').find('.work-pill')).map(async (work) => {
         const imgIcon = $(work).find('.icon').attr('src');
         const rank = $(work).find('.rank').text();
@@ -148,11 +157,38 @@ export class PalsService {
         let levelWorkSuitability = new LevelWorkSuitability();
         levelWorkSuitability.workSuitability = workSuitability;
         levelWorkSuitability.level = Number(rank);
-        letWorkArray.push(levelWorkSuitability);
+        const levelWorkEntity = this.levelWorkSuitabilityRepository.create({
+          ...levelWorkSuitability,
+        });
+        try {
+          await this.levelWorkSuitabilityRepository.save(levelWorkEntity);
+          letWorkArray.push(levelWorkEntity.id);
+        } catch (error){
+          if (error instanceof QueryFailedError && error.message.includes('duplicate key value violates unique constraint')) {
+
+            // Handle the unique constraint violation exception
+            const existingRecord = await this.levelWorkSuitabilityRepository.findOne({
+              where: {
+                workSuitability: levelWorkSuitability.workSuitability,
+                level: levelWorkSuitability.level
+              }
+            });
+
+            if (existingRecord) {
+              console.log(`Id of duplicate record: ${existingRecord.id}`);
+              letWorkArray.push(existingRecord.id);
+            } else {
+              console.log('Duplicate record not found');
+            }
+
+          } else {
+            throw error;
+          }
+        }
+
       }));
 
 
-    console.log(letWorkArray);
       return {
         element: [element],
         levelWork: letWorkArray

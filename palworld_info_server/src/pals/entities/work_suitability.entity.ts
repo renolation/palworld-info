@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, Unique } from "typeorm";
 
 @Entity()
 export class WorkSuitability {
@@ -13,7 +13,9 @@ export class WorkSuitability {
 
 }
 
+
 @Entity()
+@Unique(["workSuitability", "level"])
 export class LevelWorkSuitability {
     @PrimaryGeneratedColumn()
     id: number;
@@ -23,6 +25,6 @@ export class LevelWorkSuitability {
     workSuitability: WorkSuitability;
 
     @Column()
-    level: number
+    level: number;
 }
 

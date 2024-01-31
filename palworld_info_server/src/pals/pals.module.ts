@@ -10,7 +10,7 @@ import { ElementService } from "./services/element.service";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability,LevelWorkSuitability ]),
+    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability, LevelWorkSuitability ]),
     ],
   controllers: [PalsController],
   providers: [PalsService, ElementService],
