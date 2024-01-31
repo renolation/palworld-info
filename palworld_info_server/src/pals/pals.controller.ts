@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
-import { PalsService } from "./pals.service";
-import { CreatePalDto } from "./dto/create-pal.dto";
-import { UpdatePalDto } from "./dto/update-pal.dto";
-import { ElementService } from "./services/element.service";
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { PalsService } from './pals.service';
+import { CreatePalDto } from './dto/create-pal.dto';
+import { UpdatePalDto } from './dto/update-pal.dto';
+import { ElementService } from './services/element.service';
 
-@Controller("pals")
+@Controller('pals')
 export class PalsController {
   constructor(
     private readonly palsService: PalsService,
-    private readonly elementService: ElementService
+    private readonly elementService: ElementService,
   ) {
   }
 
@@ -22,7 +22,17 @@ export class PalsController {
     return this.palsService.findAll();
   }
 
-  @Get("crawl-elements")
+  @Get('element')
+  findAllElement() {
+    return this.palsService.findAllElement();
+  }
+
+  @Get('work')
+  findAllWork() {
+    return this.palsService.findAllWork();
+  }
+
+  @Get('crawl-elements')
   async crawlElements() {
     const arrayElements = await this.elementService.crawlElement();
     for (const element of arrayElements) {
@@ -30,7 +40,7 @@ export class PalsController {
     }
   }
 
-  @Get("crawl-work")
+  @Get('crawl-work')
   async crawlWork() {
     const arrayWork = await this.elementService.crawlWork();
     for (const work of arrayWork) {
@@ -38,7 +48,7 @@ export class PalsController {
     }
   }
 
-  @Get("crawl-pals")
+  @Get('crawl-pals')
   async crawlPals() {
     const arrayPal = await this.elementService.crawlPals();
     for (const pal of arrayPal) {
@@ -46,8 +56,8 @@ export class PalsController {
     }
   }
 
-  @Get("crawl-pal/:id")
-  async crawlPal(@Param("id") id: string) {
+  @Get('crawl-pal/:id')
+  async crawlPal(@Param('id') id: string) {
     const pal = await this.palsService.crawlPalData(id);
     console.log(pal);
     let updatePalDto = new UpdatePalDto();
@@ -72,7 +82,7 @@ export class PalsController {
     return await this.palsService.updatePalMerge(id, updatePalDto);
   }
 
-  @Get("crawl-all-pals-data")
+  @Get('crawl-all-pals-data')
   async crawlAllPalsData() {
     const pals = await this.palsService.findAll();
     const promises = pals.map(async (pal) => {
@@ -101,8 +111,8 @@ export class PalsController {
     await Promise.all(promises);
   }
 
-  @Get("crawl-header/:id")
-  async crawlHeader(@Param("id") id: string) {
+  @Get('crawl-header/:id')
+  async crawlHeader(@Param('id') id: string) {
     const pal = await this.palsService.crawlPalHeader(id);
     let updatePalDto = new UpdatePalDto();
     updatePalDto.element = pal.element;
@@ -110,7 +120,7 @@ export class PalsController {
     return await this.palsService.updatePal(id, updatePalDto);
   }
 
-  @Get("crawl-all-header/")
+  @Get('crawl-all-header/')
   async crawlAllHeader() {
     const pals = await this.palsService.findAll();
 
@@ -124,15 +134,15 @@ export class PalsController {
     await Promise.all(promises);
   }
 
-  @Get("crawl-summary/:id")
-  async crawlSummary(@Param("id") id: string) {
+  @Get('crawl-summary/:id')
+  async crawlSummary(@Param('id') id: string) {
     const summary = await this.elementService.crawlSummary(id);
     let updatePalDto = new UpdatePalDto();
     updatePalDto.summary = summary;
     return await this.palsService.updatePalMerge(id, updatePalDto);
   }
 
-  @Get("crawl-all-summary")
+  @Get('crawl-all-summary')
   async crawlAllSummary() {
     const pals = await this.palsService.findAll();
     const promises = pals.map(async (pal) => {
@@ -144,7 +154,7 @@ export class PalsController {
     await Promise.all(promises);
   }
 
-  @Get("crawl-all-icon")
+  @Get('crawl-all-icon')
   async crawlAllIcon() {
     const pals = await this.palsService.findAll();
     const promises = pals.map(async (pal) => {
@@ -156,18 +166,18 @@ export class PalsController {
     await Promise.all(promises);
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
+  @Get(':id')
+  findOne(@Param('id') id: string) {
     return this.palsService.findOne(+id);
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updatePalDto: UpdatePalDto) {
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updatePalDto: UpdatePalDto) {
     return this.palsService.update(+id, updatePalDto);
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.palsService.remove(+id);
   }
 }

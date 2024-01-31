@@ -59,6 +59,22 @@ export class PalsService {
     });
   }
 
+  async findAllElement() {
+    return await this.elementsRepo.find({
+      order: {
+        name: "ASC"
+      },
+    });
+  }
+
+    async findAllWork() {
+    return await this.workSuitabilityRepository.find({
+      order: {
+        name: "ASC"
+      },
+    });
+  }
+
   async findOne(id: number) {
     return await this.repo.findOne({
       where: {
