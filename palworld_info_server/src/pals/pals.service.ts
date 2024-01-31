@@ -46,7 +46,17 @@ export class PalsService {
   }
 
   async findAll() {
-    return await this.repo.find();
+    return await this.repo.find({
+      order: {
+        name: "ASC"
+      },
+      relations: {
+        elements: true,
+        levelWorkSuitability: {
+          workSuitability: true
+        },
+      }
+    });
   }
 
   async findOne(id: number) {

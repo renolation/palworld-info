@@ -18,7 +18,7 @@ export class PalsController {
 
   @Get()
   findAll() {
-    return this.elementService.crawlPals();
+    return this.palsService.findAll();
   }
 
   @Get('crawl-elements')
@@ -108,6 +108,20 @@ export class PalsController {
       updatePalDto.element = pal.element;
       updatePalDto.levelWorkSuitability = await this.palsService.findByListID(pal.levelWork);
     return await this.palsService.updatePal(id, updatePalDto);
+  }
+
+  @Get('crawl-all-header/')
+  async crawlAllHeader(){
+    const pals = await this.palsService.findAll();
+
+    const promises = pals.map(async (pal) => {
+      const palData = await this.palsService.crawlPalHeader(pal.slug);
+      let updatePalDto = new UpdatePalDto();
+      updatePalDto.element = palData.element;
+      updatePalDto.levelWorkSuitability = await this.palsService.findByListID(palData.levelWork);
+      return await this.palsService.updatePal(pal.slug, updatePalDto);
+    });
+    await Promise.all(promises);
   }
 
   @Get(':id')
