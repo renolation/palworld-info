@@ -68,7 +68,46 @@ export class PalsController {
     updatePalDto.foodAmount = parseInt(pal.foodAmount);
     updatePalDto.maleProbability = parseInt(pal.maleProbability);
 
+    return await this.palsService.updatePalMerge(id, updatePalDto);
+  }
+
+  @Get('crawl-all-pals-data')
+  async crawlAllPalsData(){
+   const pals = await this.palsService.findAll();
+   const promises = pals.map(async (pal) => {
+     const palData = await this.palsService.crawlPalData(pal.slug);
+     const updatePalDto = new UpdatePalDto();
+     updatePalDto.name = palData.name;
+     updatePalDto.title = palData.title;
+     updatePalDto.size = palData.size;
+     updatePalDto.rarity = parseInt(palData.rarity);
+     updatePalDto.hp = parseInt(palData.hp);
+     updatePalDto.meleeAttack = parseInt(palData.meleeAttack);
+     updatePalDto.magicAttack = parseInt(palData.magicAttack);
+     updatePalDto.defense = parseInt(palData.defense);
+     updatePalDto.support = parseInt(palData.support);
+     updatePalDto.craftSpeed = parseInt(palData.craftSpeed);
+     updatePalDto.captureRate = parseInt(palData.captureRate);
+     updatePalDto.price = parseInt(palData.price);
+     updatePalDto.slowWalkSpeed = parseInt(palData.slowWalkSpeed);
+     updatePalDto.runSpeed = parseInt(palData.runSpeed);
+     updatePalDto.rideSprintSpeed = parseInt(palData.rideSprintSpeed);
+     updatePalDto.foodAmount = parseInt(palData.foodAmount);
+     updatePalDto.maleProbability = parseInt(palData.maleProbability);
+     return this.palsService.updatePalMerge(pal.slug, updatePalDto);
+   });
+
+   await Promise.all(promises);
+  }
+
+
+  @Get('crawl-header/:id')
+  async crawlHeader(@Param('id') id: string){
+    const pal = await this.palsService.crawlPalHeader(id);
+    let updatePalDto = new UpdatePalDto();
+      updatePalDto.element = pal.element;
     return await this.palsService.updatePal(id, updatePalDto);
+
   }
 
   @Get(':id')

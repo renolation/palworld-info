@@ -5,7 +5,7 @@ import { Pal } from "./entities/pal.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Element } from "./entities/element.entity";
-import { WorkSuitability } from "./entities/work_suitability.entity";
+import { LevelWorkSuitability, WorkSuitability } from "./entities/work_suitability.entity";
 import axios from "axios";
 import * as cheerio from "cheerio";
 @Injectable()
@@ -44,16 +44,39 @@ export class PalsService {
     await this.repo.save(palEntity);
   }
 
-  findAll() {
-    return `This action returns all pals`;
+  async findAll() {
+    return await this.repo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pal`;
+  async findOne(id: number) {
+    return await this.repo.findOne({
+      where: {
+        id: id
+      },
+      relations: {
+        elements: true,
+        levelWorkSuitability: true
+      }
+    })
   }
 
   update(id: number, updatePalDto: UpdatePalDto) {
     return `This action updates a #${id} pal`;
+  }
+
+  async updatePalMerge(slug: string, updatePalDto: UpdatePalDto) {
+    const palToUpdate = await this.repo.findOne({ where: { slug } ,
+      relations: {
+      elements: true
+      }
+    },);
+    if (!palToUpdate) {
+      throw new Error(`Pal with ID: ${slug} not found.`);
+    }
+    const updatedPal = this.repo.merge(palToUpdate, updatePalDto);
+    await this.repo.save(updatedPal);
+
+    return updatedPal;
   }
 
   async updatePal(slug: string, updatePalDto: UpdatePalDto) {
@@ -63,10 +86,12 @@ export class PalsService {
       throw new Error(`Pal with ID: ${slug} not found.`);
     }
 
-    const updatedPal = this.repo.merge(palToUpdate, updatePalDto);
-    await this.repo.save(updatedPal);
+    palToUpdate.elements = updatePalDto.element;
+    console.log(palToUpdate);
 
-    return updatedPal;
+    await this.repo.save(palToUpdate);
+
+    return palToUpdate;
   }
 
   remove(id: number) {
@@ -99,6 +124,41 @@ export class PalsService {
         foodAmount: content.find('.row:has(.label:contains("Food Amount")) .right .value').text(),
         maleProbability: content.find('.row:has(.label:contains("Male Probability")) .right .value').text()
       };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  async crawlPalHeader(slug: string) {
+    try {
+      const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
+      const $ = cheerio.load(response.data);
+      const content = $('.pal');
+      const imgUrl = content.find('.banner-icon').attr('src');
+      let element = await this.elementsRepo.findOneBy({
+        iconUrl: imgUrl
+      });
+
+      const workArray = await Promise.all(Array.from($('.suitability').find('.work-pill')).map(async (work) => {
+        const imgIcon = $(work).find('.icon').attr('src');
+        const rank = $(work).find('.rank').text();
+        let workSuitability = await this.workSuitabilityRepository.findOneBy({
+          iconUrl: imgIcon
+        });
+        let levelWorkSuitability = new LevelWorkSuitability();
+        levelWorkSuitability.workSuitability = workSuitability;
+        levelWorkSuitability.level = Number(rank);
+
+        return { levelWorkSuitability: levelWorkSuitability };
+      }));
+
+
+    // console.log(workArray[0].levelWorkSuitability.workSuitability.name);
+      return {
+        element: [element],
+        levelWorkSuitability: workArray
+      }
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }

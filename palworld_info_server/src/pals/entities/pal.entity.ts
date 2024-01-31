@@ -22,13 +22,13 @@ export class Pal {
   @Column({nullable: true})
   slug: string;
 
-  // @ManyToMany(() => Element)
-  // @JoinTable()
-  // elements: Element[]
+  @ManyToMany(() => Element)
+  @JoinTable()
+  elements: Element[]
   //
-  // @ManyToMany(() => LevelWorkSuitability)
-  // @JoinTable()
-  // levelWorkSuitability: LevelWorkSuitability[]
+  @ManyToMany(() => LevelWorkSuitability)
+  @JoinTable()
+  levelWorkSuitability: LevelWorkSuitability[]
   //
   // @Column({
   //   type: "enum",

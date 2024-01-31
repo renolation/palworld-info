@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsArray, IsOptional } from "class-validator";
+import { Element } from "../entities/element.entity";
 
 export class CreatePalDto {
 
@@ -11,6 +12,9 @@ export class CreatePalDto {
 
   @IsString()
   slug: string;
+
+  @IsArray()
+  element: Element[]
 
   @IsString()
   size: string;
