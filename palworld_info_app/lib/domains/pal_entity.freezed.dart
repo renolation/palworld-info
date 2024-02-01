@@ -20,7 +20,7 @@ PalEntity _$PalEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PalEntity {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
@@ -57,7 +57,7 @@ abstract class $PalEntityCopyWith<$Res> {
       _$PalEntityCopyWithImpl<$Res, PalEntity>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String? name,
       String? title,
       String? slug,
@@ -95,7 +95,7 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = freezed,
     Object? title = freezed,
     Object? slug = freezed,
@@ -120,10 +120,10 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
     Object? levelWorkSuitability = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -225,7 +225,7 @@ abstract class _$$PalEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String? name,
       String? title,
       String? slug,
@@ -261,7 +261,7 @@ class __$$PalEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? name = freezed,
     Object? title = freezed,
     Object? slug = freezed,
@@ -286,10 +286,10 @@ class __$$PalEntityImplCopyWithImpl<$Res>
     Object? levelWorkSuitability = freezed,
   }) {
     return _then(_$PalEntityImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -386,7 +386,7 @@ class __$$PalEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PalEntityImpl implements _PalEntity {
   const _$PalEntityImpl(
-      {required this.id,
+      {this.id,
       this.name,
       this.title,
       this.slug,
@@ -416,7 +416,7 @@ class _$PalEntityImpl implements _PalEntity {
       _$$PalEntityImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final String? name;
   @override
@@ -568,7 +568,7 @@ class _$PalEntityImpl implements _PalEntity {
 
 abstract class _PalEntity implements PalEntity {
   const factory _PalEntity(
-          {required final int id,
+          {final int? id,
           final String? name,
           final String? title,
           final String? slug,
@@ -597,7 +597,7 @@ abstract class _PalEntity implements PalEntity {
       _$PalEntityImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   String? get name;
   @override

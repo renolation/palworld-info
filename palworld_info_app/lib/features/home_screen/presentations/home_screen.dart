@@ -34,47 +34,56 @@ class HomeScreen extends HookConsumerWidget {
       body: Column(
         children: [
 
-
           Expanded(
             child: Consumer(builder: (context, ref, child) {
-              final palsHome = ref.watch(palControllerProvider);
+              final palsHome = ref.watch(selectingPalProvider);
               return palsHome.when(
                 data: (data) {
-                  return ListView.builder(
-                      itemCount: data.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        PalEntity elementEntity = data[index];
-                        return InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 4,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(data.length.toString()),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: data.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              PalEntity elementEntity = data[index];
+                              return InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        elementEntity.name!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  elementEntity.name!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      });
+                              );
+                            }),
+                      ),
+                    ],
+                  );
                 },
                 error: (err, stack) => Text('Error $err'),
                 loading: () => Text('loading'),
               );
             }),
           ),
+
         ],
       )
     );
   }
 }
+

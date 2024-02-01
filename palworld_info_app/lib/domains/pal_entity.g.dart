@@ -8,7 +8,7 @@ part of 'pal_entity.dart';
 
 _$PalEntityImpl _$$PalEntityImplFromJson(Map<String, dynamic> json) =>
     _$PalEntityImpl(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       name: json['name'] as String?,
       title: json['title'] as String?,
       slug: json['slug'] as String?,

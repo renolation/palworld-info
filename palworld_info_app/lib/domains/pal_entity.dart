@@ -12,7 +12,7 @@ part 'pal_entity.g.dart';
 @freezed
 class PalEntity with _$PalEntity {
   const factory PalEntity({
-    required int id,
+    int? id,
     String? name,
     String? title,
     String? slug,

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../domains/element_entity.dart';
 import '../../../domains/work_suitability_entity.dart';
 import '../data/element_controller.dart';
+import '../data/pals_controller.dart';
 import '../data/work_suitability_controller.dart';
 
 class HomeDrawer extends HookConsumerWidget {
@@ -21,18 +22,30 @@ class HomeDrawer extends HookConsumerWidget {
             height: 200,
             child: Consumer(builder: (context, ref, child) {
               final playlistHome = ref.watch(elementControllerProvider);
+              final selectingElement = ref.watch(selectingElementProvider);
               return playlistHome.when(
                 data: (data) {
+
                   return GridView.builder(
                     itemCount: data.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       ElementEntity elementEntity = data[index];
                       return InkWell(
-                        onTap: () {},
-                        child: CachedNetworkImage(
-                          imageUrl: elementEntity.iconUrl!,
-                          height: 15,
+                        onTap: () {
+                          if(selectingElement.contains(elementEntity)) {
+                            ref.read(selectingElementProvider.notifier).remove(elementEntity.id);
+                          } else {
+                            ref.read(selectingElementProvider.notifier).add(elementEntity);
+                          }
+                          ref.read(selectingPalProvider.notifier).updatePals();
+                        },
+                        child: Container(
+                          color: selectingElement.contains(elementEntity) ? Colors.blue : Colors.red,
+                          child: CachedNetworkImage(
+                            imageUrl: elementEntity.iconUrl!,
+                            height: 15,
+                          ),
                         ),
                       );
                     }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
