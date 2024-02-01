@@ -16,3 +16,13 @@ enum Size {
   XL,
   XS
 }
+enum SortBy {
+  Name,
+  Size,
+  Rarity,
+  Hp,
+  Melee_Attack,
+  Magic_Attack,
+  Defense,
+  Ride_Sprint_Speed,
+}

@@ -55,20 +55,5 @@ final selectingWorkSuitabilityProvider = NotifierProvider<
 );
 
 typedef _$SelectingWorkSuitability = Notifier<List<WorkSuitabilityEntity>>;
-String _$selectingPalHash() => r'343a229778137e4516367fce8f52dbb130699928';
-
-/// See also [SelectingPal].
-@ProviderFor(SelectingPal)
-final selectingPalProvider =
-    AsyncNotifierProvider<SelectingPal, List<PalEntity>>.internal(
-  SelectingPal.new,
-  name: r'selectingPalProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$selectingPalHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$SelectingPal = AsyncNotifier<List<PalEntity>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

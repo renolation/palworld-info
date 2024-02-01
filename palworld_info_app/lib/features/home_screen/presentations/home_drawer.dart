@@ -6,6 +6,7 @@ import '../../../domains/element_entity.dart';
 import '../../../domains/work_suitability_entity.dart';
 import '../data/element_controller.dart';
 import '../data/pals_controller.dart';
+import '../data/selecting_pal_controller.dart';
 import '../data/work_suitability_controller.dart';
 
 class HomeDrawer extends HookConsumerWidget {
@@ -38,7 +39,7 @@ class HomeDrawer extends HookConsumerWidget {
                           } else {
                             ref.read(selectingElementProvider.notifier).add(elementEntity);
                           }
-                          ref.read(selectingPalProvider.notifier).updatePals();
+                          ref.read(selectingPalControllerProvider.notifier).updatePals();
                         },
                         child: Container(
                           color: selectingElement.contains(elementEntity) ? Colors.blue : Colors.red,
@@ -75,7 +76,7 @@ class HomeDrawer extends HookConsumerWidget {
                           } else {
                             ref.read(selectingWorkSuitabilityProvider.notifier).add(workSuitabilityEntity);
                           }
-                          ref.read(selectingPalProvider.notifier).updatePals();
+                          ref.read(selectingPalControllerProvider.notifier).updatePals();
                         },
                         child: Container(
                           color: selectingWorkSuitability.contains(workSuitabilityEntity) ? Colors.blue : Colors.red,

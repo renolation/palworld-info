@@ -17,7 +17,10 @@ import 'package:palworld_info_app/domains/work_suitability_entity.dart';
 import 'package:palworld_info_app/features/home_screen/data/element_controller.dart';
 import 'package:palworld_info_app/features/home_screen/data/pals_controller.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_drawer.dart';
+import 'package:palworld_info_app/providers/providers.dart';
+import 'package:palworld_info_app/utils/constants.dart';
 import '../data/home_repository.dart';
+import '../data/selecting_pal_controller.dart';
 import '../data/work_suitability_controller.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -28,62 +31,86 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen'),
-      ),
-      endDrawer: const HomeDrawer(),
-      body: Column(
-        children: [
-
-          Expanded(
-            child: Consumer(builder: (context, ref, child) {
-              final palsHome = ref.watch(selectingPalProvider);
-              return palsHome.when(
-                data: (data) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(data.length.toString()),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: data.length,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              PalEntity elementEntity = data[index];
-                              return InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        elementEntity.name!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium
-                                            ?.copyWith(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                    ],
-                  );
-                },
-                error: (err, stack) => Text('Error $err'),
-                loading: () => Text('loading'),
-              );
-            }),
+        appBar: AppBar(
+          title: const Text(
+            'Home Screen',
           ),
-
-        ],
-      )
-    );
+          actions: [
+            DropdownButton<SortBy>(
+              value: ref.watch(palSortTypeProvider),
+              onChanged: (value) =>
+                  ref.read(palSortTypeProvider.notifier).state = value!,
+              items: const [
+                DropdownMenuItem(
+                  value: SortBy.Name,
+                  child: Icon(Icons.sort_by_alpha),
+                ),
+                DropdownMenuItem(
+                  value: SortBy.Hp,
+                  child: Icon(Icons.sort),
+                ),
+              ],
+            ),
+          ],
+        ),
+        endDrawer: const HomeDrawer(),
+        body: Column(
+          children: [
+            Expanded(
+              child: Consumer(builder: (context, ref, child) {
+                final palsHome = ref.watch(selectingPalControllerProvider);
+                return palsHome.when(
+                  data: (data) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(data.length.toString()),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: data.length,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                PalEntity palEntity = data[index];
+                                return InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          palEntity.name!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '${palEntity.hp!}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    );
+                  },
+                  error: (err, stack) => Text('Error $err'),
+                  loading: () => Text('loading'),
+                );
+              }),
+            ),
+          ],
+        ));
   }
 }
-
