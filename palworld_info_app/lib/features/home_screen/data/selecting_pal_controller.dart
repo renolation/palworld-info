@@ -13,11 +13,11 @@ part 'selecting_pal_controller.g.dart';
 
 @Riverpod(keepAlive: true)
 class SelectingPalController extends _$SelectingPalController {
-  
 
   @override
   FutureOr<List<PalEntity>> build() {
     final pals = ref.watch(palControllerProvider);
+
     return pals.value ?? [];
   }
 
@@ -44,20 +44,32 @@ class SelectingPalController extends _$SelectingPalController {
           && e.levelWorkSuitability!
               .where((workSuitLevel) => selectingWorkSuitabilities.contains(workSuitLevel.workSuitability)).length >= selectingWorkSuitabilities.length)
           .toList();
+    } else {
+      list = pals.value!;
     }
     final sortType = ref.watch(palSortTypeProvider);
-    sortBySelectedType(list, sortType);
-
+    final sortBy = ref.watch(palSortByProvider);
     state = AsyncValue.data(list);
+    sortBySelectedType(sortBy,sortType);
   }
 
 
-  Future<void> sortBySelectedType(List<PalEntity> list, SortBy sortType) async {
-    if(sortType == SortBy.Name) {
-      list.sort((a, b) => a.name!.compareTo(b.name!));
-    } else if(sortType == SortBy.Hp) {
-      list.sort((a, b) => a.hp!.compareTo(b.hp!));
+  Future<void> sortBySelectedType(SortBy sortBy, SortType sortType) async {
+    List<PalEntity> list = [...state.value!];
+    if(sortType == SortType.Asc) {
+      if(sortBy == SortBy.Name) {
+        list.sort((a, b) => a.name!.compareTo(b.name!));
+      } else if(sortBy == SortBy.Hp) {
+        list.sort((a, b) => a.hp!.compareTo(b.hp!));
+      }
+    } else {
+      if(sortBy == SortBy.Name) {
+        list.sort((a, b) => b.name!.compareTo(a.name!));
+      } else if(sortBy == SortBy.Hp) {
+        list.sort((a, b) => b.hp!.compareTo(a.hp!));
+      }
     }
+
     state = AsyncValue.data(list);
   }
 }

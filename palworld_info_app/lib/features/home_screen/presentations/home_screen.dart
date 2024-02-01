@@ -30,27 +30,46 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
             'Home Screen',
           ),
           actions: [
-            DropdownButton<SortBy>(
-              value: ref.watch(palSortTypeProvider),
-              onChanged: (value) =>
-                  ref.read(palSortTypeProvider.notifier).state = value!,
-              items: const [
-                DropdownMenuItem(
-                  value: SortBy.Name,
-                  child: Icon(Icons.sort_by_alpha),
-                ),
-                DropdownMenuItem(
-                  value: SortBy.Hp,
-                  child: Icon(Icons.sort),
-                ),
-              ],
-            ),
+            Consumer(builder: (context, ref, child) {
+              final palSortType = ref.watch(palSortTypeProvider);
+              final palSortBy = ref.watch(palSortByProvider);
+
+              return Switch(value: palSortType == SortType.Asc?true:false, onChanged: (value) {
+                ref.read(palSortTypeProvider.notifier).update(value ? SortType.Asc : SortType.Desc);
+                ref.read(selectingPalControllerProvider.notifier).sortBySelectedType(palSortBy, value ? SortType.Asc : SortType.Desc);
+
+              });
+            }),
+            Consumer(builder: (context, ref, child) {
+              final palSortType = ref.watch(palSortTypeProvider);
+              return DropdownButton<SortBy>(
+                value: ref.watch(palSortByProvider),
+                onChanged: (value) {
+                  ref.read(palSortByProvider.notifier).update(value!);
+                  ref.read(selectingPalControllerProvider.notifier).sortBySelectedType(value, palSortType);
+                }
+                ,
+                items: const [
+                  DropdownMenuItem(
+                    value: SortBy.Name,
+                    child: Icon(Icons.sort_by_alpha),
+                  ),
+                  DropdownMenuItem(
+                    value: SortBy.Hp,
+                    child: Icon(Icons.sort),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
         endDrawer: const HomeDrawer(),

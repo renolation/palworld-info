@@ -26,3 +26,7 @@ enum SortBy {
   Defense,
   Ride_Sprint_Speed,
 }
+enum SortType {
+  Asc,
+  Desc
+}

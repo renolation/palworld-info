@@ -7,7 +7,7 @@ part of 'selecting_pal_controller.dart';
 // **************************************************************************
 
 String _$selectingPalControllerHash() =>
-    r'514949082a70c0f5f759edb23b57ad160a4b0f17';
+    r'880f5a03ac633d3a840908ebddfa75d87f8d7458';
 
 /// See also [SelectingPalController].
 @ProviderFor(SelectingPalController)
