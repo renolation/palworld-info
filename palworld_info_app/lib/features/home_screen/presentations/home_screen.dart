@@ -12,8 +12,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:palworld_info_app/domains/pal_entity.dart';
+import 'package:palworld_info_app/domains/work_suitability_entity.dart';
 import 'package:palworld_info_app/features/home_screen/data/element_controller.dart';
+import 'package:palworld_info_app/features/home_screen/data/pals_controller.dart';
+import 'package:palworld_info_app/features/home_screen/presentations/home_drawer.dart';
 import '../data/home_repository.dart';
+import '../data/work_suitability_controller.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
@@ -23,47 +28,53 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen')),
-      body: SizedBox(
-        height: 200,
-        child: Consumer(builder: (context, ref, child) {
-          final playlistHome = ref.watch(elementControllerProvider);
-
-          return playlistHome.when(
-            data: (data) {
-              return ListView.builder(
-                  itemCount: data.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    ElementEntity elementEntity = data[index];
-                    return InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              elementEntity.name!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            },
-            error: (err, stack) => Text('Error $err'),
-            loading: () => Text('loading'),
-          );
-        }),
+      appBar: AppBar(title: const Text('Home Screen'),
       ),
+      endDrawer: const HomeDrawer(),
+      body: Column(
+        children: [
+
+
+          Expanded(
+            child: Consumer(builder: (context, ref, child) {
+              final palsHome = ref.watch(palControllerProvider);
+              return palsHome.when(
+                data: (data) {
+                  return ListView.builder(
+                      itemCount: data.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        PalEntity elementEntity = data[index];
+                        return InkWell(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  elementEntity.name!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                },
+                error: (err, stack) => Text('Error $err'),
+                loading: () => Text('loading'),
+              );
+            }),
+          ),
+        ],
+      )
     );
   }
 }

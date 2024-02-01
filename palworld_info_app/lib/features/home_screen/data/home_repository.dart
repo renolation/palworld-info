@@ -3,8 +3,10 @@ import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 
+import '../../../domains/work_suitability_entity.dart';
 import '../../../providers/dio_provider.dart';
 import '../../../utils/constants.dart';
+import '../../../domains/pal_entity.dart';
 
 part 'home_repository.g.dart';
 
@@ -27,8 +29,31 @@ class HomeRepository {
     return list.map((e) => ElementEntity.fromJson(e)).toList();
   }
 
+  Future<List<WorkSuitabilityEntity>> getWorkSuitabilities(
+      {CancelToken? cancelToken}) async {
+    final url = Uri(
+      scheme: Constants.scheme,
+      host: Constants.host,
+      port: Constants.port,
+      path: 'pals/work',
+    ).toString();
+    final response = await client.get(url, cancelToken: cancelToken);
+    final List list = response.data;
+    return list.map((e) => WorkSuitabilityEntity.fromJson(e)).toList();
+  }
 
 
+  Future<List<PalEntity>> getPals({CancelToken? cancelToken}) async {
+    final url = Uri(
+      scheme: Constants.scheme,
+      host: Constants.host,
+      port: Constants.port,
+      path: 'pals',
+    ).toString();
+    final response = await client.get(url, cancelToken: cancelToken);
+    final List list = response.data;
+    return list.map((e) => PalEntity.fromJson(e)).toList();
+  }
 }
 
 @Riverpod(keepAlive: true)

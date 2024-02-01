@@ -8,3 +8,11 @@ class Constants {
   static const int port = 3000;
 // static const int? port = null;
 }
+
+enum Size {
+  L,
+  M,
+  S,
+  XL,
+  XS
+}
