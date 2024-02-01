@@ -6,7 +6,7 @@ part of 'pals_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$palControllerHash() => r'11f0c4053c54fb1fcecf9104da4d1d39911677d4';
+String _$palControllerHash() => r'40223aa0c4b84ef533120a15ff5e9f0f8e0857bd';
 
 /// See also [PalController].
 @ProviderFor(PalController)
@@ -22,7 +22,7 @@ final palControllerProvider =
 );
 
 typedef _$PalController = AsyncNotifier<List<PalEntity>>;
-String _$selectingElementHash() => r'7880e418d1fb680da8a2617ca0fa406a10aa75c5';
+String _$selectingElementHash() => r'0bd52604ff0a0a4314390443c17c8ce9865f399d';
 
 /// See also [SelectingElement].
 @ProviderFor(SelectingElement)
@@ -38,7 +38,24 @@ final selectingElementProvider =
 );
 
 typedef _$SelectingElement = Notifier<List<ElementEntity>>;
-String _$selectingPalHash() => r'c222f6f164b7f61c0167b53feed7cc2018d3d464';
+String _$selectingWorkSuitabilityHash() =>
+    r'017d19af5af91c4cc50b0796fba6aa5e11e2d683';
+
+/// See also [SelectingWorkSuitability].
+@ProviderFor(SelectingWorkSuitability)
+final selectingWorkSuitabilityProvider = NotifierProvider<
+    SelectingWorkSuitability, List<WorkSuitabilityEntity>>.internal(
+  SelectingWorkSuitability.new,
+  name: r'selectingWorkSuitabilityProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$selectingWorkSuitabilityHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SelectingWorkSuitability = Notifier<List<WorkSuitabilityEntity>>;
+String _$selectingPalHash() => r'343a229778137e4516367fce8f52dbb130699928';
 
 /// See also [SelectingPal].
 @ProviderFor(SelectingPal)

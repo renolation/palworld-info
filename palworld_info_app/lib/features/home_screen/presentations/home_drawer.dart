@@ -59,6 +59,8 @@ class HomeDrawer extends HookConsumerWidget {
             height: 300,
             child: Consumer(builder: (context, ref, child) {
               final playlistHome = ref.watch(workSuitabilityControllerProvider);
+              final selectingWorkSuitability = ref.watch(selectingWorkSuitabilityProvider);
+
               return playlistHome.when(
                 data: (data) {
                   return GridView.builder(
@@ -67,10 +69,20 @@ class HomeDrawer extends HookConsumerWidget {
                     itemBuilder: (context, index) {
                       WorkSuitabilityEntity workSuitabilityEntity = data[index];
                       return InkWell(
-                        onTap: () {},
-                        child: CachedNetworkImage(
-                          imageUrl: workSuitabilityEntity.iconUrl!,
-                          height: 15,
+                        onTap: () {
+                          if(selectingWorkSuitability.contains(workSuitabilityEntity)) {
+                            ref.read(selectingWorkSuitabilityProvider.notifier).remove(workSuitabilityEntity.id);
+                          } else {
+                            ref.read(selectingWorkSuitabilityProvider.notifier).add(workSuitabilityEntity);
+                          }
+                          ref.read(selectingPalProvider.notifier).updatePals();
+                        },
+                        child: Container(
+                          color: selectingWorkSuitability.contains(workSuitabilityEntity) ? Colors.blue : Colors.red,
+                          child: CachedNetworkImage(
+                            imageUrl: workSuitabilityEntity.iconUrl!,
+                            height: 15,
+                          ),
                         ),
                       );
                     }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
