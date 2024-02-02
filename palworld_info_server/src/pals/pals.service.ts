@@ -89,6 +89,20 @@ export class PalsService {
     });
   }
 
+    async findOneBySlug(slug: string) {
+    return await this.repo.findOne({
+      where: {
+        slug: slug,
+      },
+      relations: {
+        elements: true,
+        levelWorkSuitability: {
+          workSuitability: true,
+        },
+      },
+    });
+  }
+
   async findByListID(listID: number[]) {
     return await this.levelWorkSuitabilityRepository.findBy({ id: In(listID) });
   }

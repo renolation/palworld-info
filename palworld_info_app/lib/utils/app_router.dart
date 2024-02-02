@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
 
 
@@ -11,7 +12,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
-enum AppRoute { home, player, user, like }
+enum AppRoute { home, detail, user, like }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -31,10 +32,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const HomeScreen(),
               ),
               GoRoute(
-                path: '/player',
-                name: AppRoute.player.name,
+                path: '/detail/:slug',
+                name: AppRoute.detail.name,
                 builder: (context, state) {
-                  return const SizedBox();
+                  String slug = state.pathParameters['slug']!;
+                  return DetailScreen(slug: slug);
                 },
               ),
             ]),

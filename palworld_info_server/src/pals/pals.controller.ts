@@ -17,6 +17,16 @@ export class PalsController {
     return this.palsService.create(createPalDto);
   }
 
+      @Get(':slug')
+  findOneBySlug(@Param('id') id: string) {
+    return this.palsService.findOneBySlug(id);
+  }
+
+    @Get('id/:id')
+  findOne(@Param('id') id: string) {
+    return this.palsService.findOne(+id);
+  }
+
   @Get()
   findAll() {
     return this.palsService.findAll();
@@ -166,10 +176,7 @@ export class PalsController {
     await Promise.all(promises);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.palsService.findOne(+id);
-  }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePalDto: UpdatePalDto) {

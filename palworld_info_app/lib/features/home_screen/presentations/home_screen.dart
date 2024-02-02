@@ -19,6 +19,7 @@ import 'package:palworld_info_app/features/home_screen/data/pals_controller.dart
 import 'package:palworld_info_app/features/home_screen/presentations/home_drawer.dart';
 import 'package:palworld_info_app/providers/providers.dart';
 import 'package:palworld_info_app/utils/constants.dart';
+import '../../../utils/app_router.dart';
 import '../data/home_repository.dart';
 import '../data/selecting_pal_controller.dart';
 import '../data/work_suitability_controller.dart';
@@ -85,35 +86,65 @@ class HomeScreen extends HookConsumerWidget {
                       children: [
                         Text(data.length.toString()),
                         Expanded(
-                          child: ListView.builder(
+                          child: GridView.builder(
                               itemCount: data.length,
                               scrollDirection: Axis.vertical,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                               itemBuilder: (context, index) {
                                 PalEntity palEntity = data[index];
                                 return InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: const EdgeInsets.only(right: 16),
+                                  onTap: () {
+                                    context.pushNamed(
+                                      AppRoute.detail.name,
+                                      pathParameters: {'slug': palEntity.slug!},
+                                    );
+                                  },
+                                  child: Card(
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Text(
-                                          palEntity.name!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(fontSize: 18),
+                                        SizedBox(
+                                          width: 30,
+                                          child: Column(
+                                            children: [
+                                              for(var icon in palEntity.elements!)
+                                                CachedNetworkImage(imageUrl: icon.iconUrl!, fit: BoxFit.fill),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 5,right: 5, top: 5),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                CachedNetworkImage(imageUrl: palEntity.iconUrl!),
+                                                AutoSizeText(
+                                                  palEntity.name!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium
+                                                      ?.copyWith(fontSize: 18),
+                                                  maxLines: 1,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                         SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          '${palEntity.hp!}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(fontSize: 18),
+                                          width: 40,
+                                          child: ListView(
+                                            children: [
+                                              for(var level in palEntity.levelWorkSuitability!)
+                                                Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(width: 30,child: CachedNetworkImage(imageUrl: level.workSuitability!.iconUrl!, fit: BoxFit.fill)),
+                                                    Text(level.level.toString(), style: TextStyle(fontSize: 12),),
+                                                  ]
+                                                ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
