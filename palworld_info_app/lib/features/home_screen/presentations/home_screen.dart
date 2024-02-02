@@ -45,7 +45,7 @@ class HomeScreen extends HookConsumerWidget {
 
               return Switch(value: palSortType == SortType.Asc?true:false, onChanged: (value) {
                 ref.read(palSortTypeProvider.notifier).update(value ? SortType.Asc : SortType.Desc);
-                ref.read(selectingPalControllerProvider.notifier).sortBySelectedType(palSortBy, value ? SortType.Asc : SortType.Desc);
+                ref.read(selectingPalControllerProvider.notifier).updatePals();
 
               });
             }),
@@ -55,7 +55,7 @@ class HomeScreen extends HookConsumerWidget {
                 value: ref.watch(palSortByProvider),
                 onChanged: (value) {
                   ref.read(palSortByProvider.notifier).update(value!);
-                  ref.read(selectingPalControllerProvider.notifier).sortBySelectedType(value, palSortType);
+                  ref.read(selectingPalControllerProvider.notifier).updatePals();
                 }
                 ,
                 items: const [
