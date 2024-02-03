@@ -16,84 +16,103 @@ class HomeDrawer extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Drawer(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 200,
-            child: Consumer(builder: (context, ref, child) {
-              final playlistHome = ref.watch(elementControllerProvider);
-              final selectingElement = ref.watch(selectingElementProvider);
-              return playlistHome.when(
-                data: (data) {
+    return SafeArea(
+      child: Drawer(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text('Select Element', style: Theme.of(context).textTheme.titleLarge,),
+            ),
 
-                  return GridView.builder(
-                    itemCount: data.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      ElementEntity elementEntity = data[index];
-                      return InkWell(
-                        onTap: () {
-                          if(selectingElement.contains(elementEntity)) {
-                            ref.read(selectingElementProvider.notifier).remove(elementEntity.id);
-                          } else {
-                            ref.read(selectingElementProvider.notifier).add(elementEntity);
-                          }
-                          ref.read(selectingPalControllerProvider.notifier).updatePals();
-                        },
-                        child: Container(
-                          color: selectingElement.contains(elementEntity) ? Colors.blue : Colors.red,
-                          child: CachedNetworkImage(
-                            imageUrl: elementEntity.iconUrl!,
-                            height: 15,
-                          ),
-                        ),
-                      );
-                    }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
-                },
-                error: (err, stack) => Text('Error $err'),
-                loading: () => const Text('loading'),
-              );
-            }),
-          ),
-          SizedBox(
-            height: 300,
-            child: Consumer(builder: (context, ref, child) {
-              final playlistHome = ref.watch(workSuitabilityControllerProvider);
-              final selectingWorkSuitability = ref.watch(selectingWorkSuitabilityProvider);
+            SizedBox(
+              height: 150,
+              child: Consumer(builder: (context, ref, child) {
+                final playlistHome = ref.watch(elementControllerProvider);
+                final selectingElement = ref.watch(selectingElementProvider);
+                return playlistHome.when(
+                  data: (data) {
 
-              return playlistHome.when(
-                data: (data) {
-                  return GridView.builder(
-                    itemCount: data.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      WorkSuitabilityEntity workSuitabilityEntity = data[index];
-                      return InkWell(
-                        onTap: () {
-                          if(selectingWorkSuitability.contains(workSuitabilityEntity)) {
-                            ref.read(selectingWorkSuitabilityProvider.notifier).remove(workSuitabilityEntity.id);
-                          } else {
-                            ref.read(selectingWorkSuitabilityProvider.notifier).add(workSuitabilityEntity);
-                          }
-                          ref.read(selectingPalControllerProvider.notifier).updatePals();
-                        },
-                        child: Container(
-                          color: selectingWorkSuitability.contains(workSuitabilityEntity) ? Colors.blue : Colors.red,
-                          child: CachedNetworkImage(
-                            imageUrl: workSuitabilityEntity.iconUrl!,
-                            height: 15,
+                    return GridView.builder(
+                      itemCount: data.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        ElementEntity elementEntity = data[index];
+                        return InkWell(
+                          onTap: () {
+                            if(selectingElement.contains(elementEntity)) {
+                              ref.read(selectingElementProvider.notifier).remove(elementEntity.id);
+                            } else {
+                              ref.read(selectingElementProvider.notifier).add(elementEntity);
+                            }
+                            ref.read(selectingPalControllerProvider.notifier).updatePals();
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: selectingElement.contains(elementEntity) ? Colors.red.withOpacity(0.5) : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: elementEntity.iconUrl!,
+                              height: 15,
+                            ),
                           ),
-                        ),
-                      );
-                    }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
-                },
-                error: (err, stack) => Text('Error $err'),
-                loading: () => const Text('loading'),
-              );
-            }),
-          ),
-        ],
+                        );
+                      }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
+                  },
+                  error: (err, stack) => Text('Error $err'),
+                  loading: () => const Text('loading'),
+                );
+              }),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text('Select Work Suitability', style: Theme.of(context).textTheme.titleLarge,),
+            ),
+            SizedBox(
+              height: 300,
+              child: Consumer(builder: (context, ref, child) {
+                final playlistHome = ref.watch(workSuitabilityControllerProvider);
+                final selectingWorkSuitability = ref.watch(selectingWorkSuitabilityProvider);
+      
+                return playlistHome.when(
+                  data: (data) {
+                    return GridView.builder(
+                      itemCount: data.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        WorkSuitabilityEntity workSuitabilityEntity = data[index];
+                        return InkWell(
+                          onTap: () {
+                            if(selectingWorkSuitability.contains(workSuitabilityEntity)) {
+                              ref.read(selectingWorkSuitabilityProvider.notifier).remove(workSuitabilityEntity.id);
+                            } else {
+                              ref.read(selectingWorkSuitabilityProvider.notifier).add(workSuitabilityEntity);
+                            }
+                            ref.read(selectingPalControllerProvider.notifier).updatePals();
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: selectingWorkSuitability.contains(workSuitabilityEntity) ? Colors.red.withOpacity(0.5) : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: workSuitabilityEntity.iconUrl!,
+                              height: 15,
+                            ),
+                          ),
+                        );
+                      }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
+                  },
+                  error: (err, stack) => Text('Error $err'),
+                  loading: () => const Text('loading'),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -17,10 +17,7 @@ export class PalsController {
     return this.palsService.create(createPalDto);
   }
 
-      @Get(':slug')
-  findOneBySlug(@Param('id') id: string) {
-    return this.palsService.findOneBySlug(id);
-  }
+
 
     @Get('id/:id')
   findOne(@Param('id') id: string) {
@@ -177,7 +174,10 @@ export class PalsController {
   }
 
 
-
+      @Get(':slug')
+  findOneBySlug(@Param('id') id: string) {
+    return this.palsService.findOneBySlug(id);
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePalDto: UpdatePalDto) {
     return this.palsService.update(+id, updatePalDto);
