@@ -87,6 +87,19 @@ class HomeScreen extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(data.length.toString()),
+
+                        Consumer(builder: (context, ref, child) {
+                          final adWidget = ref.watch(adWidgetProvider);
+                          final nativeAdLoadState = ref.watch(nativeAdLoadStateProvider);
+                          return  nativeAdLoadState ? Container(
+                              height: 100,
+                              color: Colors.grey,
+                              width: double.infinity,
+                              child: AdWidget(ad: adWidget.ad)) : const SizedBox();
+
+                        }),
+
+
                         Expanded(
                           child: GridView.builder(
                               itemCount: data.length,

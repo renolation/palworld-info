@@ -30,3 +30,5 @@ class PalSortType extends _$PalSortType {
     state = sortType;
   }
 }
+
+final nativeAdLoadStateProvider = StateProvider.autoDispose<bool>((ref) => false);
