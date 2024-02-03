@@ -22,14 +22,17 @@ enum Size {
   XS
 }
 enum SortBy {
-  Name,
-  Size,
-  Rarity,
-  Hp,
-  Melee_Attack,
-  Magic_Attack,
-  Defense,
-  Ride_Sprint_Speed,
+  name('Name'),
+  size('Size'),
+  rarity('Rarity'),
+  hp('HP'),
+  meleeAttack('Melee Attack'),
+  magicAttack('Magic Attack'),
+  defense('Defense'),
+  rideSprintSpeed('Ride Sprint Speed');
+
+  const SortBy(this.title);
+  final String title;
 }
 enum SortType {
   Asc,

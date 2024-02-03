@@ -11,7 +11,7 @@ part 'providers.g.dart';
 class PalSortBy extends _$PalSortBy {
   @override
   SortBy build() {
-    return SortBy.Name;
+    return SortBy.name;
   }
 
   void update(SortBy sortBy) {
