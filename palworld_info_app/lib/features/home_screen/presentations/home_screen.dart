@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -17,6 +18,7 @@ import 'package:palworld_info_app/domains/work_suitability_entity.dart';
 import 'package:palworld_info_app/features/home_screen/data/element_controller.dart';
 import 'package:palworld_info_app/features/home_screen/data/pals_controller.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_drawer.dart';
+import 'package:palworld_info_app/providers/ads_provider.dart';
 import 'package:palworld_info_app/providers/providers.dart';
 import 'package:palworld_info_app/utils/constants.dart';
 import '../../../utils/app_router.dart';
@@ -153,6 +155,20 @@ class HomeScreen extends HookConsumerWidget {
                                 );
                               }),
                         ),
+                        Consumer(builder: (context, ref, child) {
+                          final bannerAd = ref.watch(bannerAdProvider);
+                          return  Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SafeArea(
+                              child: SizedBox(
+                                width: bannerAd.value!.size.width.toDouble(),
+                                height: bannerAd.value!.size.height.toDouble(),
+                                child: AdWidget(ad: bannerAd.value!),
+                              ),
+                            ),
+                          );
+
+                        }),
                       ],
                     );
                   },
