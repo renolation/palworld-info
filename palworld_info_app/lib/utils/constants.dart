@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Constants {
   static const String host = 'localhost';
   // static const String host = '192.168.1.144';
@@ -8,6 +10,9 @@ class Constants {
   static const int port = 3000;
 // static const int? port = null;
 }
+
+const kOddBackground = Colors.red;
+const kEvenBackground = Colors.blue;
 
 enum Size {
   L,

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
 
@@ -36,7 +37,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: AppRoute.detail.name,
                 builder: (context, state) {
                   String slug = state.pathParameters['slug']!;
-                  return DetailScreen(slug: slug);
+                  PalEntity palEntity = state.extra as PalEntity;
+
+                  return DetailScreen(palEntity: palEntity, slug: slug, );
                 },
               ),
             ]),

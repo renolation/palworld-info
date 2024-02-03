@@ -97,6 +97,7 @@ class HomeScreen extends HookConsumerWidget {
                                     context.pushNamed(
                                       AppRoute.detail.name,
                                       pathParameters: {'slug': palEntity.slug!},
+                                      extra: palEntity,
                                     );
                                   },
                                   child: Card(
