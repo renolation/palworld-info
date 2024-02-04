@@ -26,6 +26,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             return ScaffoldWithNavBar(navigationShell: navigationShell);
           },
           branches: [
+
             StatefulShellBranch(navigatorKey: _sectionANavigatorKey, routes: [
               GoRoute(
                 path: '/',
@@ -47,13 +48,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/like',
                 name: AppRoute.like.name,
-                builder: (context, state) => const SizedBox(),
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/user',
-                name: AppRoute.user.name,
                 builder: (context, state) => const SizedBox(),
               ),
             ]),
@@ -87,6 +81,9 @@ class ScaffoldWithNavBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
             child: GNav(
+
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              tabBorderRadius: 10,
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
@@ -105,10 +102,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   icon: FontAwesomeIcons.heart,
                   text: 'Likes',
                 ),
-                GButton(
-                  icon: FontAwesomeIcons.user,
-                  text: 'User',
-                ),
+
               ],
               selectedIndex: 0,
               onTabChange: (index) {

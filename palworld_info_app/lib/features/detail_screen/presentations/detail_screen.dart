@@ -29,6 +29,7 @@ class DetailScreen extends HookConsumerWidget {
             children: [
               Container(
                 color: Colors.black26,
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
                     Column(
@@ -48,13 +49,13 @@ class DetailScreen extends HookConsumerWidget {
               const SizedBox(height: 10,),
               Row(
                 children: [
-                  const Text('Element:'),
+                  const Text('Element: ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
                   for (var element in palEntity.elements!) CachedNetworkImage( imageUrl: element!.iconUrl!, width: 30, ),
                 ],
               ),
               Row(
                 children: [
-                  const Text('Work Suitabilities:'),
+                  const Text('Work Suitabilities: ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
                   for (var workSuitability in palEntity.levelWorkSuitability!) Column(
                     children: [
                       CachedNetworkImage( imageUrl: workSuitability.workSuitability!.iconUrl!, width: 30, ),
@@ -63,6 +64,7 @@ class DetailScreen extends HookConsumerWidget {
                   )
                 ],
               ),
+              const SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Column(
@@ -111,6 +113,8 @@ class DetailRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: isOdd ? kOddBackground: kEvenBackground,
+      margin: EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

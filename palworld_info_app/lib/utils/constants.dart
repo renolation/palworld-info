@@ -11,8 +11,8 @@ class Constants {
 // static const int? port = null;
 }
 
-const kOddBackground = Colors.red;
-const kEvenBackground = Colors.blue;
+const kOddBackground = Colors.white10;
+const kEvenBackground = Colors.white30;
 
 enum Size {
   L,
