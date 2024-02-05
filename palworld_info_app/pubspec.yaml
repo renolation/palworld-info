@@ -55,6 +55,7 @@ dependencies:
   toggle_switch: ^2.1.0
   dropdown_button2: ^2.3.9
   dio: ^5.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,6 +71,7 @@ dev_dependencies:
   custom_lint: ^0.5.3
   riverpod_lint: ^2.0.4
   json_serializable: ^6.7.1
+  change_app_package_name: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
