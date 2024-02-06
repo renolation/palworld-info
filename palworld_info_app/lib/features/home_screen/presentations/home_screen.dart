@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter_hooks/src/hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,6 +24,8 @@ import 'package:palworld_info_app/providers/ads_provider.dart';
 import 'package:palworld_info_app/providers/providers.dart';
 import 'package:palworld_info_app/utils/constants.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../../../utils/app_lifecycle_reactor.dart';
+import '../../../utils/app_open_ad_manager.dart';
 import '../../../utils/app_router.dart';
 import '../data/home_repository.dart';
 import '../data/selecting_pal_controller.dart';
@@ -35,6 +38,19 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    useMemoized(() async {
+
+      ref.read(interstitialAdProvider).initAds();
+
+      late AppLifecycleReactor appLifecycleReactor;
+      AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+      appLifecycleReactor =
+          AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+      appLifecycleReactor.listenToAppStateChanges();
+    });
+
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -158,6 +174,7 @@ class HomeScreen extends HookConsumerWidget {
                                 PalEntity palEntity = data[index];
                                 return InkWell(
                                   onTap: () {
+                                    ref.read(countAdProvider.notifier).update();
                                     context.pushNamed(
                                       AppRoute.detail.name,
                                       pathParameters: {'slug': palEntity.slug!},

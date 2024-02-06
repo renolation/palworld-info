@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../utils/constants.dart';
+import 'ads_provider.dart';
 
 part 'providers.g.dart';
 
@@ -31,4 +32,20 @@ class PalSortType extends _$PalSortType {
   }
 }
 
+@Riverpod(keepAlive: true)
+class CountAd extends _$CountAd {
+  @override
+  int build() {
+    return 0;
+  }
+
+  void update() {
+    state = state+1;
+    if(state%3 ==0){
+      ref.read(interstitialAdProvider).showInterstitialAd();
+    }
+  }
+}
+
 final nativeAdLoadStateProvider = StateProvider.autoDispose<bool>((ref) => false);
+

@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$palSortByHash() => r'72bc461433f4eba43c95ad2982ac34613774850a';
+String _$palSortByHash() => r'7311b61e6f6938f258247a2094e117813dfe8532';
 
 /// See also [PalSortBy].
 @ProviderFor(PalSortBy)
@@ -34,5 +34,19 @@ final palSortTypeProvider = NotifierProvider<PalSortType, SortType>.internal(
 );
 
 typedef _$PalSortType = Notifier<SortType>;
+String _$countAdHash() => r'a4e84fadbb7e018aa6756924270238bb0a2d6ec7';
+
+/// See also [CountAd].
+@ProviderFor(CountAd)
+final countAdProvider = NotifierProvider<CountAd, int>.internal(
+  CountAd.new,
+  name: r'countAdProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$countAdHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CountAd = Notifier<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
