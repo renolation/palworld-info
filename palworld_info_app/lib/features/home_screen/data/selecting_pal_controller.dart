@@ -73,6 +73,8 @@ class SelectingPalController extends _$SelectingPalController {
     if(sortType == SortType.Asc) {
       if(sortBy == SortBy.name) {
         list.sort((a, b) => a.name!.compareTo(b.name!));
+      } else if(sortBy == SortBy.size) {
+        list.sort((a, b) => a.size!.index.compareTo(b.size!.index));
       } else if(sortBy == SortBy.hp) {
         list.sort((a, b) => a.hp!.compareTo(b.hp!));
       } else if(sortBy == SortBy.rarity) {
@@ -89,6 +91,8 @@ class SelectingPalController extends _$SelectingPalController {
     } else {
       if(sortBy == SortBy.name) {
         list.sort((a, b) => b.name!.compareTo(a.name!));
+      } else if(sortBy == SortBy.size) {
+        list.sort((a, b) => b.size!.index.compareTo(a.size!.index));
       } else if(sortBy == SortBy.hp) {
         list.sort((a, b) => b.hp!.compareTo(a.hp!));
       } else if(sortBy == SortBy.rarity) {

@@ -55,7 +55,6 @@ dependencies:
   toggle_switch: ^2.1.0
   dropdown_button2: ^2.3.9
   dio: ^5.1.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -71,7 +70,8 @@ dev_dependencies:
   custom_lint: ^0.5.3
   riverpod_lint: ^2.0.4
   json_serializable: ^6.7.1
-
+  change_app_package_name: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -81,18 +81,8 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/app_icon.jpeg"
   min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: true
-    image_path: "assets/app_icon.jpeg"
-    background_color: "#ffffff"
-    theme_color: "#30d150"
-  windows:
-    generate: true
-    image_path: "path/to/image.png"
-    icon_size: 48 # min:48, max:256, default: 48
-  macos:
-    generate: true
-    image_path: "path/to/image.png"
+
+
 
 # The following section is specific to Flutter packages.
 flutter:
