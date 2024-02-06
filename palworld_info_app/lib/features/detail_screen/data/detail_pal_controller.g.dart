@@ -7,7 +7,7 @@ part of 'detail_pal_controller.dart';
 // **************************************************************************
 
 String _$detailPalControllerHash() =>
-    r'b5e9f97eb4c9bc03ec1ac6278111c809baea2383';
+    r'056fb135c1cb95d4aee1c7e9a4046d5b908918a8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,8 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$DetailPalController
-    extends BuildlessAutoDisposeAsyncNotifier<PalEntity> {
+abstract class _$DetailPalController extends BuildlessAsyncNotifier<PalEntity> {
   late final String slug;
 
   FutureOr<PalEntity> build(
@@ -82,8 +81,8 @@ class DetailPalControllerFamily extends Family<AsyncValue<PalEntity>> {
 }
 
 /// See also [DetailPalController].
-class DetailPalControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    DetailPalController, PalEntity> {
+class DetailPalControllerProvider
+    extends AsyncNotifierProviderImpl<DetailPalController, PalEntity> {
   /// See also [DetailPalController].
   DetailPalControllerProvider(
     String slug,
@@ -139,8 +138,7 @@ class DetailPalControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<DetailPalController, PalEntity>
-      createElement() {
+  AsyncNotifierProviderElement<DetailPalController, PalEntity> createElement() {
     return _DetailPalControllerProviderElement(this);
   }
 
@@ -158,14 +156,14 @@ class DetailPalControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin DetailPalControllerRef on AutoDisposeAsyncNotifierProviderRef<PalEntity> {
+mixin DetailPalControllerRef on AsyncNotifierProviderRef<PalEntity> {
   /// The parameter `slug` of this provider.
   String get slug;
 }
 
 class _DetailPalControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<DetailPalController,
-        PalEntity> with DetailPalControllerRef {
+    extends AsyncNotifierProviderElement<DetailPalController, PalEntity>
+    with DetailPalControllerRef {
   _DetailPalControllerProviderElement(super.provider);
 
   @override

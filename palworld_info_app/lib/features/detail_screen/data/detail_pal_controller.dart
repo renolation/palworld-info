@@ -6,7 +6,7 @@ import '../../../domains/pal_entity.dart';
 
 part 'detail_pal_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class DetailPalController extends _$DetailPalController {
   @override
   FutureOr<PalEntity> build(String slug) async {
