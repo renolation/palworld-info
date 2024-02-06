@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
+
+import '../providers/ads_provider.dart';
 
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -78,37 +81,55 @@ class ScaffoldWithNavBar extends StatelessWidget {
           ],
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Consumer(builder: (context, ref, child) {
+                final bannerAd = ref.watch(bannerAdProvider);
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: bannerAd.value!.size.width.toDouble(),
+                      height: bannerAd.value!.size.height.toDouble(),
+                      child: AdWidget(ad: bannerAd.value!),
+                    ),
+                  ),
+                );
+              }),
 
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              tabBorderRadius: 10,
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[100]!,
-              gap: 8,
-              activeColor: Colors.black,
-              iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-              tabs: const [
-                GButton(
-                  icon: FontAwesomeIcons.house,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: FontAwesomeIcons.heart,
-                  text: 'Likes',
-                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                child: GNav(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  tabBorderRadius: 10,
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  gap: 8,
+                  activeColor: Colors.black,
+                  iconSize: 24,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  duration: const Duration(milliseconds: 400),
+                  tabBackgroundColor: Colors.grey[100]!,
+                  color: Colors.black,
+                  tabs: const [
+                    GButton(
+                      icon: FontAwesomeIcons.house,
+                      text: 'Home',
+                    ),
+                    GButton(
+                      icon: FontAwesomeIcons.heart,
+                      text: 'Likes',
+                    ),
 
-              ],
-              selectedIndex: 0,
-              onTabChange: (index) {
-                _onTap(context, index);
-              },
-            ),
+                  ],
+                  selectedIndex: 0,
+                  onTabChange: (index) {
+                    _onTap(context, index);
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

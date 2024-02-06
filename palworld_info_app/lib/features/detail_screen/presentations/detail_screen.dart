@@ -6,6 +6,8 @@ import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/data/detail_pal_controller.dart';
 import 'package:palworld_info_app/utils/constants.dart';
 
+import '../../../providers/ads_provider.dart';
+
 class DetailScreen extends HookConsumerWidget {
   const DetailScreen({
     required this.palEntity,
@@ -86,7 +88,9 @@ class DetailScreen extends HookConsumerWidget {
                     DetailRow(name: 'Male Probability', value: palEntity.maleProbability.toString(), isOdd: true,),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 20,),
+
             ],
           ),
           error: (err, stack) => Text('Error $err'),
@@ -113,7 +117,7 @@ class DetailRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: isOdd ? kOddBackground: kEvenBackground,
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
