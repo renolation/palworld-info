@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:palworld_info_app/utils/app_router.dart';
 
 void main() async {
+
+
 
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
@@ -15,7 +18,10 @@ void main() async {
       tagForChildDirectedTreatment: TagForChildDirectedTreatment.unspecified,
     ),
   );
-
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const ProviderScope(child: MyApp()));
 }
 

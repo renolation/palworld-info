@@ -60,132 +60,199 @@ class HomeScreen extends HookConsumerWidget {
         endDrawer: const HomeDrawer(),
         body: Column(
           children: [
-            Consumer(builder: (context, ref, child) {
-              final palsHome = ref.watch(selectingPalControllerProvider);
-              return palsHome.when(
-                data: (data) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(data.length.toString()),
-
-                      // Consumer(builder: (context, ref, child) {
-                      //   final adWidget = ref.watch(adWidgetProvider);
-                      //   final nativeAdLoadState = ref.watch(nativeAdLoadStateProvider);
-                      //   return  nativeAdLoadState ? Container(
-                      //       height: 100,
-                      //       color: Colors.grey,
-                      //       width: double.infinity,
-                      //       child: AdWidget(ad: adWidget.ad)) : const SizedBox();
-                      //
-                      // }),
-
-                      Expanded(
-                        child: GridView.builder(
-                            itemCount: data.length,
-                            scrollDirection: Axis.vertical,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            itemBuilder: (context, index) {
-                              PalEntity palEntity = data[index];
-                              return InkWell(
-                                onTap: () {
-                                  ref.read(countAdProvider.notifier).update();
-                                  context.pushNamed(
-                                    AppRoute.detail.name,
-                                    pathParameters: {'slug': palEntity.slug!},
-                                    extra: palEntity,
-                                  );
-                                },
-                                child: Card(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        width: 30,
-                                        child: ListView(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          children: [
-                                            for (var icon
-                                                in palEntity.elements!)
-                                              CachedNetworkImage(
-                                                  imageUrl: icon.iconUrl!,
-                                                  fit: BoxFit.fill),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5, right: 5, top: 5),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              CachedNetworkImage(
-                                                  imageUrl:
-                                                      palEntity.iconUrl!),
-                                              AutoSizeText(
-                                                palEntity.name!,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium
-                                                    ?.copyWith(fontSize: 18),
-                                                maxLines: 1,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 40,
-                                        child: ListView(
-                                          physics: palEntity
-                                                      .levelWorkSuitability!
-                                                      .length <
-                                                  5
-                                              ? const NeverScrollableScrollPhysics()
-                                              : null,
-                                          children: [
-                                            for (var level in palEntity
-                                                .levelWorkSuitability!)
-                                              Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
-                                                  children: [
-                                                    SizedBox(
-                                                        width: 30,
-                                                        child: CachedNetworkImage(
-                                                            imageUrl: level
-                                                                .workSuitability!
-                                                                .iconUrl!,
-                                                            fit:
-                                                                BoxFit.fill)),
-                                                    Text(
-                                                      level.level.toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                  ]),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Consumer(builder: (context, ref, child) {
+                  final palSortType = ref.watch(palSortTypeProvider);
+                  return ToggleSwitch(
+                    minWidth: 100.0,
+                    initialLabelIndex: palSortType == SortType.Asc ? 0 : 1,
+                    cornerRadius: 5.0,
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: Colors.grey,
+                    inactiveFgColor: Colors.white,
+                    totalSwitches: 2,
+                    labels: const ['Ascending', 'Descending'],
+                    icons: const [
+                      FontAwesomeIcons.arrowUpWideShort,
+                      FontAwesomeIcons.arrowDownShortWide
+                    ],
+                    activeBgColors: const [
+                      [Colors.blue],
+                      [Colors.green]
+                    ],
+                    onToggle: (index) {
+                      print('switched to: $index');
+                      ref
+                          .read(palSortTypeProvider.notifier)
+                          .update(index == 0 ? SortType.Asc : SortType.Desc);
+                      ref
+                          .read(selectingPalControllerProvider.notifier)
+                          .updatePals();
+                    },
+                  );
+                }),
+                Consumer(builder: (context, ref, child) {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton2<SortBy>(
+                      isExpanded: true,
+                      barrierColor: Colors.grey.withOpacity(0.2),
+                      hint: Text(
+                        'Select Item',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                      items: SortBy.values
+                          .map((SortBy item) => DropdownMenuItem<SortBy>(
+                                value: item,
+                                child: Text(
+                                  item.title,
+                                  style: const TextStyle(
+                                    fontSize: 14,
                                   ),
                                 ),
-                              );
-                            }),
+                              ))
+                          .toList(),
+                      value: ref.watch(palSortByProvider),
+                      onChanged: (SortBy? value) {
+                        ref.read(palSortByProvider.notifier).update(value!);
+                        ref
+                            .read(selectingPalControllerProvider.notifier)
+                            .updatePals();
+                      },
+                      buttonStyleData:  ButtonStyleData(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        height: 40,
+                        width: 140,
+                        elevation: 20,
+                        overlayColor: MaterialStateProperty.all(Colors.red),
+                        decoration: BoxDecoration(
+                          color: Colors.black45,
+                          borderRadius: BorderRadius.circular(5),
+                        )
                       ),
-                    ],
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 40,
+                      ),
+                    ),
                   );
-                },
-                error: (err, stack) => Text('Error $err'),
-                loading: () => Text('loading'),
-              );
-            }),
+                }),
+              ],
+            ),
+            Expanded(
+              child: Consumer(builder: (context, ref, child) {
+                final palsHome = ref.watch(selectingPalControllerProvider);
+                return palsHome.when(
+                  data: (data) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: GridView.builder(
+                          itemCount: data.length,
+                          scrollDirection: Axis.vertical,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemBuilder: (context, index) {
+                            PalEntity palEntity = data[index];
+                            return InkWell(
+                              onTap: () {
+                                ref.read(countAdProvider.notifier).update();
+                                context.pushNamed(
+                                  AppRoute.detail.name,
+                                  pathParameters: {'slug': palEntity.slug!},
+                                  extra: palEntity,
+                                );
+                              },
+                              child: Card(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SizedBox(
+                                      width: 30,
+                                      child: ListView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        children: [
+                                          for (var icon
+                                              in palEntity.elements!)
+                                            CachedNetworkImage(
+                                                imageUrl: icon.iconUrl!,
+                                                fit: BoxFit.fill),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, right: 5, top: 5),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            CachedNetworkImage(
+                                                imageUrl:
+                                                    palEntity.iconUrl!),
+                                            AutoSizeText(
+                                              palEntity.name!,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(fontSize: 18),
+                                              maxLines: 1,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: ListView(
+                                        physics: palEntity
+                                                    .levelWorkSuitability!
+                                                    .length <
+                                                5
+                                            ? const NeverScrollableScrollPhysics()
+                                            : null,
+                                        children: [
+                                          for (var level in palEntity
+                                              .levelWorkSuitability!)
+                                            Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .center,
+                                                children: [
+                                                  SizedBox(
+                                                      width: 30,
+                                                      child: CachedNetworkImage(
+                                                          imageUrl: level
+                                                              .workSuitability!
+                                                              .iconUrl!,
+                                                          fit:
+                                                              BoxFit.fill)),
+                                                  Text(
+                                                    level.level.toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                ]),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  },
+                  error: (err, stack) => Text('Error $err'),
+                  loading: () => Text('loading'),
+                );
+              }),
+            ),
           ],
         ));
   }
