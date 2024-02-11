@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { contents } from 'cheerio/lib/api/traversing';
-import { In, QueryFailedError } from 'typeorm';
-import { LevelWorkSuitability } from '../entities/work_suitability.entity';
-import { PassiveDesc, PassiveSkill } from '../entities/passive_desc';
+import { PassiveDesc, PassiveSkill } from '../../passive-skills/entities/passive-skill.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Pal } from '../entities/pal.entity';
+import { Repository } from 'typeorm';
+import { Element } from '../entities/element.entity';
+import { LevelWorkSuitability, WorkSuitability } from '../entities/work_suitability.entity';
 
 @Injectable()
 export class ElementService {
-
+  constructor(
+    @InjectRepository(PassiveDesc) private passiveDescRepository: Repository<PassiveDesc>,
+    @InjectRepository(PassiveSkill) private passiveSkillRepository: Repository<PassiveSkill>,
+  ) {
+  }
 
   async crawlElement() {
     try {
@@ -91,42 +97,6 @@ export class ElementService {
     }
   }
 
-
-  async crawlPassiveSkill() {
-    try {
-      const response = await axios.get('https://palworldtrainer.com/skills/passive-skill');
-      const html = response.data;
-      const $ = cheerio.load(html);
-
-      let skills: PassiveSkill[] = [];
-      $('.content .table .row').each((index, element) => {
-        const skill = new PassiveSkill();
-
-        // Get the name of the skill
-        const name = $(element).find('p').first().text();
-        skill.name = name;
-
-        // Get stats of the skill
-        let passiveDescriptions: PassiveDesc[] = [];
-
-        $(element).find('.positive.stat, .negative.stat').each((i, statElement) => {
-          const passiveDesc = new PassiveDesc();
-          passiveDesc.name = $(statElement).text();
-          passiveDesc.isPositive = $(statElement).hasClass('positive'); // true for positive, false for negative
-          passiveDescriptions.push(passiveDesc);
-        });
-
-        skill.passiveDesc = passiveDescriptions;
-
-        skills.push(skill);
-
-      });
-      console.log(skills);
-      return skills;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
 
 
 }

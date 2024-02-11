@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
-import { LevelWorkSuitability } from './work_suitability.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Unique } from 'typeorm';
+import { LevelWorkSuitability } from '../../pals/entities/work_suitability.entity';
 
 @Entity()
+@Unique(["name", "isPositive"])
 export class PassiveDesc {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,7 +19,7 @@ export class PassiveSkill {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({unique:true})
   name: string;
 
   @ManyToMany(() => PassiveDesc)

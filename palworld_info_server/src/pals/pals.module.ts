@@ -7,7 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Skill } from "./entities/skill.entity";
 import { Element } from "./entities/element.entity";
 import { ElementService } from "./services/element.service";
-import { PassiveDesc, PassiveSkill } from './entities/passive_desc';
+import { PassiveDesc, PassiveSkill } from '../passive-skills/entities/passive-skill.entity';
 
 @Module({
   imports: [

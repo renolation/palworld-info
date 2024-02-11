@@ -219,7 +219,6 @@ export class PalsService {
         } catch (error) {
           if (error instanceof QueryFailedError && error.message.includes('duplicate key value violates unique constraint')) {
 
-            // Handle the unique constraint violation exception
             const existingRecord = await this.levelWorkSuitabilityRepository.findOne({
               where: {
                 workSuitability: levelWorkSuitability.workSuitability,

@@ -49,9 +49,9 @@ export class PalsController {
 
     @Get('crawl-passive')
   async crawlPassive() {
-    const arrayElements = await this.elementService.crawlPassiveSkill();
-    console.log('dat');
-    return arrayElements;
+    // const arrayElements = await this.elementService.crawlPassiveSkill();
+    // console.log('dat');
+    // return arrayElements;
   }
 
   @Get('crawl-work')

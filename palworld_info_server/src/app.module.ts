@@ -7,7 +7,8 @@ import { Pal } from './pals/entities/pal.entity';
 import { Element } from "./pals/entities/element.entity";
 import { Skill } from "./pals/entities/skill.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./pals/entities/work_suitability.entity";
-import { PassiveDesc, PassiveSkill } from './pals/entities/passive_desc';
+import { PassiveDesc, PassiveSkill } from './passive-skills/entities/passive-skill.entity';
+import { PassiveSkillsModule } from './passive-skills/passive-skills.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -20,7 +21,8 @@ import { PassiveDesc, PassiveSkill } from './pals/entities/passive_desc';
       entities: [Pal ,Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc],
       synchronize: true,
     }),
-    PalsModule
+    PalsModule,
+    PassiveSkillsModule
   ],
   controllers: [AppController],
   providers: [AppService],
