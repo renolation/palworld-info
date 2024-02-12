@@ -7,6 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
+import 'package:palworld_info_app/features/passive_skill_screen/presentations/passive_skill_screen.dart';
 
 import '../providers/ads_provider.dart';
 
@@ -16,7 +17,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
-enum AppRoute { home, detail, user, like }
+enum AppRoute { home, detail, user, like, passive }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -49,9 +50,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ]),
             StatefulShellBranch(routes: [
               GoRoute(
-                path: '/like',
-                name: AppRoute.like.name,
-                builder: (context, state) => const SizedBox(),
+                path: '/passive',
+                name: AppRoute.passive.name,
+                builder: (context, state) => const PassiveSkillScreen(),
               ),
             ]),
           ]),
@@ -119,7 +120,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                     ),
                     GButton(
                       icon: FontAwesomeIcons.heart,
-                      text: 'Likes',
+                      text: 'Passive',
                     ),
 
                   ],

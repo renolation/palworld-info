@@ -41,13 +41,13 @@ class HomeScreen extends HookConsumerWidget {
 
     useMemoized(() async {
 
-      ref.read(interstitialAdProvider).initAds();
+      // ref.read(interstitialAdProvider).initAds();
 
-      late AppLifecycleReactor appLifecycleReactor;
-      AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-      appLifecycleReactor =
-          AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      appLifecycleReactor.listenToAppStateChanges();
+      // late AppLifecycleReactor appLifecycleReactor;
+      // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+      // appLifecycleReactor =
+      //     AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+      // appLifecycleReactor.listenToAppStateChanges();
     });
 
 

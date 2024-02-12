@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
+import 'package:palworld_info_app/domains/passive_skill_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 
@@ -53,6 +54,19 @@ class HomeRepository {
     final response = await client.get(url, cancelToken: cancelToken);
     final List list = response.data;
     return list.map((e) => PalEntity.fromJson(e)).toList();
+  }
+
+  Future<List<PassiveSkillEntity>> getPassiveSkillEntity(
+      {CancelToken? cancelToken}) async {
+    final url = Uri(
+      scheme: Constants.scheme,
+      host: Constants.host,
+      port: Constants.port,
+      path: 'passive-skills',
+    ).toString();
+    final response = await client.get(url, cancelToken: cancelToken);
+    final List list = response.data;
+    return list.map((e) => PassiveSkillEntity.fromJson(e)).toList();
   }
 }
 
