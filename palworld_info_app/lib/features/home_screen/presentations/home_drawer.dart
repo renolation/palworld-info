@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../domains/element_entity.dart';
 import '../../../domains/work_suitability_entity.dart';
@@ -62,7 +63,10 @@ class HomeDrawer extends HookConsumerWidget {
                       }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
                   },
                   error: (err, stack) => Text('Error $err'),
-                  loading: () => const Text('loading'),
+                  loading: () =>  LoadingAnimationWidget.fourRotatingDots(
+                    color: Colors.white,
+                    size: 50,
+                  ),
                 );
               }),
             ),
@@ -107,7 +111,10 @@ class HomeDrawer extends HookConsumerWidget {
                       }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),);
                   },
                   error: (err, stack) => Text('Error $err'),
-                  loading: () => const Text('loading'),
+                  loading: () => LoadingAnimationWidget.fourRotatingDots(
+                    color: Colors.white,
+                    size: 50,
+                  ),
                 );
               }),
             ),

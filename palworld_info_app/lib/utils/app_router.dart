@@ -11,7 +11,6 @@ import 'package:palworld_info_app/features/passive_skill_screen/presentations/pa
 
 import '../providers/ads_provider.dart';
 
-
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
@@ -30,7 +29,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             return ScaffoldWithNavBar(navigationShell: navigationShell);
           },
           branches: [
-
             StatefulShellBranch(navigatorKey: _sectionANavigatorKey, routes: [
               GoRoute(
                 path: '/',
@@ -43,8 +41,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) {
                   String slug = state.pathParameters['slug']!;
                   PalEntity palEntity = state.extra as PalEntity;
-
-                  return DetailScreen(palEntity: palEntity, slug: slug, );
+                  return DetailScreen(
+                      key: state.pageKey, palEntity: palEntity, slug: slug);
                 },
               ),
             ]),
@@ -98,9 +96,9 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   ),
                 );
               }),
-
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
                 child: GNav(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   tabBorderRadius: 10,
@@ -109,7 +107,8 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   gap: 8,
                   activeColor: Colors.black,
                   iconSize: 24,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   duration: const Duration(milliseconds: 400),
                   tabBackgroundColor: Colors.grey[100]!,
                   color: Colors.black,
@@ -122,7 +121,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
                       icon: FontAwesomeIcons.heart,
                       text: 'Passive',
                     ),
-
                   ],
                   selectedIndex: 0,
                   onTabChange: (index) {

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:palworld_info_app/domains/passive_skill_entity.dart';
 import 'package:palworld_info_app/features/passive_skill_screen/data/passive_skill_controller.dart';
 
@@ -55,7 +56,7 @@ class PassiveSkillScreen extends HookConsumerWidget {
             });
           },
           error: (err, stack) => Text('Error $err'),
-          loading: () => Text('loading'),
+          loading: () => Center(child: LoadingAnimationWidget.dotsTriangle(color: Colors.white, size: 50)),
         );
       }),
     );

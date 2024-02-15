@@ -5,6 +5,7 @@ import 'package:flutter_hooks/src/hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -59,9 +60,11 @@ class HomeScreen extends HookConsumerWidget {
         ),
         endDrawer: const HomeDrawer(),
         body: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Consumer(builder: (context, ref, child) {
                   final palSortType = ref.watch(palSortTypeProvider);
@@ -142,12 +145,13 @@ class HomeScreen extends HookConsumerWidget {
                 }),
               ],
             ),
-            Expanded(
-              child: Consumer(builder: (context, ref, child) {
-                final palsHome = ref.watch(selectingPalControllerProvider);
-                return palsHome.when(
-                  data: (data) {
-                    return Padding(
+            Consumer(builder: (context, ref, child) {
+              final palsHome = ref.watch(selectingPalControllerProvider);
+              return palsHome.when(
+                data: (data) {
+                  // return LoadingAnimationWidget.dotsTriangle(color: Colors.green, size: 50);
+                  return Expanded(
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: GridView.builder(
                           itemCount: data.length,
@@ -234,7 +238,7 @@ class HomeScreen extends HookConsumerWidget {
                                                               BoxFit.fill)),
                                                   Text(
                                                     level.level.toString(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 12),
                                                   ),
                                                 ]),
@@ -246,13 +250,13 @@ class HomeScreen extends HookConsumerWidget {
                               ),
                             );
                           }),
-                    );
-                  },
-                  error: (err, stack) => Text('Error $err'),
-                  loading: () => Text('loading'),
-                );
-              }),
-            ),
+                    ),
+                  );
+                },
+                error: (err, stack) => Text('Error $err'),
+                loading: () => LoadingAnimationWidget.dotsTriangle(color: Colors.green, size: 50)
+              );
+            }),
           ],
         ));
   }
