@@ -18,8 +18,7 @@ export class PalsController {
   }
 
 
-
-    @Get('id/:id')
+  @Get('id/:id')
   findOne(@Param('id') id: string) {
     return this.palsService.findOne(+id);
   }
@@ -47,7 +46,7 @@ export class PalsController {
     }
   }
 
-    @Get('crawl-passive')
+  @Get('crawl-passive')
   async crawlPassive() {
     // const arrayElements = await this.elementService.crawlPassiveSkill();
     // console.log('dat');
@@ -180,11 +179,21 @@ export class PalsController {
     await Promise.all(promises);
   }
 
+  @Get('crawl-pSkill/:id')
+  async crawlPassiveSkill(@Param('id') id: string) {
+    const summary = await this.elementService.crawlPassiveSkillPal(id);
+    return summary;
+    // let updatePalDto = new UpdatePalDto();
+    // updatePalDto.summary = summary;
+    // return await this.palsService.updatePalMerge(id, updatePalDto);
+  }
 
-      @Get(':slug')
+
+  @Get(':slug')
   findOneBySlug(@Param('id') id: string) {
     return this.palsService.findOneBySlug(id);
   }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePalDto: UpdatePalDto) {
     return this.palsService.update(+id, updatePalDto);

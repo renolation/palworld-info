@@ -5,7 +5,8 @@ import { UpdatePassiveSkillDto } from './dto/update-passive-skill.dto';
 
 @Controller('passive-skills')
 export class PassiveSkillsController {
-  constructor(private readonly passiveSkillsService: PassiveSkillsService) {}
+  constructor(private readonly passiveSkillsService: PassiveSkillsService) {
+  }
 
   @Post()
   create(@Body() createPassiveSkillDto: CreatePassiveSkillDto) {
@@ -13,16 +14,21 @@ export class PassiveSkillsController {
   }
 
   @Get()
-  async  findAll() {
+  async findAll() {
     console.log('aaa');
     return await this.passiveSkillsService.findAll();
   }
 
-      @Get('crawl-passive')
+  @Get('crawl-passive')
   async crawlPassive() {
     const arrayElements = await this.passiveSkillsService.crawlPassiveSkill();
     console.log('dat');
     return arrayElements;
+  }
+
+  @Get('findAllPals')
+  findAllPals() {
+    return this.passiveSkillsService.findAllPals();
   }
 
   @Get(':id')
@@ -39,4 +45,6 @@ export class PassiveSkillsController {
   remove(@Param('id') id: string) {
     return this.passiveSkillsService.remove(+id);
   }
+
+
 }

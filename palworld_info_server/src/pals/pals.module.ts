@@ -7,11 +7,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Skill } from "./entities/skill.entity";
 import { Element } from "./entities/element.entity";
 import { ElementService } from "./services/element.service";
-import { PassiveDesc, PassiveSkill } from '../passive-skills/entities/passive-skill.entity';
+import { PassiveDesc, PassiveSkill, PSkillPal } from '../passive-skills/entities/passive-skill.entity';
+import { PassiveSkillsModule } from '../passive-skills/passive-skills.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc ]),
+    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc, PSkillPal ]),
+    PassiveSkillsModule
     ],
   controllers: [PalsController],
   providers: [PalsService, ElementService],

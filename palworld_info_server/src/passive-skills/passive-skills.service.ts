@@ -3,7 +3,7 @@ import { CreatePassiveSkillDto } from './dto/create-passive-skill.dto';
 import { UpdatePassiveSkillDto } from './dto/update-passive-skill.dto';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { PassiveDesc, PassiveSkill } from './entities/passive-skill.entity';
+import { PassiveDesc, PassiveSkill, PSkillPal } from './entities/passive-skill.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 
@@ -13,6 +13,7 @@ export class PassiveSkillsService {
   constructor(
     @InjectRepository(PassiveDesc) private passiveDescRepository: Repository<PassiveDesc>,
     @InjectRepository(PassiveSkill) private passiveSkillRepository: Repository<PassiveSkill>,
+    @InjectRepository(PSkillPal) private pSkillPalRepository: Repository<PSkillPal>,
   ) {
   }
 
@@ -29,6 +30,22 @@ export class PassiveSkillsService {
         relations: {
           passiveDesc: true,
         },
+      },
+    );
+  }
+
+    async findAllPals() {
+    return await this.pSkillPalRepository.find(
+      {
+        order: {
+          rank: "ASC",
+        },
+        relations: {
+          passiveSkill: {
+            passiveDesc: true
+          },
+
+        }
       },
     );
   }

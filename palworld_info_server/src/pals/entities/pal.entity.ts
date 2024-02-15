@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { Element } from "./element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./work_suitability.entity";
+import { PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
 
 export enum PalSize {
   S = "S",
@@ -29,6 +30,9 @@ export class Pal {
   @ManyToMany(() => LevelWorkSuitability)
   @JoinTable()
   levelWorkSuitability: LevelWorkSuitability[]
+
+  // @ManyToOne(() => PSkillPal, (pSkill) => pSkill.pal)
+  // passiveSkill: PSkillPal;
   //
   // @Column({
   //   type: "enum",

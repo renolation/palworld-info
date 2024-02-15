@@ -184,7 +184,6 @@ export class PalsService {
       const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
       const $ = cheerio.load(response.data);
 
-
       let imgUrls = [];
 
       const content = $('.pal').find('div[class^="element"]');
