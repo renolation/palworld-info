@@ -85,19 +85,19 @@ class ScaffoldWithNavBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Consumer(builder: (context, ref, child) {
-              //   final bannerAd = ref.watch(bannerAdProvider);
-              //   return Align(
-              //     alignment: Alignment.bottomCenter,
-              //     child: SafeArea(
-              //       child: SizedBox(
-              //         width: bannerAd.value!.size.width.toDouble(),
-              //         height: bannerAd.value!.size.height.toDouble(),
-              //         child: AdWidget(ad: bannerAd.value!),
-              //       ),
-              //     ),
-              //   );
-              // }),
+              Consumer(builder: (context, ref, child) {
+                final bannerAd = ref.watch(bannerAdProvider);
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: bannerAd.value!.size.width.toDouble(),
+                      height: bannerAd.value!.size.height.toDouble(),
+                      child: AdWidget(ad: bannerAd.value!),
+                    ),
+                  ),
+                );
+              }),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),

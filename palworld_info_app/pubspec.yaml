@@ -55,6 +55,7 @@ dependencies:
   toggle_switch: ^2.1.0
   dropdown_button2: ^2.3.9
   dio: ^5.1.1
+  data_table_2: ^2.5.10
 dev_dependencies:
   flutter_test:
     sdk: flutter

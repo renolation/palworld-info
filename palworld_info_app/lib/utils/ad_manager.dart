@@ -45,7 +45,7 @@ class AdManager {
     if (Platform.isAndroid) {
       return "ca-app-pub-5590864843607872/4980463934";
     } else if (Platform.isIOS) {
-      return "ca-app-pub-5590864843607872/2732303379";
+      return "ca-app-pub-5590864843607872/9213951242";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
