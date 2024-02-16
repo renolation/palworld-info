@@ -1,12 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import { PassiveDesc, PassiveSkill, PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Pal } from '../entities/pal.entity';
-import { QueryFailedError, Repository } from 'typeorm';
-import { Element } from '../entities/element.entity';
-import { LevelWorkSuitability, WorkSuitability } from '../entities/work_suitability.entity';
+import { Injectable } from "@nestjs/common";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import { PassiveDesc, PassiveSkill, PSkillPal } from "../../passive-skills/entities/passive-skill.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { QueryFailedError, Repository } from "typeorm";
+import { Partner } from "../entities/partner.entity";
 
 @Injectable()
 export class ElementService {
@@ -14,6 +12,7 @@ export class ElementService {
     @InjectRepository(PassiveDesc) private passiveDescRepository: Repository<PassiveDesc>,
     @InjectRepository(PassiveSkill) private passiveSkillRepository: Repository<PassiveSkill>,
     @InjectRepository(PSkillPal) private pSkillPalRepository: Repository<PSkillPal>,
+    @InjectRepository(Partner) private partnerRepository: Repository<Partner>,
   ) {
   }
 
@@ -32,6 +31,23 @@ export class ElementService {
       // console.log('Buttons Array:', buttonsArray);
 
       return buttonsArray;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+
+    async crawlPartner() {
+    try {
+      const response = await axios.get('https://palworldtrainer.com/pal');
+      const html = response.data;
+      const $ = cheerio.load(html);
+      return Array.from($('.filterset.Partner.Skill').find('.filters').find('button')).map((button) => {
+        const imgTag = $(button).find('img');
+        const imgUrl = imgTag.attr('src');
+        const imgAlt = imgTag.attr('alt').replace(' Icon', '');
+        return { name: imgAlt, iconUrl: imgUrl };
+      });
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -164,5 +180,11 @@ export class ElementService {
     }
   }
 
+    async createPartner(partner: { name: string; iconUrl: string }) {
+    const partnerEntity = this.partnerRepository.create({
+      ...partner,
+    });
+    await this.partnerRepository.save(partnerEntity);
+  }
 
 }

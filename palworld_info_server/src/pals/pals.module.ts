@@ -9,10 +9,11 @@ import { Element } from "./entities/element.entity";
 import { ElementService } from "./services/element.service";
 import { PassiveDesc, PassiveSkill, PSkillPal } from '../passive-skills/entities/passive-skill.entity';
 import { PassiveSkillsModule } from '../passive-skills/passive-skills.module';
+import { Partner } from "./entities/partner.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc, PSkillPal ]),
+    TypeOrmModule.forFeature([Pal, Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc, PSkillPal, Partner ]),
     PassiveSkillsModule
     ],
   controllers: [PalsController],

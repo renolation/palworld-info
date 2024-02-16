@@ -9,6 +9,7 @@ import { Skill } from "./pals/entities/skill.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./pals/entities/work_suitability.entity";
 import { PassiveDesc, PassiveSkill, PSkillPal } from './passive-skills/entities/passive-skill.entity';
 import { PassiveSkillsModule } from './passive-skills/passive-skills.module';
+import { Partner } from "./pals/entities/partner.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { PassiveSkillsModule } from './passive-skills/passive-skills.module';
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal],
+      entities: [Pal ,Element, Skill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner],
       synchronize: true,
     }),
     PalsModule,
