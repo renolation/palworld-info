@@ -4,6 +4,7 @@ import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray } from "class-valid
 import { LevelWorkSuitability } from "../entities/work_suitability.entity";
 import { Element } from "../entities/element.entity";
 import { PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
+import { PartnerPal } from "../entities/partner.entity";
 
 export class UpdatePalDto extends PartialType(CreatePalDto) {
 
@@ -26,6 +27,8 @@ export class UpdatePalDto extends PartialType(CreatePalDto) {
   levelWorkSuitability: LevelWorkSuitability[];
 
   passiveSkill: PSkillPal;
+
+  partnerPal: PartnerPal;
 
   @IsString()
   @IsOptional()

@@ -4,6 +4,7 @@ import { CreatePalDto } from "./dto/create-pal.dto";
 import { UpdatePalDto } from "./dto/update-pal.dto";
 import { ElementService } from "./services/element.service";
 import { PSkillPal } from "../passive-skills/entities/passive-skill.entity";
+import { PartnerPal } from "./entities/partner.entity";
 
 @Controller("pals")
 export class PalsController {
@@ -222,6 +223,37 @@ export class PalsController {
     await Promise.all(promises);
 
     return "fail";
+  }
+
+  @Get("crawl/partner/:id")
+  async crawlPartnerById(@Param("id") id: string) {
+
+    const partner = await this.elementService.crawlPartnerSkill(id);
+
+    if (partner instanceof PartnerPal) {
+      let updatePalDto = new UpdatePalDto();
+      updatePalDto.partnerPal = partner;
+      return await this.palsService.updatePal(id, updatePalDto);
+    }
+    return partner;
+  }
+
+  @Get("crawl/partner-for-pals")
+  async crawlAllPartner() {
+    const pals = await this.palsService.findAll();
+    const promises = pals.map(async (pal) => {
+      const partner = await this.elementService.crawlPartnerSkill(pal.slug);
+      if (partner instanceof PartnerPal) {
+        let updatePalDto = new UpdatePalDto();
+        updatePalDto.partnerPal = partner;
+        return await this.palsService.updatePal(pal.slug, updatePalDto);
+      }
+    });
+
+    await Promise.all(promises);
+
+    return "fail";
+
   }
 
 

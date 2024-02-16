@@ -4,7 +4,7 @@ import * as cheerio from "cheerio";
 import { PassiveDesc, PassiveSkill, PSkillPal } from "../../passive-skills/entities/passive-skill.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryFailedError, Repository } from "typeorm";
-import { Partner } from "../entities/partner.entity";
+import { Partner, PartnerPal } from "../entities/partner.entity";
 
 @Injectable()
 export class ElementService {
@@ -13,6 +13,7 @@ export class ElementService {
     @InjectRepository(PassiveSkill) private passiveSkillRepository: Repository<PassiveSkill>,
     @InjectRepository(PSkillPal) private pSkillPalRepository: Repository<PSkillPal>,
     @InjectRepository(Partner) private partnerRepository: Repository<Partner>,
+    @InjectRepository(PartnerPal) private partnerPalRepository: Repository<PartnerPal>,
   ) {
   }
 
@@ -186,5 +187,62 @@ export class ElementService {
     });
     await this.partnerRepository.save(partnerEntity);
   }
+
+    async crawlPartnerSkill(slug: string) {
+    try {
+      const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const pText = $('span:contains("Partner Skill")').next('section');
+      if (pText.html() === null) {
+        console.log('No Passive Skills found. Skipping.');
+        return Promise.resolve();
+      }
+
+      const details = pText.find('.header div.subhead div.title.partner-icon');
+
+      const iconUrl = details.eq(0).find('img').attr('src');
+      const name = details.eq(0).find('span').text();
+      const desc = pText.find('.summary.ability .description').text();
+
+      const partnerSkill = await this.partnerRepository.findOneBy({
+        iconUrl: iconUrl,
+      });
+      const partnerPalEntity = this.partnerPalRepository.create({
+      ...{
+        name: name,
+        description: desc,
+        partner: partnerSkill,
+      },
+    });
+      try {
+        await this.partnerPalRepository.save(partnerPalEntity);
+        return partnerPalEntity;
+      } catch (error) {
+        if (error instanceof QueryFailedError && error.message.includes('duplicate key value violates unique constraint')) {
+
+          const existingRecord = await this.partnerPalRepository.findOne({
+            where: {
+              name: partnerPalEntity.name,
+              partner: partnerPalEntity.partner,
+            },
+          });
+
+          if (existingRecord) {
+            console.log(`Id of duplicate record: ${existingRecord.id}`);
+            return existingRecord;
+          } else {
+            console.log('Duplicate record not found');
+          }
+
+        } else {
+          throw error;
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
 
 }

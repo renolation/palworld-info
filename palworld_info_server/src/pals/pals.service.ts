@@ -59,6 +59,9 @@ export class PalsService {
           passiveSkill: {
             passiveDesc: true
           },
+        },
+        partnerPal: {
+          partner: true
         }
       },
     });
@@ -146,7 +149,9 @@ export class PalsService {
 
     palToUpdate.elements = updatePalDto.element;
     palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
-    palToUpdate.pSkillPal = updatePalDto.passiveSkill
+    palToUpdate.pSkillPal = updatePalDto.passiveSkill;
+    palToUpdate.partnerPal = updatePalDto.partnerPal;
+
     await this.repo.save(palToUpdate);
     // return updatePalDto.levelWorkSuitability;
     return palToUpdate;
