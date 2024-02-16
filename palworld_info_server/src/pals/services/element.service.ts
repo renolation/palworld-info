@@ -103,7 +103,12 @@ export class ElementService {
       const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
       const html = response.data;
       const $ = cheerio.load(html);
-      const pText = $('span:contains("Passive Skill")').next('section');
+      const pText = $('span:contains("Passive Skills")').next('section');
+      if (pText.html() === null) {
+        console.log('No Passive Skills found. Skipping.');
+        return Promise.resolve();
+      }
+
       const details = pText.find('div.subhead span');
       let textArray = [];
       details.each((i, el) => {

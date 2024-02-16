@@ -3,6 +3,7 @@ import { CreatePalDto } from "./create-pal.dto";
 import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray } from "class-validator";
 import { LevelWorkSuitability } from "../entities/work_suitability.entity";
 import { Element } from "../entities/element.entity";
+import { PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
 
 export class UpdatePalDto extends PartialType(CreatePalDto) {
 
@@ -23,6 +24,8 @@ export class UpdatePalDto extends PartialType(CreatePalDto) {
   element: Element[];
 
   levelWorkSuitability: LevelWorkSuitability[];
+
+  passiveSkill: PSkillPal;
 
   @IsString()
   @IsOptional()

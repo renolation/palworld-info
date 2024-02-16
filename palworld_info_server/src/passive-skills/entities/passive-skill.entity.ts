@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, Unique, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+  Unique,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { LevelWorkSuitability } from '../../pals/entities/work_suitability.entity';
 import { Pal } from '../../pals/entities/pal.entity';
 
@@ -32,16 +42,18 @@ export class PassiveSkill {
 }
 
 @Entity()
+@Unique(["passiveSkill", "rank"])  // The Unique decorator needs to include both fields
 export class PSkillPal {
   @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => PassiveSkill, passiveSkill => passiveSkill.pSkillPals)
+  @JoinColumn()
   passiveSkill: PassiveSkill;
 
-  @Column({ unique: true })
+  @Column()
   rank: number;
 
-  // @OneToMany(() => Pal, (pal) => pal.passiveSkill)
-  // pal: Pal[];
+  @OneToMany(() => Pal, (pal) => pal.pSkillPal)
+  pal: Pal[];
 }

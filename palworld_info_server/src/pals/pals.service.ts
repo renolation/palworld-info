@@ -55,6 +55,11 @@ export class PalsService {
         levelWorkSuitability: {
           workSuitability: true,
         },
+        pSkillPal: {
+          passiveSkill: {
+            passiveDesc: true
+          },
+        }
       },
     });
   }
@@ -99,6 +104,11 @@ export class PalsService {
         levelWorkSuitability: {
           workSuitability: true,
         },
+        pSkillPal: {
+          passiveSkill: {
+            passiveDesc: true
+          },
+        }
       },
     });
   }
@@ -135,10 +145,8 @@ export class PalsService {
     }
 
     palToUpdate.elements = updatePalDto.element;
-
-
     palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
-
+    palToUpdate.pSkillPal = updatePalDto.passiveSkill
     await this.repo.save(palToUpdate);
     // return updatePalDto.levelWorkSuitability;
     return palToUpdate;

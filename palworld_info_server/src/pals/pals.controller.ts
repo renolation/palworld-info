@@ -3,6 +3,7 @@ import { PalsService } from './pals.service';
 import { CreatePalDto } from './dto/create-pal.dto';
 import { UpdatePalDto } from './dto/update-pal.dto';
 import { ElementService } from './services/element.service';
+import { PSkillPal } from '../passive-skills/entities/passive-skill.entity';
 
 @Controller('pals')
 export class PalsController {
@@ -181,11 +182,31 @@ export class PalsController {
 
   @Get('crawl-pSkill/:id')
   async crawlPassiveSkill(@Param('id') id: string) {
-    const summary = await this.elementService.crawlPassiveSkillPal(id);
-    return summary;
-    // let updatePalDto = new UpdatePalDto();
-    // updatePalDto.summary = summary;
-    // return await this.palsService.updatePalMerge(id, updatePalDto);
+    const passiveSkill = await this.elementService.crawlPassiveSkillPal(id);
+
+    if (passiveSkill instanceof PSkillPal) {
+      let updatePalDto = new UpdatePalDto();
+      updatePalDto.passiveSkill = passiveSkill;
+      return await this.palsService.updatePal(id, updatePalDto);
+    }
+    return 'fail';
+  }
+
+    @Get('crawl-pSkills')
+  async crawlAllPassiveSkill() {
+    const pals = await this.palsService.findAll();
+
+    const promises = pals.map(async (pal) => {
+    const passiveSkill = await this.elementService.crawlPassiveSkillPal(pal.slug);
+      if (passiveSkill instanceof PSkillPal) {
+      let updatePalDto = new UpdatePalDto();
+      updatePalDto.passiveSkill = passiveSkill;
+      return await this.palsService.updatePal(pal.slug, updatePalDto);
+    }
+    });
+    await Promise.all(promises);
+
+    return 'fail';
   }
 
 

@@ -31,8 +31,8 @@ export class Pal {
   @JoinTable()
   levelWorkSuitability: LevelWorkSuitability[]
 
-  // @ManyToOne(() => PSkillPal, (pSkill) => pSkill.pal)
-  // passiveSkill: PSkillPal;
+  @ManyToOne(() => PSkillPal, (pSkill) => pSkill.pal)
+  pSkillPal: PSkillPal;
   //
   // @Column({
   //   type: "enum",
