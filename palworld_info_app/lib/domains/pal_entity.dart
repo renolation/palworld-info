@@ -6,6 +6,7 @@ import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:palworld_info_app/domains/level_work_suitability_entity.dart';
 
 import '../utils/constants.dart';
+import 'p_skill_pal_entity.dart';
 part 'pal_entity.freezed.dart';
 part 'pal_entity.g.dart';
 
@@ -35,6 +36,7 @@ class PalEntity with _$PalEntity {
     int? maleProbability,
     List<ElementEntity>? elements,
     List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
+    PSkillPalEntity? pSkillPal,
   }) = _PalEntity;
   factory PalEntity.fromJson(Map<String, dynamic> json) => _$PalEntityFromJson(json);
 }

@@ -18,6 +18,10 @@ export class PalsController {
     return this.palsService.create(createPalDto);
   }
 
+  @Get('/:slug')
+  findOneBySlug(@Param('slug') slug: string) {
+    return this.palsService.findOneBySlug(slug);
+  }
 
   @Get('id/:id')
   findOne(@Param('id') id: string) {
@@ -192,28 +196,23 @@ export class PalsController {
     return 'fail';
   }
 
-    @Get('crawl-pSkills')
+  @Get('crawl-pSkills')
   async crawlAllPassiveSkill() {
     const pals = await this.palsService.findAll();
 
     const promises = pals.map(async (pal) => {
-    const passiveSkill = await this.elementService.crawlPassiveSkillPal(pal.slug);
+      const passiveSkill = await this.elementService.crawlPassiveSkillPal(pal.slug);
       if (passiveSkill instanceof PSkillPal) {
-      let updatePalDto = new UpdatePalDto();
-      updatePalDto.passiveSkill = passiveSkill;
-      return await this.palsService.updatePal(pal.slug, updatePalDto);
-    }
+        let updatePalDto = new UpdatePalDto();
+        updatePalDto.passiveSkill = passiveSkill;
+        return await this.palsService.updatePal(pal.slug, updatePalDto);
+      }
     });
     await Promise.all(promises);
 
     return 'fail';
   }
 
-
-  @Get(':slug')
-  findOneBySlug(@Param('id') id: string) {
-    return this.palsService.findOneBySlug(id);
-  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePalDto: UpdatePalDto) {

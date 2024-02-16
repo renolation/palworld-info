@@ -44,6 +44,7 @@ mixin _$PalEntity {
   List<ElementEntity>? get elements => throw _privateConstructorUsedError;
   List<LevelWorkSuitabilityEntity>? get levelWorkSuitability =>
       throw _privateConstructorUsedError;
+  PSkillPalEntity? get pSkillPal => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -79,7 +80,10 @@ abstract class $PalEntityCopyWith<$Res> {
       int? foodAmount,
       int? maleProbability,
       List<ElementEntity>? elements,
-      List<LevelWorkSuitabilityEntity>? levelWorkSuitability});
+      List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
+      PSkillPalEntity? pSkillPal});
+
+  $PSkillPalEntityCopyWith<$Res>? get pSkillPal;
 }
 
 /// @nodoc
@@ -118,6 +122,7 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
     Object? maleProbability = freezed,
     Object? elements = freezed,
     Object? levelWorkSuitability = freezed,
+    Object? pSkillPal = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -212,7 +217,23 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
           ? _value.levelWorkSuitability
           : levelWorkSuitability // ignore: cast_nullable_to_non_nullable
               as List<LevelWorkSuitabilityEntity>?,
+      pSkillPal: freezed == pSkillPal
+          ? _value.pSkillPal
+          : pSkillPal // ignore: cast_nullable_to_non_nullable
+              as PSkillPalEntity?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PSkillPalEntityCopyWith<$Res>? get pSkillPal {
+    if (_value.pSkillPal == null) {
+      return null;
+    }
+
+    return $PSkillPalEntityCopyWith<$Res>(_value.pSkillPal!, (value) {
+      return _then(_value.copyWith(pSkillPal: value) as $Val);
+    });
   }
 }
 
@@ -247,7 +268,11 @@ abstract class _$$PalEntityImplCopyWith<$Res>
       int? foodAmount,
       int? maleProbability,
       List<ElementEntity>? elements,
-      List<LevelWorkSuitabilityEntity>? levelWorkSuitability});
+      List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
+      PSkillPalEntity? pSkillPal});
+
+  @override
+  $PSkillPalEntityCopyWith<$Res>? get pSkillPal;
 }
 
 /// @nodoc
@@ -284,6 +309,7 @@ class __$$PalEntityImplCopyWithImpl<$Res>
     Object? maleProbability = freezed,
     Object? elements = freezed,
     Object? levelWorkSuitability = freezed,
+    Object? pSkillPal = freezed,
   }) {
     return _then(_$PalEntityImpl(
       id: freezed == id
@@ -378,6 +404,10 @@ class __$$PalEntityImplCopyWithImpl<$Res>
           ? _value._levelWorkSuitability
           : levelWorkSuitability // ignore: cast_nullable_to_non_nullable
               as List<LevelWorkSuitabilityEntity>?,
+      pSkillPal: freezed == pSkillPal
+          ? _value.pSkillPal
+          : pSkillPal // ignore: cast_nullable_to_non_nullable
+              as PSkillPalEntity?,
     ));
   }
 }
@@ -408,7 +438,8 @@ class _$PalEntityImpl implements _PalEntity {
       this.foodAmount,
       this.maleProbability,
       final List<ElementEntity>? elements,
-      final List<LevelWorkSuitabilityEntity>? levelWorkSuitability})
+      final List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
+      this.pSkillPal})
       : _elements = elements,
         _levelWorkSuitability = levelWorkSuitability;
 
@@ -479,8 +510,11 @@ class _$PalEntityImpl implements _PalEntity {
   }
 
   @override
+  final PSkillPalEntity? pSkillPal;
+
+  @override
   String toString() {
-    return 'PalEntity(id: $id, name: $name, title: $title, slug: $slug, iconUrl: $iconUrl, summary: $summary, size: $size, rarity: $rarity, hp: $hp, meleeAttack: $meleeAttack, magicAttack: $magicAttack, defense: $defense, support: $support, craftSpeed: $craftSpeed, captureRate: $captureRate, price: $price, slowWalkSpeed: $slowWalkSpeed, runSpeed: $runSpeed, rideSprintSpeed: $rideSprintSpeed, foodAmount: $foodAmount, maleProbability: $maleProbability, elements: $elements, levelWorkSuitability: $levelWorkSuitability)';
+    return 'PalEntity(id: $id, name: $name, title: $title, slug: $slug, iconUrl: $iconUrl, summary: $summary, size: $size, rarity: $rarity, hp: $hp, meleeAttack: $meleeAttack, magicAttack: $magicAttack, defense: $defense, support: $support, craftSpeed: $craftSpeed, captureRate: $captureRate, price: $price, slowWalkSpeed: $slowWalkSpeed, runSpeed: $runSpeed, rideSprintSpeed: $rideSprintSpeed, foodAmount: $foodAmount, maleProbability: $maleProbability, elements: $elements, levelWorkSuitability: $levelWorkSuitability, pSkillPal: $pSkillPal)';
   }
 
   @override
@@ -520,7 +554,9 @@ class _$PalEntityImpl implements _PalEntity {
                 other.maleProbability == maleProbability) &&
             const DeepCollectionEquality().equals(other._elements, _elements) &&
             const DeepCollectionEquality()
-                .equals(other._levelWorkSuitability, _levelWorkSuitability));
+                .equals(other._levelWorkSuitability, _levelWorkSuitability) &&
+            (identical(other.pSkillPal, pSkillPal) ||
+                other.pSkillPal == pSkillPal));
   }
 
   @JsonKey(ignore: true)
@@ -549,7 +585,8 @@ class _$PalEntityImpl implements _PalEntity {
         foodAmount,
         maleProbability,
         const DeepCollectionEquality().hash(_elements),
-        const DeepCollectionEquality().hash(_levelWorkSuitability)
+        const DeepCollectionEquality().hash(_levelWorkSuitability),
+        pSkillPal
       ]);
 
   @JsonKey(ignore: true)
@@ -568,30 +605,30 @@ class _$PalEntityImpl implements _PalEntity {
 
 abstract class _PalEntity implements PalEntity {
   const factory _PalEntity(
-          {final int? id,
-          final String? name,
-          final String? title,
-          final String? slug,
-          final String? iconUrl,
-          final String? summary,
-          final Size? size,
-          final int? rarity,
-          final int? hp,
-          final int? meleeAttack,
-          final int? magicAttack,
-          final int? defense,
-          final int? support,
-          final int? craftSpeed,
-          final int? captureRate,
-          final int? price,
-          final int? slowWalkSpeed,
-          final int? runSpeed,
-          final int? rideSprintSpeed,
-          final int? foodAmount,
-          final int? maleProbability,
-          final List<ElementEntity>? elements,
-          final List<LevelWorkSuitabilityEntity>? levelWorkSuitability}) =
-      _$PalEntityImpl;
+      {final int? id,
+      final String? name,
+      final String? title,
+      final String? slug,
+      final String? iconUrl,
+      final String? summary,
+      final Size? size,
+      final int? rarity,
+      final int? hp,
+      final int? meleeAttack,
+      final int? magicAttack,
+      final int? defense,
+      final int? support,
+      final int? craftSpeed,
+      final int? captureRate,
+      final int? price,
+      final int? slowWalkSpeed,
+      final int? runSpeed,
+      final int? rideSprintSpeed,
+      final int? foodAmount,
+      final int? maleProbability,
+      final List<ElementEntity>? elements,
+      final List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
+      final PSkillPalEntity? pSkillPal}) = _$PalEntityImpl;
 
   factory _PalEntity.fromJson(Map<String, dynamic> json) =
       _$PalEntityImpl.fromJson;
@@ -642,6 +679,8 @@ abstract class _PalEntity implements PalEntity {
   List<ElementEntity>? get elements;
   @override
   List<LevelWorkSuitabilityEntity>? get levelWorkSuitability;
+  @override
+  PSkillPalEntity? get pSkillPal;
   @override
   @JsonKey(ignore: true)
   _$$PalEntityImplCopyWith<_$PalEntityImpl> get copyWith =>
