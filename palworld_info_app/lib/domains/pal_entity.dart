@@ -36,7 +36,7 @@ class PalEntity with _$PalEntity {
     int? maleProbability,
     List<ElementEntity>? elements,
     List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
-    PSkillPalEntity? pSkillPal,
+    List<PSkillPalEntity>? pSkillPals,
   }) = _PalEntity;
   factory PalEntity.fromJson(Map<String, dynamic> json) => _$PalEntityFromJson(json);
 }

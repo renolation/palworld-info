@@ -184,7 +184,7 @@ class DetailScreen extends HookConsumerWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    data.pSkillPal == null ? const SizedBox() :SizedBox(
+                    data.pSkillPals!.isEmpty ? const SizedBox() :SizedBox(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -192,36 +192,37 @@ class DetailScreen extends HookConsumerWidget {
                             padding: EdgeInsets.symmetric(vertical: 4),
                             child: Text('Passive Skills', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.black26,
-                            ),
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                                    color: Colors.white30,
+                          for(var pSkillPal in data.pSkillPals!)
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.black26,
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                                      color: Colors.white30,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(pSkillPal!.passiveSkill!.name!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        Text('Rank ${pSkillPal!.rank!}',style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(data.pSkillPal!.passiveSkill!.name!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                                      Text('Rank ${data.pSkillPal!.rank!}',style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                                    ],
+                                  for(var item in pSkillPal!.passiveSkill!.passiveDesc!) Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(item.name!),
                                   ),
-                                ),
-                                for(var item in data.pSkillPal!.passiveSkill!.passiveDesc!) Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(item.name!),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
