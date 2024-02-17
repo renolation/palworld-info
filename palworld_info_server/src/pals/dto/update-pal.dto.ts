@@ -26,7 +26,7 @@ export class UpdatePalDto extends PartialType(CreatePalDto) {
 
   levelWorkSuitability: LevelWorkSuitability[];
 
-  passiveSkill: PSkillPal;
+  passiveSkill: PSkillPal[];
 
   partnerPal: PartnerPal;
 

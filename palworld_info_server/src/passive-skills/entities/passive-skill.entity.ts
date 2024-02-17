@@ -54,6 +54,6 @@ export class PSkillPal {
   @Column()
   rank: number;
 
-  @OneToMany(() => Pal, (pal) => pal.pSkillPal)
-  pal: Pal[];
+  @ManyToMany(() => Pal, (pal) => pal.pSkillPals)
+  pals: Pal[];
 }

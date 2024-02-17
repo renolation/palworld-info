@@ -199,26 +199,31 @@ export class PalsController {
   @Get("crawl-pSkill/:id")
   async crawlPassiveSkill(@Param("id") id: string) {
     const passiveSkill = await this.elementService.crawlPassiveSkillPal(id);
-
-    if (passiveSkill instanceof PSkillPal) {
-      let updatePalDto = new UpdatePalDto();
-      updatePalDto.passiveSkill = passiveSkill;
-      return await this.palsService.updatePal(id, updatePalDto);
+    if (Array.isArray(passiveSkill)) {
+      if (passiveSkill.every(skill => skill instanceof PSkillPal)) {
+        let updatePalDto = new UpdatePalDto();
+        updatePalDto.passiveSkill = passiveSkill;
+        console.log(updatePalDto);
+        return await this.palsService.updatePal(id, updatePalDto);
+      }
     }
-    return "fail";
+    return passiveSkill;
   }
 
-  @Get("crawl-pSkills")
+  @Get("/crawl/pSkills")
   async crawlAllPassiveSkill() {
     const pals = await this.palsService.findAll();
 
     const promises = pals.map(async (pal) => {
-      const passiveSkill = await this.elementService.crawlPassiveSkillPal(pal.slug);
-      if (passiveSkill instanceof PSkillPal) {
+    const passiveSkill = await this.elementService.crawlPassiveSkillPal(pal.slug);
+      if (Array.isArray(passiveSkill)) {
+      if (passiveSkill.every(skill => skill instanceof PSkillPal)) {
         let updatePalDto = new UpdatePalDto();
         updatePalDto.passiveSkill = passiveSkill;
+        console.log(updatePalDto);
         return await this.palsService.updatePal(pal.slug, updatePalDto);
       }
+    }
     });
     await Promise.all(promises);
 

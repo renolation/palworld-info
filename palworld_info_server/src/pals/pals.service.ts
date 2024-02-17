@@ -8,6 +8,7 @@ import { Element } from './entities/element.entity';
 import { LevelWorkSuitability, WorkSuitability } from './entities/work_suitability.entity';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { PartnerPal } from "./entities/partner.entity";
 
 @Injectable()
 export class PalsService {
@@ -55,7 +56,7 @@ export class PalsService {
         levelWorkSuitability: {
           workSuitability: true,
         },
-        pSkillPal: {
+        pSkillPals: {
           passiveSkill: {
             passiveDesc: true
           },
@@ -107,7 +108,7 @@ export class PalsService {
         levelWorkSuitability: {
           workSuitability: true,
         },
-        pSkillPal: {
+        pSkillPals: {
           passiveSkill: {
             passiveDesc: true
           },
@@ -140,6 +141,7 @@ export class PalsService {
     return updatedPal;
   }
 
+
   async updatePal(slug: string, updatePalDto: UpdatePalDto) {
     const palToUpdate = await this.repo.findOne({ where: { slug } });
 
@@ -147,13 +149,32 @@ export class PalsService {
       throw new Error(`Pal with ID: ${slug} not found.`);
     }
 
-    palToUpdate.elements = updatePalDto.element;
-    palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
-    palToUpdate.pSkillPal = updatePalDto.passiveSkill;
-    palToUpdate.partnerPal = updatePalDto.partnerPal;
+    let changesMade = false;
 
-    await this.repo.save(palToUpdate);
-    // return updatePalDto.levelWorkSuitability;
+
+     if (updatePalDto.element !== undefined) {
+        palToUpdate.elements = updatePalDto.element;
+        changesMade = true;
+    }
+    if (updatePalDto.levelWorkSuitability !== undefined) {
+        palToUpdate.levelWorkSuitability = updatePalDto.levelWorkSuitability;
+        changesMade = true;
+    }
+    if (updatePalDto.passiveSkill !== undefined) {
+        palToUpdate.pSkillPals = updatePalDto.passiveSkill;
+        changesMade = true;
+    }
+    if (updatePalDto.partnerPal !== undefined) {
+        palToUpdate.partnerPal = updatePalDto.partnerPal;
+        changesMade = true;
+    }
+
+    if (changesMade) {
+        await this.repo.save(palToUpdate);
+    } else {
+        throw new Error('No changes to update.');
+    }
+
     return palToUpdate;
   }
 

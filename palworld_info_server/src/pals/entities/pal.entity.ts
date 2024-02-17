@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { Element } from "./element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./work_suitability.entity";
 import { PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
@@ -32,8 +32,9 @@ export class Pal {
   @JoinTable()
   levelWorkSuitability: LevelWorkSuitability[]
 
-  @ManyToOne(() => PSkillPal, (pSkill) => pSkill.pal)
-  pSkillPal: PSkillPal;
+  @ManyToMany(() => PSkillPal, (pSkill) => pSkill.pals)
+  @JoinTable()
+  pSkillPals: PSkillPal[];
 
   @ManyToOne(() => PartnerPal, (partner) => partner.pal)
   partnerPal: PartnerPal;
