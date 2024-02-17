@@ -207,7 +207,13 @@ export class ElementService {
     const partnerEntity = this.partnerRepository.create({
       ...partner
     });
-    await this.partnerRepository.save(partnerEntity);
+    try {
+      return await this.partnerRepository.save(partnerEntity);
+    } catch (error) {
+      if (error instanceof QueryFailedError && error.message.includes("duplicate key value violates unique constraint")) {
+        console.error(error); // or throw e;
+      }
+    }
   }
 
   async crawlPartnerSkill(slug: string) {
