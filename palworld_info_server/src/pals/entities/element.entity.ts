@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { ActiveSkill } from "./active_skill.entity";
 
 @Entity()
 export class Element {
@@ -11,4 +12,6 @@ export class Element {
   @Column({ nullable: true })
   iconUrl: string;
 
+  @OneToMany(() => ActiveSkill, (activeSkill) => activeSkill.element)
+  activeSkills: ActiveSkill[];
 }
