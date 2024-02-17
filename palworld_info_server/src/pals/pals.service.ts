@@ -112,6 +112,9 @@ export class PalsService {
           passiveSkill: {
             passiveDesc: true
           },
+        },
+        partnerPal: {
+          partner: true
         }
       },
     });
