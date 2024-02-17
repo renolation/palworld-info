@@ -22,7 +22,7 @@ class HomeRepository {
       scheme: Constants.scheme,
       host: Constants.host,
       port: Constants.port,
-      path: 'pals/element',
+      path: 'pals/get/element',
     ).toString();
 
     final response = await client.get(url, cancelToken: cancelToken);
@@ -36,7 +36,7 @@ class HomeRepository {
       scheme: Constants.scheme,
       host: Constants.host,
       port: Constants.port,
-      path: 'pals/work',
+      path: 'pals/get/work',
     ).toString();
     final response = await client.get(url, cancelToken: cancelToken);
     final List list = response.data;
@@ -49,7 +49,7 @@ class HomeRepository {
       scheme: Constants.scheme,
       host: Constants.host,
       port: Constants.port,
-      path: 'pals',
+      path: 'pals/get/pal',
     ).toString();
     final response = await client.get(url, cancelToken: cancelToken);
     final List list = response.data;
