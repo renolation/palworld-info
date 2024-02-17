@@ -49,3 +49,4 @@ class CountAd extends _$CountAd {
 
 final nativeAdLoadStateProvider = StateProvider.autoDispose<bool>((ref) => false);
 
+final filterPalTextState = StateProvider<String>((ref) => '');

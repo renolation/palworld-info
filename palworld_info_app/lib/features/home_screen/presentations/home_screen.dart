@@ -41,15 +41,15 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     useMemoized(() async {
-
       ref.read(interstitialAdProvider).initAds();
-
       late AppLifecycleReactor appLifecycleReactor;
       AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
       appLifecycleReactor =
           AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
       appLifecycleReactor.listenToAppStateChanges();
     });
+
+    final textEditingController = useTextEditingController(text: ref.read(filterPalTextState.notifier).state.toString());
 
 
     return Scaffold(
@@ -146,21 +146,55 @@ class HomeScreen extends HookConsumerWidget {
               ],
             ),
             Consumer(builder: (context, ref, child) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+                child: TextField(
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                      filled: true,
+                      isDense: true,
+                      suffixIcon: const Padding( padding: EdgeInsets.fromLTRB(0, 0, 0, 0), child: Icon(FontAwesomeIcons.magnifyingGlass), ),
+                      fillColor: Colors.grey.withOpacity(0.4),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      )
+                  ),
+                  onChanged: (newText) {
+                    textEditingController.text = newText;
+                    textEditingController.selection =
+                        TextSelection.fromPosition(TextPosition(
+                            offset: textEditingController.text.length));
+                    ref.read(filterPalTextState.notifier).state = newText;
+                  },
+                ),
+              );
+            }),
+            Consumer(builder: (context, ref, child) {
               final palsHome = ref.watch(selectingPalControllerProvider);
+              final filterText = ref.watch(filterPalTextState);
               return palsHome.when(
                 data: (data) {
-                  // return LoadingAnimationWidget.dotsTriangle(color: Colors.green, size: 50);
+                  List<PalEntity> listItem = [];
+                  if(filterText.isEmpty) {
+                    listItem = [...data];
+                  } else {
+                    listItem = data.where((element) =>
+                        element.name!.toLowerCase().contains(textEditingController.text.toLowerCase()))
+                        .toList();
+                  }
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 4),
                       child: GridView.builder(
-                          itemCount: data.length,
+                          itemCount: listItem.length,
                           scrollDirection: Axis.vertical,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2),
                           itemBuilder: (context, index) {
-                            PalEntity palEntity = data[index];
+                            PalEntity palEntity = listItem[index];
                             return InkWell(
                               onTap: () {
                                 ref.read(countAdProvider.notifier).update();

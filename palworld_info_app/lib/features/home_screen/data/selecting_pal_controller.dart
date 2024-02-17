@@ -20,7 +20,6 @@ class SelectingPalController extends _$SelectingPalController {
   FutureOr<List<PalEntity>> build() {
     // return getPals();
     final pals = ref.watch(palControllerProvider);
-    print('asdasdasd');
     return pals.value ?? [];
   }
 
@@ -59,17 +58,17 @@ class SelectingPalController extends _$SelectingPalController {
     }
     final sortType = ref.watch(palSortTypeProvider);
     final sortBy = ref.watch(palSortByProvider);
-    print('1 ${list.length}');
+
     state = AsyncValue.data(list);
     sortBySelectedType(sortBy,sortType);
-    print('2 ${state.value!.length}');
+
   }
 
 
   Future<void> sortBySelectedType(SortBy sortBy, SortType sortType) async {
-    print('5 ${state.value!.length}');
+
     List<PalEntity> list = [...state.value!];
-    print('3 ${list.length}');
+
     if(sortType == SortType.Asc) {
       if(sortBy == SortBy.name) {
         list.sort((a, b) => a.name!.compareTo(b.name!));
