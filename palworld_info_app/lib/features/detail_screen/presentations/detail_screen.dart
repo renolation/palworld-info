@@ -184,6 +184,47 @@ class DetailScreen extends HookConsumerWidget {
                     const SizedBox(
                       height: 20,
                     ),
+                    SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            child: Text('Partner Skill', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.black26,
+                            ),
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                                    color: Colors.white30,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CachedNetworkImage(imageUrl: data.partnerPal!.partner!.iconUrl!, height: 36,fit: BoxFit.contain,),
+                                      Text(data.partnerPal!.name!,style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                    ],
+                                  ),
+                                ),
+                                 Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: Text(data.partnerPal!.description!),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     data.pSkillPals!.isEmpty ? const SizedBox() :SizedBox(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +258,7 @@ class DetailScreen extends HookConsumerWidget {
                                     ),
                                   ),
                                   for(var item in pSkillPal!.passiveSkill!.passiveDesc!) Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                     child: Text(item.name!),
                                   ),
                                 ],
