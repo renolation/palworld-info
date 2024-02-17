@@ -29,17 +29,17 @@ export class PalsController {
     return this.palsService.findOne(+id);
   }
 
-  @Get()
+  @Get("get/pal")
   findAll() {
     return this.palsService.findAll();
   }
 
-  @Get("element")
+  @Get("get/element")
   findAllElement() {
     return this.palsService.findAllElement();
   }
 
-  @Get("work")
+  @Get("get/work")
   findAllWork() {
     return this.palsService.findAllWork();
   }
