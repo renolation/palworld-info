@@ -39,6 +39,10 @@ _$PalEntityImpl _$$PalEntityImplFromJson(Map<String, dynamic> json) =>
       pSkillPals: (json['pSkillPals'] as List<dynamic>?)
           ?.map((e) => PSkillPalEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
+      partnerPal: json['partnerPal'] == null
+          ? null
+          : PartnerSkillEntity.fromJson(
+              json['partnerPal'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$PalEntityImplToJson(_$PalEntityImpl instance) =>
@@ -67,6 +71,7 @@ Map<String, dynamic> _$$PalEntityImplToJson(_$PalEntityImpl instance) =>
       'elements': instance.elements,
       'levelWorkSuitability': instance.levelWorkSuitability,
       'pSkillPals': instance.pSkillPals,
+      'partnerPal': instance.partnerPal,
     };
 
 const _$SizeEnumMap = {

@@ -4,6 +4,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:palworld_info_app/domains/level_work_suitability_entity.dart';
+import 'package:palworld_info_app/domains/partner_skill_entity.dart';
 
 import '../utils/constants.dart';
 import 'p_skill_pal_entity.dart';
@@ -37,6 +38,7 @@ class PalEntity with _$PalEntity {
     List<ElementEntity>? elements,
     List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
     List<PSkillPalEntity>? pSkillPals,
+    PartnerSkillEntity? partnerPal,
   }) = _PalEntity;
   factory PalEntity.fromJson(Map<String, dynamic> json) => _$PalEntityFromJson(json);
 }
