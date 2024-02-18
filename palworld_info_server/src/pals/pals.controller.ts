@@ -19,10 +19,6 @@ export class PalsController {
     return this.palsService.create(createPalDto);
   }
 
-    @Get("element")
-  findAllElement() {
-    return this.palsService.findAllElement();
-  }
 
   @Get("/:slug")
   findOneBySlug(@Param("slug") slug: string) {
