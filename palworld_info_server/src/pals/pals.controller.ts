@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
-import { PalsService } from "./pals.service";
-import { CreatePalDto } from "./dto/create-pal.dto";
-import { UpdatePalDto } from "./dto/update-pal.dto";
-import { ElementService } from "./services/element.service";
-import { PSkillPal } from "../passive-skills/entities/passive-skill.entity";
-import { PartnerPal } from "./entities/partner.entity";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { PalsService } from './pals.service';
+import { CreatePalDto } from './dto/create-pal.dto';
+import { UpdatePalDto } from './dto/update-pal.dto';
+import { ElementService } from './services/element.service';
+import { PSkillPal } from '../passive-skills/entities/passive-skill.entity';
+import { PartnerPal } from './entities/partner.entity';
 
 @Controller("pals")
 export class PalsController {
@@ -17,6 +17,11 @@ export class PalsController {
   @Post()
   create(@Body() createPalDto: CreatePalDto) {
     return this.palsService.create(createPalDto);
+  }
+
+    @Get("element")
+  findAllElement() {
+    return this.palsService.findAllElement();
   }
 
   @Get("/:slug")
@@ -61,6 +66,11 @@ export class PalsController {
       await this.elementService.createPartner(partner);
       console.log(partner);
     }
+  }
+
+    @Get("crawl/active-skill")
+  async crawlActiveSkill() {
+      return await this.elementService.crawlActiveSkill();
   }
 
   @Get("crawl-passive")
