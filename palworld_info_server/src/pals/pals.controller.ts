@@ -3,7 +3,7 @@ import { PalsService } from './pals.service';
 import { CreatePalDto } from './dto/create-pal.dto';
 import { UpdatePalDto } from './dto/update-pal.dto';
 import { ElementService } from './services/element.service';
-import { PSkillPal } from '../passive-skills/entities/passive-skill.entity';
+import { PSkillPal } from '../skills/entities/passive_skill.entity';
 import { PartnerPal } from './entities/partner.entity';
 
 @Controller("pals")

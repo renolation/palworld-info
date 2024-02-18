@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { Element } from "./element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./work_suitability.entity";
-import { PSkillPal } from '../../passive-skills/entities/passive-skill.entity';
+import { PSkillPal } from '../../skills/entities/passive_skill.entity';
 import { PartnerPal } from "./partner.entity";
 
 export enum PalSize {

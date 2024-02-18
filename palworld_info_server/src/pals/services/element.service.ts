@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { PassiveDesc, PassiveSkill, PSkillPal } from "../../passive-skills/entities/passive-skill.entity";
+import { PassiveDesc, PassiveSkill, PSkillPal } from "../../skills/entities/passive_skill.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryFailedError, Repository } from "typeorm";
 import { Partner, PartnerPal } from "../entities/partner.entity";
-import { ActiveSkill } from "../../passive-skills/entities/active_skill.entity";
+import { ActiveSkill } from "../../skills/entities/active_skill.entity";
 import { Element } from "../entities/element.entity";
 
 @Injectable()

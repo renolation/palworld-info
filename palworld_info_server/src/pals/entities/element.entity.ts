@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { ActiveSkill } from "../../passive-skills/entities/active_skill.entity";
+import { ActiveSkill } from "../../skills/entities/active_skill.entity";
 
 @Entity()
 export class Element {
