@@ -63,6 +63,11 @@ export class PalsService {
         },
         partnerPal: {
           partner: true
+        },
+        activeSkillsPal: {
+          activeSkill: {
+            element: true
+          }
         }
       }
     });
@@ -93,6 +98,19 @@ export class PalsService {
         elements: true,
         levelWorkSuitability: {
           workSuitability: true
+        },
+        pSkillPals: {
+          passiveSkill: {
+            passiveDesc: true
+          }
+        },
+        partnerPal: {
+          partner: true
+        },
+        activeSkillsPal: {
+          activeSkill: {
+            element: true
+          }
         }
       }
     });
