@@ -25,7 +25,7 @@ export class PalsController {
     return this.palsService.findOneBySlug(slug);
   }
 
-  @Get("id/:id")
+  @Get("/id/:id")
   findOne(@Param("id") id: string) {
     return this.palsService.findOne(+id);
   }
@@ -234,6 +234,15 @@ export class PalsController {
     await Promise.all(promises);
 
     return "fail";
+  }
+
+  @Get("/crawl/active/:id")
+  async crawlAllActiveSkills(@Param("id") id: string) {
+        const activeSkill = await this.elementService.crawlActiveSkillForPal(id);
+        // return activeSkill;
+        let updatePalDto = new UpdatePalDto();
+        updatePalDto.activeSkills = activeSkill;
+        return await this.palsService.updatePal(id, updatePalDto);
   }
 
   @Get("crawl/partner/:id")

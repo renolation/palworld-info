@@ -3,6 +3,8 @@ import { Element } from "./element.entity";
 import { LevelWorkSuitability, WorkSuitability } from "./work_suitability.entity";
 import { PSkillPal } from '../../skills/entities/passive_skill.entity';
 import { PartnerPal } from "./partner.entity";
+import { ActiveSkill } from "../../skills/entities/active_skill.entity";
+import { ActiveSkillPal } from "../../skills/entities/active_skill_pal.entity";
 
 export enum PalSize {
   S = "S",
@@ -38,6 +40,10 @@ export class Pal {
 
   @ManyToOne(() => PartnerPal, (partner) => partner.pal)
   partnerPal: PartnerPal;
+
+  @ManyToMany(() => ActiveSkillPal, (activeSkillsPal) => activeSkillsPal.pals)
+  @JoinTable()
+  activeSkillsPal: ActiveSkillPal[];
 
   // @Column({
   //   type: "enum",

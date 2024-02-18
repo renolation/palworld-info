@@ -7,6 +7,9 @@ import { QueryFailedError, Repository } from "typeorm";
 import { Partner, PartnerPal } from "../entities/partner.entity";
 import { ActiveSkill } from "../../skills/entities/active_skill.entity";
 import { Element } from "../entities/element.entity";
+import { ActiveSkillPal } from "../../skills/entities/active_skill_pal.entity";
+import { range } from "rxjs";
+import { Pal } from "../entities/pal.entity";
 
 @Injectable()
 export class ElementService {
@@ -17,7 +20,9 @@ export class ElementService {
     @InjectRepository(Partner) private partnerRepository: Repository<Partner>,
     @InjectRepository(PartnerPal) private partnerPalRepository: Repository<PartnerPal>,
     @InjectRepository(Element) private elementsRepo: Repository<Element>,
-    @InjectRepository(ActiveSkill) private activeSkillRepository: Repository<ActiveSkill>
+    @InjectRepository(ActiveSkill) private activeSkillRepository: Repository<ActiveSkill>,
+    @InjectRepository(ActiveSkillPal) private activeSkillPalRepository: Repository<ActiveSkillPal>,
+    @InjectRepository(Pal) private palRepository: Repository<Pal>
   ) {
   }
 
@@ -332,5 +337,71 @@ export class ElementService {
     } catch (error) {
       console.error("Error executing crawlPassiveSkill method:", error);
     }
+  }
+
+  async crawlActiveSkillForPal(slug: string) {
+    const response = await axios.get(`https://palworldtrainer.com/pal/${slug}`);
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const allNextSiblings = $("span:contains(\"Active Skills\")").nextAll("section");
+
+    let sections = [];
+
+    allNextSiblings.each((i, e) => {
+      if ($(e).prop("tagName") === "SECTION") {
+        sections.push(e);
+      }
+    });
+    let skills = [];
+    for (const section of sections) {
+      const details = $(section).find("div.subhead .title span");
+      let name = $(section).find("div.subhead .title span").text();
+      let level = $(section).find("div.subhead .info span").text().replace("Lvl ", "");
+      let range = $(section).find(".summary.ability").find("p:contains('Range')").text().replace("Range: ", "");
+      let activeSkill = await this.activeSkillRepository.findOne({
+        where: {
+          name: name
+        }
+      });
+      let pal = await this.palRepository.findOne({
+        where: {
+          slug: slug
+        }
+      });
+      let activeSkillPal = new ActiveSkillPal();
+      activeSkillPal.activeSkill = activeSkill;
+      activeSkillPal.level = Number(level);
+      activeSkillPal.range = range;
+
+      const activeSkillPalEntity = this.activeSkillPalRepository.create(activeSkillPal);
+
+      try {
+        await this.activeSkillPalRepository.save(activeSkillPalEntity);
+        skills.push(activeSkillPalEntity);
+      } catch (error) {
+        if (error instanceof QueryFailedError && error.message.includes("duplicate key value violates unique constraint")) {
+
+          const existingRecord = await this.activeSkillPalRepository.findOne({
+            where: {
+              level: activeSkillPal.level,
+              activeSkill: activeSkillPal.activeSkill,
+              range: activeSkillPal.range
+            }
+          });
+          if (existingRecord) {
+            console.log(`Id of duplicate record: ${existingRecord.id}`);
+            skills.push(existingRecord);
+          } else {
+            console.log("Duplicate record not found");
+          }
+        } else {
+          throw error;
+        }
+
+      }
+
+
+    }
+    return skills;
   }
 }

@@ -10,6 +10,7 @@ import { LevelWorkSuitability, WorkSuitability } from "./pals/entities/work_suit
 import { PassiveDesc, PassiveSkill, PSkillPal } from './skills/entities/passive_skill.entity';
 import { SkillsModule } from './skills/skills.module';
 import { Partner, PartnerPal } from "./pals/entities/partner.entity";
+import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,7 +20,7 @@ import { Partner, PartnerPal } from "./pals/entities/partner.entity";
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal],
+      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal],
       synchronize: true,
     }),
     PalsModule,
