@@ -5,7 +5,7 @@ import { PassiveDesc, PassiveSkill, PSkillPal } from "../../passive-skills/entit
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryFailedError, Repository } from "typeorm";
 import { Partner, PartnerPal } from "../entities/partner.entity";
-import { ActiveSkill } from "../entities/active_skill.entity";
+import { ActiveSkill } from "../../passive-skills/entities/active_skill.entity";
 import { Element } from "../entities/element.entity";
 
 @Injectable()

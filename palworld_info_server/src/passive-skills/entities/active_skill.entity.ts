@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Element } from "./element.entity";
+import { Element } from "../../pals/entities/element.entity";
 
 @Entity()
 export class ActiveSkill {

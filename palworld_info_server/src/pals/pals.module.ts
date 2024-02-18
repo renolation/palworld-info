@@ -4,16 +4,16 @@ import { PalsController } from "./pals.controller";
 import { LevelWorkSuitability, WorkSuitability } from "./entities/work_suitability.entity";
 import { Pal } from "./entities/pal.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ActiveSkill } from "./entities/active_skill.entity";
 import { Element } from "./entities/element.entity";
 import { ElementService } from "./services/element.service";
 import { PassiveDesc, PassiveSkill, PSkillPal } from "../passive-skills/entities/passive-skill.entity";
 import { PassiveSkillsModule } from "../passive-skills/passive-skills.module";
 import { Partner, PartnerPal } from "./entities/partner.entity";
+import { ActiveSkill } from "../passive-skills/entities/active_skill.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pal, Element, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc, PSkillPal, Partner, PartnerPal]),
+    TypeOrmModule.forFeature([Pal, Element, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc, PSkillPal, Partner, PartnerPal, ActiveSkill]),
     PassiveSkillsModule
   ],
   controllers: [PalsController],

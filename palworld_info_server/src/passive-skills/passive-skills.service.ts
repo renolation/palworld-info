@@ -6,6 +6,7 @@ import * as cheerio from 'cheerio';
 import { PassiveDesc, PassiveSkill, PSkillPal } from './entities/passive-skill.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
+import { ActiveSkill } from "./entities/active_skill.entity";
 
 @Injectable()
 export class PassiveSkillsService {
@@ -14,6 +15,7 @@ export class PassiveSkillsService {
     @InjectRepository(PassiveDesc) private passiveDescRepository: Repository<PassiveDesc>,
     @InjectRepository(PassiveSkill) private passiveSkillRepository: Repository<PassiveSkill>,
     @InjectRepository(PSkillPal) private pSkillPalRepository: Repository<PSkillPal>,
+    @InjectRepository(ActiveSkill) private activeSkillRepository: Repository<ActiveSkill>,
   ) {
   }
 
@@ -31,6 +33,19 @@ export class PassiveSkillsService {
           passiveDesc: true,
         },
       },
+    );
+  }
+
+  async getAllActiveSkill(){
+    return await this.activeSkillRepository.find(
+      {
+        order: {
+          name: 'ASC'
+        },
+        relations: {
+          element: true
+        }
+      }
     );
   }
 

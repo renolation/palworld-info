@@ -19,6 +19,11 @@ export class PassiveSkillsController {
     return await this.passiveSkillsService.findAll();
   }
 
+    @Get('get/active')
+  async getAllActive() {
+    return await this.passiveSkillsService.getAllActiveSkill();
+  }
+
   @Get('crawl-passive')
   async crawlPassive() {
     const arrayElements = await this.passiveSkillsService.crawlPassiveSkill();
