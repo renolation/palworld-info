@@ -62,7 +62,7 @@ class HomeRepository {
       scheme: Constants.scheme,
       host: Constants.host,
       port: Constants.port,
-      path: 'passive-skills',
+      path: 'skills/get/passive',
     ).toString();
     final response = await client.get(url, cancelToken: cancelToken);
     final List list = response.data;

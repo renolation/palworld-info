@@ -1,6 +1,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'pal_entity.dart';
+
 part 'partner_skill_entity.freezed.dart';
 part 'partner_skill_entity.g.dart';
 
@@ -12,6 +14,7 @@ class PartnerSkillEntity with _$PartnerSkillEntity {
     String? name,
     String? description,
     PartnerEntity? partner,
+    List<PalEntity>? pal,
 }) = _PartnerSkillEntity;
 
   factory PartnerSkillEntity.fromJson(Map<String, dynamic> json) =>

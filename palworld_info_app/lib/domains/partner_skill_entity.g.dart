@@ -15,6 +15,9 @@ _$PartnerSkillEntityImpl _$$PartnerSkillEntityImplFromJson(
       partner: json['partner'] == null
           ? null
           : PartnerEntity.fromJson(json['partner'] as Map<String, dynamic>),
+      pal: (json['pal'] as List<dynamic>?)
+          ?.map((e) => PalEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$PartnerSkillEntityImplToJson(
@@ -24,6 +27,7 @@ Map<String, dynamic> _$$PartnerSkillEntityImplToJson(
       'name': instance.name,
       'description': instance.description,
       'partner': instance.partner,
+      'pal': instance.pal,
     };
 
 _$PartnerEntityImpl _$$PartnerEntityImplFromJson(Map<String, dynamic> json) =>

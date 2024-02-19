@@ -24,6 +24,7 @@ mixin _$PartnerSkillEntity {
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   PartnerEntity? get partner => throw _privateConstructorUsedError;
+  List<PalEntity>? get pal => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +39,11 @@ abstract class $PartnerSkillEntityCopyWith<$Res> {
       _$PartnerSkillEntityCopyWithImpl<$Res, PartnerSkillEntity>;
   @useResult
   $Res call(
-      {int id, String? name, String? description, PartnerEntity? partner});
+      {int id,
+      String? name,
+      String? description,
+      PartnerEntity? partner,
+      List<PalEntity>? pal});
 
   $PartnerEntityCopyWith<$Res>? get partner;
 }
@@ -60,6 +65,7 @@ class _$PartnerSkillEntityCopyWithImpl<$Res, $Val extends PartnerSkillEntity>
     Object? name = freezed,
     Object? description = freezed,
     Object? partner = freezed,
+    Object? pal = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -78,6 +84,10 @@ class _$PartnerSkillEntityCopyWithImpl<$Res, $Val extends PartnerSkillEntity>
           ? _value.partner
           : partner // ignore: cast_nullable_to_non_nullable
               as PartnerEntity?,
+      pal: freezed == pal
+          ? _value.pal
+          : pal // ignore: cast_nullable_to_non_nullable
+              as List<PalEntity>?,
     ) as $Val);
   }
 
@@ -103,7 +113,11 @@ abstract class _$$PartnerSkillEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id, String? name, String? description, PartnerEntity? partner});
+      {int id,
+      String? name,
+      String? description,
+      PartnerEntity? partner,
+      List<PalEntity>? pal});
 
   @override
   $PartnerEntityCopyWith<$Res>? get partner;
@@ -124,6 +138,7 @@ class __$$PartnerSkillEntityImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? partner = freezed,
+    Object? pal = freezed,
   }) {
     return _then(_$PartnerSkillEntityImpl(
       id: null == id
@@ -142,6 +157,10 @@ class __$$PartnerSkillEntityImplCopyWithImpl<$Res>
           ? _value.partner
           : partner // ignore: cast_nullable_to_non_nullable
               as PartnerEntity?,
+      pal: freezed == pal
+          ? _value._pal
+          : pal // ignore: cast_nullable_to_non_nullable
+              as List<PalEntity>?,
     ));
   }
 }
@@ -150,7 +169,12 @@ class __$$PartnerSkillEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PartnerSkillEntityImpl implements _PartnerSkillEntity {
   const _$PartnerSkillEntityImpl(
-      {required this.id, this.name, this.description, this.partner});
+      {required this.id,
+      this.name,
+      this.description,
+      this.partner,
+      final List<PalEntity>? pal})
+      : _pal = pal;
 
   factory _$PartnerSkillEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$PartnerSkillEntityImplFromJson(json);
@@ -163,10 +187,19 @@ class _$PartnerSkillEntityImpl implements _PartnerSkillEntity {
   final String? description;
   @override
   final PartnerEntity? partner;
+  final List<PalEntity>? _pal;
+  @override
+  List<PalEntity>? get pal {
+    final value = _pal;
+    if (value == null) return null;
+    if (_pal is EqualUnmodifiableListView) return _pal;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'PartnerSkillEntity(id: $id, name: $name, description: $description, partner: $partner)';
+    return 'PartnerSkillEntity(id: $id, name: $name, description: $description, partner: $partner, pal: $pal)';
   }
 
   @override
@@ -178,12 +211,14 @@ class _$PartnerSkillEntityImpl implements _PartnerSkillEntity {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.partner, partner) || other.partner == partner));
+            (identical(other.partner, partner) || other.partner == partner) &&
+            const DeepCollectionEquality().equals(other._pal, _pal));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, partner);
+  int get hashCode => Object.hash(runtimeType, id, name, description, partner,
+      const DeepCollectionEquality().hash(_pal));
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +240,8 @@ abstract class _PartnerSkillEntity implements PartnerSkillEntity {
       {required final int id,
       final String? name,
       final String? description,
-      final PartnerEntity? partner}) = _$PartnerSkillEntityImpl;
+      final PartnerEntity? partner,
+      final List<PalEntity>? pal}) = _$PartnerSkillEntityImpl;
 
   factory _PartnerSkillEntity.fromJson(Map<String, dynamic> json) =
       _$PartnerSkillEntityImpl.fromJson;
@@ -218,6 +254,8 @@ abstract class _PartnerSkillEntity implements PartnerSkillEntity {
   String? get description;
   @override
   PartnerEntity? get partner;
+  @override
+  List<PalEntity>? get pal;
   @override
   @JsonKey(ignore: true)
   _$$PartnerSkillEntityImplCopyWith<_$PartnerSkillEntityImpl> get copyWith =>
