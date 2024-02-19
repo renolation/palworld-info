@@ -59,7 +59,8 @@ export class SkillsService {
           name: "ASC"
         },
         relations: {
-          pal: true
+          pal: true,
+          partner: true,
         }
       }
     );
