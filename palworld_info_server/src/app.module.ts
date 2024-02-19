@@ -11,6 +11,7 @@ import { PassiveDesc, PassiveSkill, PSkillPal } from './skills/entities/passive_
 import { SkillsModule } from './skills/skills.module';
 import { Partner, PartnerPal } from "./pals/entities/partner.entity";
 import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,7 +25,8 @@ import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
       synchronize: true,
     }),
     PalsModule,
-    SkillsModule
+    SkillsModule,
+    ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],
