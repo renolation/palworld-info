@@ -119,7 +119,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                     ),
                     GButton(
                       icon: FontAwesomeIcons.heart,
-                      text: 'Passive',
+                      text: 'Skills',
                     ),
                   ],
                   selectedIndex: 0,
