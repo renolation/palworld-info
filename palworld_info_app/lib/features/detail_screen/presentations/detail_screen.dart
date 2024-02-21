@@ -267,6 +267,58 @@ class DetailScreen extends HookConsumerWidget {
                         ],
                       ),
                     ),
+                    //region active skill
+
+                    SizedBox(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            child: Text('Partner Skill', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                          ),
+                          for(var item in data.activeSkillsPal!)
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.black26,
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                                      color: Colors.white30,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        CachedNetworkImage(imageUrl: item.activeSkill!.element!.iconUrl!, height: 32,fit: BoxFit.contain,),
+                                        SizedBox(width: 4,),
+                                        Text(item.activeSkill!.name!,style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        Spacer(),
+                                        Text("Lvl: ${item.level!}",style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                    child: Text('Power ${item.activeSkill!.power} \nCooldown: ${item.activeSkill!.cd}\nRange: ${item.range}'),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                        ],
+                      ),
+                    ),
+
+                    //endregion
                     const SizedBox(
                       height: 20,
                     ),

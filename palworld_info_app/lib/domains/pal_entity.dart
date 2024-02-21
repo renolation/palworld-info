@@ -2,11 +2,13 @@
 
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:palworld_info_app/domains/active_skill_entity.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
 import 'package:palworld_info_app/domains/level_work_suitability_entity.dart';
 import 'package:palworld_info_app/domains/partner_skill_entity.dart';
 
 import '../utils/constants.dart';
+import 'active_skill_pal_entity.dart';
 import 'p_skill_pal_entity.dart';
 part 'pal_entity.freezed.dart';
 part 'pal_entity.g.dart';
@@ -39,6 +41,7 @@ class PalEntity with _$PalEntity {
     List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
     List<PSkillPalEntity>? pSkillPals,
     PartnerSkillEntity? partnerPal,
+    List<ActiveSkillPalEntity>? activeSkillsPal,
   }) = _PalEntity;
   factory PalEntity.fromJson(Map<String, dynamic> json) => _$PalEntityFromJson(json);
 }
