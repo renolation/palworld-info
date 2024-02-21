@@ -58,9 +58,9 @@ dependencies:
   data_table_2: ^2.5.10
   loading_animation_widget: ^1.2.0+4
   firebase_core: ^2.25.4
-  firebase_analytics: ^10.8.6
-  firebase_crashlytics: ^3.4.15
-  firebase_remote_config: ^4.3.14
+  firebase_analytics: ^10.8.5
+  firebase_crashlytics: ^3.4.14
+  firebase_remote_config: ^4.3.13
 dev_dependencies:
   flutter_test:
     sdk: flutter
