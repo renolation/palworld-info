@@ -2,18 +2,18 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 
 export enum ItemType {
-  Weapon = 'Weapon',
-  SpecialWeapon = 'Special Weapon',
-  Armor = 'Armor',
-  Accessory = 'Accessory',
-  Material = 'Material',
-  Consume = 'Consume',
-  Ammo = 'Ammo',
-  Food = 'Food',
-  Essential = 'Essential',
-  Glider = 'Glider',
-  MonsterEquipWeapon = 'Monster Equip Weapon',
-  Blueprint = 'Blueprint',
+  'Weapon' = 'Weapon',
+  'Special Weapon' = 'Special Weapon',
+  'Armor' = 'Armor',
+  'Accessory' = 'Accessory',
+  'Material' = 'Material',
+  'Consume' = 'Consume',
+  'Ammo' = 'Ammo',
+  'Food' = 'Food',
+  'Essential' = 'Essential',
+  'Glider' = 'Glider',
+  'Monster Equip Weapon' = 'Monster Equip Weapon',
+  'Blueprint' = 'Blueprint',
 }
 
 @Entity()

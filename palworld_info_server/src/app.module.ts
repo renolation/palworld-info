@@ -13,6 +13,7 @@ import { Partner, PartnerPal } from "./pals/entities/partner.entity";
 import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
 import { ConfigModule } from '@nestjs/config';
 import { ItemsModule } from './items/items.module';
+import { ItemEntity } from './items/entities/item.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,7 +23,7 @@ import { ItemsModule } from './items/items.module';
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal],
+      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity],
       synchronize: true,
     }),
     PalsModule,

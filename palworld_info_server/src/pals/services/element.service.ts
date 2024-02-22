@@ -8,7 +8,6 @@ import { Partner, PartnerPal } from "../entities/partner.entity";
 import { ActiveSkill } from "../../skills/entities/active_skill.entity";
 import { Element } from "../entities/element.entity";
 import { ActiveSkillPal } from "../../skills/entities/active_skill_pal.entity";
-import { range } from "rxjs";
 import { Pal } from "../entities/pal.entity";
 
 @Injectable()
