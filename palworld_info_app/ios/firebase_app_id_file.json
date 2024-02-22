@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:185041157427:ios:352fc129f0c750d4935246",
-  "FIREBASE_PROJECT_ID": "palworld-info",
-  "GCM_SENDER_ID": "185041157427"
+  "GOOGLE_APP_ID": "1:218322045880:ios:233e38a5ded350709f9d4d",
+  "FIREBASE_PROJECT_ID": "palinfo-info-stat-for-pals",
+  "GCM_SENDER_ID": "218322045880"
 }

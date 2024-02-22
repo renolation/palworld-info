@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDPGatGDdWdChVGnrl5fo94f5hyvlDsG-4',
-    appId: '1:185041157427:android:e6db3284ebc62766935246',
-    messagingSenderId: '185041157427',
-    projectId: 'palworld-info',
-    storageBucket: 'palworld-info.appspot.com',
+    apiKey: 'AIzaSyDkAA9iD_AYA2rFtH1GKXzfDs02kXGeC9I',
+    appId: '1:218322045880:android:1db9ee7641b907159f9d4d',
+    messagingSenderId: '218322045880',
+    projectId: 'palinfo-info-stat-for-pals',
+    storageBucket: 'palinfo-info-stat-for-pals.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDUbCbQ-TvfoB_WfTP7UaZqWARppz-RPTQ',
-    appId: '1:185041157427:ios:352fc129f0c750d4935246',
-    messagingSenderId: '185041157427',
-    projectId: 'palworld-info',
-    storageBucket: 'palworld-info.appspot.com',
-    iosBundleId: 'com.renolation.palworldInfoApp',
+    apiKey: 'AIzaSyBV0QgNEK9A8TZVmPvE7rwCGTV98wf5HAU',
+    appId: '1:218322045880:ios:233e38a5ded350709f9d4d',
+    messagingSenderId: '218322045880',
+    projectId: 'palinfo-info-stat-for-pals',
+    storageBucket: 'palinfo-info-stat-for-pals.appspot.com',
+    iosBundleId: 'com.renolation.palworldInfoApp.RunnerTests',
   );
 }

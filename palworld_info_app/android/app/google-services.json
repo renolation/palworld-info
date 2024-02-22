@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "185041157427",
-    "project_id": "palworld-info",
-    "storage_bucket": "palworld-info.appspot.com"
+    "project_number": "218322045880",
+    "project_id": "palinfo-info-stat-for-pals",
+    "storage_bucket": "palinfo-info-stat-for-pals.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:185041157427:android:e6db3284ebc62766935246",
+        "mobilesdk_app_id": "1:218322045880:android:1db9ee7641b907159f9d4d",
         "android_client_info": {
-          "package_name": "com.renolation.palworld_info"
+          "package_name": "com.renolation.info_stats_pal"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDPGatGDdWdChVGnrl5fo94f5hyvlDsG-4"
+          "current_key": "AIzaSyDkAA9iD_AYA2rFtH1GKXzfDs02kXGeC9I"
         }
       ],
       "services": {

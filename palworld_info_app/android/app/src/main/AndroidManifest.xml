@@ -3,8 +3,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="PalInfo : Info & Stat for Pals"
-        android:name="${applicationName}"
+            android:label="PalInfo : Info &amp; Stat for Pals"
+            android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
@@ -34,7 +34,7 @@
             android:value="2" />
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="ca-app-pub-5590864843607872~9152144246"/>
+                android:value="ca-app-pub-5590864843607872~4455242957"/>
 
     </application>
 </manifest>
