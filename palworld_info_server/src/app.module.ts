@@ -14,6 +14,8 @@ import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
 import { ConfigModule } from '@nestjs/config';
 import { ItemsModule } from './items/items.module';
 import { ItemEntity } from './items/entities/item.entity';
+import { StructuresModule } from './structures/structures.module';
+import { StructureEntity } from './structures/entities/structure.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,13 +25,14 @@ import { ItemEntity } from './items/entities/item.entity';
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity],
+      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity, StructureEntity],
       synchronize: true,
     }),
     PalsModule,
     SkillsModule,
     ConfigModule.forRoot(),
-    ItemsModule
+    ItemsModule,
+    StructuresModule
   ],
   controllers: [AppController],
   providers: [AppService],

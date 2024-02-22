@@ -4,10 +4,7 @@ import { UpdateItemDto } from './dto/update-item.dto';
 import puppeteer from 'puppeteer-extra';
 import { ItemEntity, ItemType } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pal } from '../pals/entities/pal.entity';
-import { QueryFailedError, Repository } from 'typeorm';
-import { Element } from '../pals/entities/element.entity';
-import { LevelWorkSuitability, WorkSuitability } from '../pals/entities/work_suitability.entity';
+import { Repository } from 'typeorm';
 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
@@ -18,15 +15,6 @@ function delay(time: number) {
   });
 }
 
-class Item {
-  private name: any;
-  private type: any;
-
-  constructor(name, type) {
-    this.name = name;
-    this.type = type;
-  }
-}
 
 @Injectable()
 export class ItemsService {
@@ -44,7 +32,7 @@ export class ItemsService {
     if (existingItem) {
       return;
     }
-    
+
     const itemEntity = this.repo.create(
       {
         name: createItemDto.name,
@@ -55,7 +43,6 @@ export class ItemsService {
     try {
       await this.repo.save(itemEntity);
     } catch (error) {
-
       throw error;
     }
   }

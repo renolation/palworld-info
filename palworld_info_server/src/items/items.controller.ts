@@ -23,7 +23,6 @@ export class ItemsController {
     for(const item of itemArray){
       await this.itemsService.create(item);
     }
-
   }
 
   @Get(':id')
