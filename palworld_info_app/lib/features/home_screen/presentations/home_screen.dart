@@ -55,7 +55,7 @@ class HomeScreen extends HookConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Palworld Info',
+            'PalInfo : Info & Stat for Pals',
           ),
         ),
         endDrawer: const HomeDrawer(),
