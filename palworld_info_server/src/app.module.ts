@@ -12,6 +12,7 @@ import { SkillsModule } from './skills/skills.module';
 import { Partner, PartnerPal } from "./pals/entities/partner.entity";
 import { ActiveSkillPal } from "./skills/entities/active_skill_pal.entity";
 import { ConfigModule } from '@nestjs/config';
+import { ItemsModule } from './items/items.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,7 +27,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     PalsModule,
     SkillsModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    ItemsModule
   ],
   controllers: [AppController],
   providers: [AppService],
