@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="Palworld Info"
+        android:label="PalInfo : Info & Stat for Pals"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
