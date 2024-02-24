@@ -16,6 +16,7 @@ import { ItemsModule } from './items/items.module';
 import { ItemEntity } from './items/entities/item.entity';
 import { StructuresModule } from './structures/structures.module';
 import { StructureEntity } from './structures/entities/structure.entity';
+import { BreedingModule } from './breeding/breeding.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -32,7 +33,8 @@ import { StructureEntity } from './structures/entities/structure.entity';
     SkillsModule,
     ConfigModule.forRoot(),
     ItemsModule,
-    StructuresModule
+    StructuresModule,
+    BreedingModule
   ],
   controllers: [AppController],
   providers: [AppService],
