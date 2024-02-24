@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
 @Unique(["parent1", "parent2", "child"])
-export class Breeding {
+export class BreedingEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

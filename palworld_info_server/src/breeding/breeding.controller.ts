@@ -24,7 +24,7 @@ export class BreedingController {
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.breedingService.findOne(+id);
+    return this.breedingService.findByChild(id);
   }
 
   @Patch(':id')

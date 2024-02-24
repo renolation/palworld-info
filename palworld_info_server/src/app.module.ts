@@ -17,6 +17,7 @@ import { ItemEntity } from './items/entities/item.entity';
 import { StructuresModule } from './structures/structures.module';
 import { StructureEntity } from './structures/entities/structure.entity';
 import { BreedingModule } from './breeding/breeding.module';
+import { BreedingEntity } from './breeding/entities/breeding.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,7 +27,7 @@ import { BreedingModule } from './breeding/breeding.module';
       username: 'postgres.otzrgzxqplrstaikxerb',
       password: 'Renolation29',
       database: 'postgres',
-      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity, StructureEntity],
+      entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity, StructureEntity, BreedingEntity],
       synchronize: true,
     }),
     PalsModule,
