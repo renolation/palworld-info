@@ -24,6 +24,7 @@ import 'package:palworld_info_app/providers/ads_provider.dart';
 import 'package:palworld_info_app/providers/providers.dart';
 import 'package:palworld_info_app/utils/constants.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:yandex_mobileads/mobile_ads.dart';
 import '../../../utils/app_lifecycle_reactor.dart';
 import '../../../utils/app_open_ad_manager.dart';
 import '../../../utils/app_router.dart';
@@ -40,7 +41,8 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     useMemoized(() async {
-      // ref.read(interstitialAdProvider).initAds();
+      MobileAds.initialize();
+      ref.read(interstitialAdProvider).initAds();
       // late AppLifecycleReactor appLifecycleReactor;
       // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
       // appLifecycleReactor =
@@ -49,7 +51,6 @@ class HomeScreen extends HookConsumerWidget {
     });
 
     final textEditingController = useTextEditingController(text: ref.read(filterPalTextState.notifier).state.toString());
-
 
     return Scaffold(
         appBar: AppBar(
@@ -61,7 +62,7 @@ class HomeScreen extends HookConsumerWidget {
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 4,),
+            const SizedBox(height: 4,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,

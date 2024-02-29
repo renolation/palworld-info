@@ -42,7 +42,7 @@ class CountAd extends _$CountAd {
   void update() {
     state = state+1;
     if(state%3 ==0){
-      // ref.read(interstitialAdProvider).showInterstitialAd();
+      ref.read(interstitialAdProvider).showInterstitialAd();
     }
   }
 }

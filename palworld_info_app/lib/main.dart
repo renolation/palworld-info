@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:palworld_info_app/utils/app_router.dart';
+import 'package:yandex_mobileads/mobile_ads.dart';
 
 import 'firebase_options.dart';
 
@@ -20,7 +21,6 @@ void main() async {
   );
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
