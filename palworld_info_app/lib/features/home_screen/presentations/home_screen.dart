@@ -40,30 +40,9 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-
-
-
-
-
-    useOnAppLifecycleStateChange((_, current) {
-      if(current == AppLifecycleState.resumed){
-        AppOpenAdManager().showAdIfAvailable();
-      }
-    });
-
     useMemoized(() async {
-      MobileAds.initialize();
       ref.read(interstitialAdProvider).initAds();
-      AppOpenAdManager appOpenAdManager = AppOpenAdManager()..createAppOpenAdLoader();
-      appOpenAdManager.loadAppOpenAd();
-
-
-
-      // late AppLifecycleReactor appLifecycleReactor;
-      // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-      // appLifecycleReactor =
-      //     AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      // appLifecycleReactor.listenToAppStateChanges();
+      ref.read(bannerAdProvider).loadAd(context);
     });
 
     final textEditingController = useTextEditingController(text: ref.read(filterPalTextState.notifier).state.toString());
@@ -79,6 +58,17 @@ class HomeScreen extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 4,),
+            // TextButton(
+            //   onPressed: () {
+            //     context.pushNamed(
+            //       AppRoute.banner.name,
+            //
+            //     );
+            //     // AppOpenAdManager().showAdIfAvailable();
+            //
+            //   },
+            //   child: Text('Button'),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,

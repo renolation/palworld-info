@@ -93,22 +93,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
               Consumer(builder: (context, ref, child) {
                 final bannerAd = ref.watch(bannerAdProvider);
                 final isBannerAdLoaded = ref.watch(isBannerAdLoadedProvider);
-                return !isBannerAdLoaded
-                    ? const SizedBox()
-                    : Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SafeArea(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                                // height:
-                                //     bannerAd.value!.adSize.height.toDouble(),
-                                height: 70,
-                                width: 440,
-                                child: AdWidget(bannerAd: bannerAd.value!)),
-                          ),
-                        ),
-                      );
+                print('is banner loaded $isBannerAdLoaded');
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: bannerAd.isBannerAlreadyCreated ? AdWidget(bannerAd: ref.read(bannerAdProvider).banner) : null,
+                );
               }),
               Padding(
                 padding:

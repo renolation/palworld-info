@@ -1,9 +1,9 @@
 import 'package:yandex_mobileads/mobile_ads.dart';
 
 class AppOpenAdManager {
-  final _adUnitId = 'R-M-6396336-3';
+  final _adUnitId = 'demo-appopenad-yandex';
   late var adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
-  AppOpenAd? _appOpenAd;
+  AppOpenAd? appOpen;
   late Future<AppOpenAdLoader> appOpenAdLoader = createAppOpenAdLoader();
 
   static var isAdShowing = false;
@@ -14,8 +14,8 @@ class AppOpenAdManager {
       onAdLoaded: (AppOpenAd appOpenAd) {
         // The ad was loaded successfully. Now you can handle it.
         print('open ad loaded');
-        _appOpenAd = appOpenAd;
-
+        appOpen = appOpenAd;
+        print(appOpenAd != null);
         if (!isColdStartAdShown) {
           showAdIfAvailable();
           isColdStartAdShown = true;
@@ -39,6 +39,7 @@ class AppOpenAdManager {
             onAdShown: () {
               // Called when an ad is shown.
               isAdShowing = true;
+
             },
             onAdFailedToShow: (error) {
               // Called when an ad failed to show.
@@ -51,7 +52,7 @@ class AppOpenAdManager {
             onAdDismissed: () {
               // Called when an ad is dismissed.
               isAdShowing = false;
-
+              print('dismiss ne');
               // Clear resources.
               _clearAppOpenAd();
               // Now you can preload the next ad.
@@ -68,18 +69,25 @@ class AppOpenAdManager {
   }
 
   Future<void> showAdIfAvailable() async {
-    var appOpenAd = _appOpenAd;
+    print('show open ad ne');
+    var appOpenAd = appOpen;
+    print('cacacaca');
+    print(appOpen != null);
+    print(appOpenAd != null);
+    print(!isAdShowing);
     if (appOpenAd != null && !isAdShowing) {
+      print('true ne');
       _setAdEventListener(appOpenAd: appOpenAd);
       await appOpenAd.show();
       await appOpenAd.waitForDismiss();
     } else {
       loadAppOpenAd();
+      print('false ne');
     }
   }
 
   void _clearAppOpenAd() {
-    _appOpenAd?.destroy();
-    _appOpenAd = null;
+    // appOpen?.destroy();
+    // appOpen = null;
   }
 }

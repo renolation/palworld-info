@@ -19,9 +19,7 @@ class AppOpenAdPageState extends State<AppOpenAdPage> with WidgetsBindingObserve
     return AppOpenAdLoader.create(
       onAdLoaded: (AppOpenAd appOpenAd) {
         // The ad was loaded successfully. Now you can handle it.
-        print('open ad loaded');
         _appOpenAd = appOpenAd;
-
         if (!isColdStartAdShown) {
           _showAdIfAvailable();
           isColdStartAdShown = true;
