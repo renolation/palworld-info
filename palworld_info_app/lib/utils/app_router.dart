@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
@@ -83,19 +82,20 @@ class ScaffoldWithNavBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Consumer(builder: (context, ref, child) {
-                final bannerAd = ref.watch(bannerAdProvider);
-                return Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SafeArea(
-                    child: SizedBox(
-                      width: bannerAd.value!.size.width.toDouble(),
-                      height: bannerAd.value!.size.height.toDouble(),
-                      child: AdWidget(ad: bannerAd.value!),
-                    ),
-                  ),
-                );
-              }),
+              // Consumer(builder: (context, ref, child) {
+              //   final bannerAd = ref.watch(bannerAdProvider);
+              //   final isBannerAdLoaded = ref.watch(isBannerAdLoadedProvider);
+              //   return !isBannerAdLoaded ? const SizedBox() : Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: SafeArea(
+              //       child: SizedBox(
+              //         width: bannerAd.value!.size.width.toDouble(),
+              //         height: bannerAd.value!.size.height.toDouble(),
+              //         child: AdWidget(ad: bannerAd.value!),
+              //       ),
+              //     ),
+              //   );
+              // }),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),

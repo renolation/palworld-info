@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_hooks/src/hooks.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:palworld_info_app/domains/element_entity.dart';
@@ -41,12 +40,12 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     useMemoized(() async {
-      ref.read(interstitialAdProvider).initAds();
-      late AppLifecycleReactor appLifecycleReactor;
-      AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
-      appLifecycleReactor =
-          AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
-      appLifecycleReactor.listenToAppStateChanges();
+      // ref.read(interstitialAdProvider).initAds();
+      // late AppLifecycleReactor appLifecycleReactor;
+      // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
+      // appLifecycleReactor =
+      //     AppLifecycleReactor(appOpenAdManager: appOpenAdManager);
+      // appLifecycleReactor.listenToAppStateChanges();
     });
 
     final textEditingController = useTextEditingController(text: ref.read(filterPalTextState.notifier).state.toString());
@@ -62,6 +61,7 @@ class HomeScreen extends HookConsumerWidget {
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: 4,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
