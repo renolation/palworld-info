@@ -1,7 +1,7 @@
 import 'package:yandex_mobileads/mobile_ads.dart';
 
 class AppOpenAdManager {
-  final _adUnitId = 'demo-appopenad-yandex';
+  final _adUnitId = 'R-M-6396336-3';
   late var adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
   AppOpenAd? appOpen;
   late Future<AppOpenAdLoader> appOpenAdLoader = createAppOpenAdLoader();

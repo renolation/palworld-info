@@ -22,7 +22,7 @@ class BannerAdProvider extends ChangeNotifier {
 
   createBanner(BuildContext ctx) {
     return BannerAd(
-        adUnitId: 'demo-banner-yandex',
+        adUnitId: 'R-M-6396336-1',
         // or 'demo-banner-yandex'
         adSize: _getAdSize(ctx),
         adRequest: const AdRequest(),
@@ -94,7 +94,7 @@ class InterstitialAdProvider extends ChangeNotifier {
     await adLoader.loadAd(
         adRequestConfiguration: const AdRequestConfiguration(
             adUnitId:
-                'demo-interstitial-yandex')); // For debugging, you can use 'demo-interstitial-yandex'
+                'R-M-6396336-2')); // For debugging, you can use 'demo-interstitial-yandex'
   }
 
   showInterstitialAd() async {

@@ -40,7 +40,7 @@ class MyApp extends StatefulHookConsumerWidget {
 
 class MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver{
 
-  final _adUnitId = 'demo-appopenad-yandex';
+  final _adUnitId = 'R-M-6396336-3';
   late var adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
   AppOpenAd? _appOpenAd;
   late Future<AppOpenAdLoader> _appOpenAdLoader = _createAppOpenAdLoader();
