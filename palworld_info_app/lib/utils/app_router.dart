@@ -6,8 +6,11 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
+import 'package:palworld_info_app/features/home_screen/presentations/test_banner.dart';
 import 'package:palworld_info_app/features/passive_skill_screen/presentations/passive_skill_screen.dart';
+import 'package:yandex_mobileads/mobile_ads.dart';
 
+import '../features/home_screen/presentations/app_open_ad_page.dart';
 import '../providers/ads_provider.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -15,7 +18,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
-enum AppRoute { home, detail, user, like, passive }
+enum AppRoute { home, detail, user, like, passive, banner }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -33,6 +36,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: '/',
                 name: AppRoute.home.name,
                 builder: (context, state) => const HomeScreen(),
+              ),
+              GoRoute(
+                path: '/banner',
+                name: AppRoute.banner.name,
+                builder: (context, state) => const AppOpenAdPage(),
               ),
               GoRoute(
                 path: '/detail/:slug',
@@ -82,20 +90,26 @@ class ScaffoldWithNavBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Consumer(builder: (context, ref, child) {
-              //   final bannerAd = ref.watch(bannerAdProvider);
-              //   final isBannerAdLoaded = ref.watch(isBannerAdLoadedProvider);
-              //   return !isBannerAdLoaded ? const SizedBox() : Align(
-              //     alignment: Alignment.bottomCenter,
-              //     child: SafeArea(
-              //       child: SizedBox(
-              //         width: bannerAd.value!.size.width.toDouble(),
-              //         height: bannerAd.value!.size.height.toDouble(),
-              //         child: AdWidget(ad: bannerAd.value!),
-              //       ),
-              //     ),
-              //   );
-              // }),
+              Consumer(builder: (context, ref, child) {
+                final bannerAd = ref.watch(bannerAdProvider);
+                final isBannerAdLoaded = ref.watch(isBannerAdLoadedProvider);
+                return !isBannerAdLoaded
+                    ? const SizedBox()
+                    : Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SafeArea(
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                                // height:
+                                //     bannerAd.value!.adSize.height.toDouble(),
+                                height: 70,
+                                width: 440,
+                                child: AdWidget(bannerAd: bannerAd.value!)),
+                          ),
+                        ),
+                      );
+              }),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),

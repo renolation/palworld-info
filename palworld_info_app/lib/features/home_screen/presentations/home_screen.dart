@@ -40,9 +40,25 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+
+
+
+
+
+    useOnAppLifecycleStateChange((_, current) {
+      if(current == AppLifecycleState.resumed){
+        AppOpenAdManager().showAdIfAvailable();
+      }
+    });
+
     useMemoized(() async {
       MobileAds.initialize();
       ref.read(interstitialAdProvider).initAds();
+      AppOpenAdManager appOpenAdManager = AppOpenAdManager()..createAppOpenAdLoader();
+      appOpenAdManager.loadAppOpenAd();
+
+
+
       // late AppLifecycleReactor appLifecycleReactor;
       // AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
       // appLifecycleReactor =

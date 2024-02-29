@@ -1,100 +1,85 @@
-// // Copyright 2021 Google LLC
-// //
-// // Licensed under the Apache License, Version 2.0 (the "License");
-// // you may not use this file except in compliance with the License.
-// // You may obtain a copy of the License at
-// //
-// // https://www.apache.org/licenses/LICENSE-2.0
-// //
-// // Unless required by applicable law or agreed to in writing, software
-// // distributed under the License is distributed on an "AS IS" BASIS,
-// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// // See the License for the specific language governing permissions and
-// // limitations under the License.
-//
-// // ignore_for_file: public_member_api_docs
-//
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'ad_manager.dart';
-//
-// /// Utility class that manages loading and showing app open ads.
-// class AppOpenAdManager {
-//   /// Maximum duration allowed between loading and showing the ad.
-//   final Duration maxCacheDuration = const Duration(hours: 4);
-//
-//   /// Keep track of load time so we don't show an expired ad.
-//   DateTime? _appOpenLoadTime;
-//
-//   AppOpenAd? _appOpenAd;
-//   bool _isShowingAd = false;
-//
-//
-//   /// Load an [AppOpenAd].
-//   void loadAd() {
-//     return;
-//     AppOpenAd.load(
-//       adUnitId: AdManager.appOpenAdUnitId,
-//       orientation: AppOpenAd.orientationPortrait,
-//       request: const AdRequest(),
-//       adLoadCallback: AppOpenAdLoadCallback(
-//         onAdLoaded: (ad) {
-//           print('$ad loaded..');
-//           _appOpenLoadTime = DateTime.now();
-//           _appOpenAd = ad;
-//         },
-//         onAdFailedToLoad: (error) {
-//           print('AppOpenAd failed to load: $error');
-//         },
-//       ),
-//     );
-//   }
-//
-//   /// Whether an ad is available to be shown.
-//   bool get isAdAvailable {
-//     return _appOpenAd != null;
-//   }
-//
-//   /// Shows the ad, if one exists and is not already being shown.
-//   ///
-//   /// If the previously cached ad has expired, this just loads and caches a
-//   /// new ad.
-//   void showAdIfAvailable() {
-//     if (!isAdAvailable) {
-//       print('Tried to show ad before available.');
-//       loadAd();
-//       return;
-//     }
-//     if (_isShowingAd) {
-//       print('Tried to show ad while already showing an ad.');
-//       return;
-//     }
-//     if (DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
-//       print('Maximum cache duration exceeded. Loading another ad.');
-//       _appOpenAd!.dispose();
-//       _appOpenAd = null;
-//       loadAd();
-//       return;
-//     }
-//     // Set the fullScreenContentCallback and show the ad.
-//     _appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
-//       onAdShowedFullScreenContent: (ad) {
-//         _isShowingAd = true;
-//         print('$ad onAdShowedFullScreenContent');
-//       },
-//       onAdFailedToShowFullScreenContent: (ad, error) {
-//         print('$ad onAdFailedToShowFullScreenContent: $error');
-//         _isShowingAd = false;
-//         ad.dispose();
-//         _appOpenAd = null;
-//       },
-//       onAdDismissedFullScreenContent: (ad) {
-//         print('$ad onAdDismissedFullScreenContent');
-//         _isShowingAd = false;
-//         ad.dispose();
-//         _appOpenAd = null;
-//         loadAd();
-//       },
-//     );
-//     _appOpenAd!.show();
-//   }
-// }
+import 'package:yandex_mobileads/mobile_ads.dart';
+
+class AppOpenAdManager {
+  final _adUnitId = 'R-M-6396336-3';
+  late var adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
+  AppOpenAd? _appOpenAd;
+  late Future<AppOpenAdLoader> appOpenAdLoader = createAppOpenAdLoader();
+
+  static var isAdShowing = false;
+  static var isColdStartAdShown = false;
+
+  Future<AppOpenAdLoader> createAppOpenAdLoader() {
+    return AppOpenAdLoader.create(
+      onAdLoaded: (AppOpenAd appOpenAd) {
+        // The ad was loaded successfully. Now you can handle it.
+        print('open ad loaded');
+        _appOpenAd = appOpenAd;
+
+        if (!isColdStartAdShown) {
+          showAdIfAvailable();
+          isColdStartAdShown = true;
+        }
+      },
+      onAdFailedToLoad: (error) {
+        // The ad failed to load
+        // Attempting to load a new ad from the OnAdFailedToLoad event is strongly discouraged.
+      },
+    );
+  }
+
+  Future<void> loadAppOpenAd() async {
+    final adLoader = await appOpenAdLoader;
+    await adLoader.loadAd(adRequestConfiguration: adRequestConfiguration);
+  }
+
+  void _setAdEventListener({required AppOpenAd appOpenAd }) {
+    appOpenAd.setAdEventListener(
+        eventListener: AppOpenAdEventListener(
+            onAdShown: () {
+              // Called when an ad is shown.
+              isAdShowing = true;
+            },
+            onAdFailedToShow: (error) {
+              // Called when an ad failed to show.
+
+              // Clear resources after Ad dismissed.
+              _clearAppOpenAd();
+              // Now you can preload the next ad.
+              loadAppOpenAd();
+            },
+            onAdDismissed: () {
+              // Called when an ad is dismissed.
+              isAdShowing = false;
+
+              // Clear resources.
+              _clearAppOpenAd();
+              // Now you can preload the next ad.
+              loadAppOpenAd();
+            },
+            onAdClicked: () {
+              // Called when a click is recorded for an ad.
+            },
+            onAdImpression: (data) {
+              // Called when an impression is recorded for an ad.
+            }
+        )
+    );
+  }
+
+  Future<void> showAdIfAvailable() async {
+    var appOpenAd = _appOpenAd;
+    if (appOpenAd != null && !isAdShowing) {
+      _setAdEventListener(appOpenAd: appOpenAd);
+      await appOpenAd.show();
+      await appOpenAd.waitForDismiss();
+    } else {
+      loadAppOpenAd();
+    }
+  }
+
+  void _clearAppOpenAd() {
+    _appOpenAd?.destroy();
+    _appOpenAd = null;
+  }
+}

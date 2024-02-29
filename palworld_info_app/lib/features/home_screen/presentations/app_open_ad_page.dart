@@ -8,7 +8,7 @@ class AppOpenAdPage extends StatefulWidget {
 }
 class AppOpenAdPageState extends State<AppOpenAdPage> with WidgetsBindingObserver {
   final _adUnitId = 'R-M-6396336-3';
-  late var _adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
+  late var adRequestConfiguration = AdRequestConfiguration(adUnitId: _adUnitId);
   AppOpenAd? _appOpenAd;
   late Future<AppOpenAdLoader> _appOpenAdLoader = _createAppOpenAdLoader();
 
@@ -45,7 +45,7 @@ class AppOpenAdPageState extends State<AppOpenAdPage> with WidgetsBindingObserve
 
   Future<void> _loadAppOpenAd() async {
     final adLoader = await _appOpenAdLoader;
-    await adLoader.loadAd(adRequestConfiguration: _adRequestConfiguration);
+    await adLoader.loadAd(adRequestConfiguration: adRequestConfiguration);
   }
 
   @override
