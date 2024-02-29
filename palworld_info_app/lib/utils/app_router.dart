@@ -47,9 +47,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: AppRoute.detail.name,
                 builder: (context, state) {
                   String slug = state.pathParameters['slug']!;
-                  PalEntity palEntity = state.extra as PalEntity;
+                  String name = state.extra as String;
                   return DetailScreen(
-                      key: state.pageKey, palEntity: palEntity, slug: slug);
+                      key: state.pageKey, slug: slug, name :name);
                 },
               ),
             ]),

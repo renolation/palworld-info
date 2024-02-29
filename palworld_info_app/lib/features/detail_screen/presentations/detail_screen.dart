@@ -11,13 +11,15 @@ import '../../../providers/ads_provider.dart';
 
 class DetailScreen extends HookConsumerWidget {
   const DetailScreen({
-    required this.palEntity,
+    // required this.palEntity,
     required this.slug,
+    required this.name,
     Key? key,
   }) : super(key: key);
 
-  final PalEntity palEntity;
+  // final PalEntity palEntity;
   final String slug;
+  final String name;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,12 +27,13 @@ class DetailScreen extends HookConsumerWidget {
     print('a');
     return Scaffold(
       appBar: AppBar(
-        title: Text(palEntity.name!),
+        title: Text(name),
       ),
       body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: detailPal.when(
               data: (data) {
+                PalEntity palEntity = data;
                 return ListView(
                   children: [
                     Container(

@@ -2,9 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../domains/partner_skill_entity.dart';
+import '../../../providers/providers.dart';
+import '../../../utils/app_router.dart';
 import '../data/partner_skill_controller.dart';
 
 class PartnerWidget extends StatelessWidget {
@@ -56,13 +59,13 @@ class PartnerWidget extends StatelessWidget {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
                                       width: 80,
                                       child: CachedNetworkImage(
-                                        imageUrl: partnerSkills
-                                            .partner!.iconUrl!,
+                                        imageUrl:
+                                            partnerSkills.partner!.iconUrl!,
                                         height: 36,
                                       )),
                                   Expanded(
@@ -76,10 +79,25 @@ class PartnerWidget extends StatelessWidget {
                                   ),
                                   SizedBox(
                                       width: 80,
-                                      child: CachedNetworkImage(
-                                        imageUrl: partnerSkills
-                                            .pal![0].iconUrl!,
-                                        height: 36,
+                                      child: InkWell(
+                                        onTap: () {
+                                          ref
+                                              .read(countAdProvider.notifier)
+                                              .update();
+                                          context.pushNamed(
+                                              AppRoute.detail.name,
+                                              pathParameters: {
+                                                'slug':
+                                                    partnerSkills.pal![0].slug!
+                                              },
+                                              extra:
+                                                  partnerSkills.pal![0].name!);
+                                        },
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              partnerSkills.pal![0].iconUrl!,
+                                          height: 36,
+                                        ),
                                       )),
                                 ],
                               ),
@@ -87,8 +105,7 @@ class PartnerWidget extends StatelessWidget {
                                 height: 4,
                               ),
                               Text(
-                                partnerSkills.description!
-                                    .replaceAll('\n', ''),
+                                partnerSkills.description!.replaceAll('\n', ''),
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ],
@@ -100,7 +117,8 @@ class PartnerWidget extends StatelessWidget {
             );
           },
           error: (err, stack) => Text('Error $err'),
-          loading: () => LoadingAnimationWidget.fourRotatingDots(color: Colors.white, size: 50),
+          loading: () => LoadingAnimationWidget.fourRotatingDots(
+              color: Colors.white, size: 50),
         );
       },
     );

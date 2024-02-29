@@ -204,11 +204,13 @@ class HomeScreen extends HookConsumerWidget {
                             PalEntity palEntity = listItem[index];
                             return InkWell(
                               onTap: () {
+
                                 ref.read(countAdProvider.notifier).update();
                                 context.pushNamed(
                                   AppRoute.detail.name,
                                   pathParameters: {'slug': palEntity.slug!},
-                                  extra: palEntity,
+                                  extra: palEntity.name
+
                                 );
                               },
                               child: Card(
