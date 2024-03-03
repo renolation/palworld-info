@@ -5,7 +5,8 @@ import { UpdateBreedingDto } from './dto/update-breeding.dto';
 
 @Controller('breeding')
 export class BreedingController {
-  constructor(private readonly breedingService: BreedingService) {}
+  constructor(private readonly breedingService: BreedingService) {
+  }
 
   @Post()
   create(@Body() createBreedingDto: CreateBreedingDto) {
@@ -16,15 +17,23 @@ export class BreedingController {
   findAll() {
     return this.breedingService.findAll();
   }
-    @Get('/crawl/get')
+
+  @Get('/crawl/get')
   async crawlItems() {
-    let breedingArray =  await this.breedingService.crawlBreeding();
+    let breedingArray = await this.breedingService.crawlBreeding();
     console.log('aa');
     return 'breedingArray';
   }
-  @Get(':id')
+
+  @Get('/get-child/:id')
   findOne(@Param('id') id: string) {
     return this.breedingService.findByChild(id);
+  }
+
+  @Get('/get-parent/:id')
+  findByParent(@Param('id') id: string) {
+    console.log(id);
+    return this.breedingService.findByParent(id);
   }
 
   @Patch(':id')

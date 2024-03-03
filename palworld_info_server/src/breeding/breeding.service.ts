@@ -5,7 +5,7 @@ import puppeteer from 'puppeteer-extra';
 import { BreedingEntity } from './entities/breeding.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ItemEntity } from '../items/entities/item.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 function delay(time: number) {
   return new Promise(function(resolve) {
@@ -40,12 +40,29 @@ export class BreedingService {
     await this.repo.save(breedingEntity);
   }
 
-  findAll() {
-    return `This action returns all breeding`;
+  async findAll() {
+    return await this.repo.find({});
   }
 
   findOne(id: number) {
     return `This action returns a #${id} breeding`;
+  }
+
+  async findByParent(keyword: string) {
+    console.log(keyword);
+    let result = await this.repo.find({
+      where: [
+        { parent1: Like(`%${keyword}%`) },
+        { parent2: Like(`%${keyword}%`) },
+      ],
+    });
+    result.forEach(entity => {
+      if (entity.parent1 !== entity.parent2 && entity.parent2.includes('Blazamut')) {
+        // swap their values
+        [entity.parent1, entity.parent2] = [entity.parent2, entity.parent1];
+      }
+    });
+    return result;
   }
 
   update(id: number, updateBreedingDto: UpdateBreedingDto) {
@@ -56,12 +73,12 @@ export class BreedingService {
     return `This action removes a #${id} breeding`;
   }
 
-  async findByChild(child: string) : Promise<BreedingEntity[]>{
+  async findByChild(child: string): Promise<BreedingEntity[]> {
     return await this.repo.find({
       where: {
-        child : child
-      }
-    })
+        child: child,
+      },
+    });
   }
 
   async crawlBreeding() {
@@ -88,19 +105,19 @@ export class BreedingService {
       const buttonText = await page.evaluate(el => el.textContent, filterButtons[i]);
       let arrayChild = await this.findByChild(buttonText);
 
-      if(arrayChild.length < secondColumn.length){
+      if (arrayChild.length < secondColumn.length) {
         for (let j = 0; j < secondColumn.length; j++) {
-        let buttons = await page.evaluateHandle(el => el.querySelectorAll('button'), secondColumn[j]);
-        let parent1 = await page.evaluate((buttons, j) => buttons[j]?.textContent, buttons, 0);  // Retrieves the first button's text
-        let parent2 = await page.evaluate((buttons, j) => buttons[j]?.textContent, buttons, 1);  // Retrieves the second button's text
-        let child = await page.evaluate(el => el.querySelector('p')?.textContent, secondColumn[j]);
-        let breeding = new BreedingEntity();
-        breeding.parent1 = parent1;
-        breeding.parent2 = parent2;
-        breeding.child = child;
-        await this.createBreeding(breeding);
-        console.log(`parent 1 ${parent1} - parent2 ${parent2} - child ${child}`);
-      }
+          let buttons = await page.evaluateHandle(el => el.querySelectorAll('button'), secondColumn[j]);
+          let parent1 = await page.evaluate((buttons, j) => buttons[j]?.textContent, buttons, 0);  // Retrieves the first button's text
+          let parent2 = await page.evaluate((buttons, j) => buttons[j]?.textContent, buttons, 1);  // Retrieves the second button's text
+          let child = await page.evaluate(el => el.querySelector('p')?.textContent, secondColumn[j]);
+          let breeding = new BreedingEntity();
+          breeding.parent1 = parent1;
+          breeding.parent2 = parent2;
+          breeding.child = child;
+          await this.createBreeding(breeding);
+          console.log(`parent 1 ${parent1} - parent2 ${parent2} - child ${child}`);
+        }
       }
 
     }
