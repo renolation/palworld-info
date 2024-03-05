@@ -20,3 +20,10 @@ class BreedingEntity with _$BreedingEntity  {
   factory BreedingEntity.fromJson(Map<String, dynamic> json) =>
       _$BreedingEntityFromJson(json);
 }
+
+class ParentChildEntity {
+  final List<BreedingEntity> parent;
+  final List<BreedingEntity> child;
+
+  ParentChildEntity({required this.parent, required this.child});
+}

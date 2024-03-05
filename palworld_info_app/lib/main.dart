@@ -16,11 +16,11 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

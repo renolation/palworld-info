@@ -31,7 +31,7 @@ class BreedingRepository {
       scheme: Constants.scheme,
       host: Constants.host,
       port: Constants.port,
-      path: 'breeding/get-child/Astegon',
+      path: 'breeding/get-parent/$slug',
     ).toString();
     final response = await client.get(url, cancelToken: cancelToken);
     final List list = response.data;

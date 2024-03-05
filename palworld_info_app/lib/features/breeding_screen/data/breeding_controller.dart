@@ -40,3 +40,20 @@ class BreedingChildController extends _$BreedingChildController{
     );
   }
 }
+@Riverpod(keepAlive: true)
+class BreedingController extends _$BreedingController{
+  @override
+  FutureOr<ParentChildEntity> build(String slug) async {
+    return getBreeding(slug);
+  }
+
+  FutureOr<ParentChildEntity> getBreeding(String slug) async  {
+    final breedingRepository = ref.watch(breedingRepositoryProvider);
+    final cancelToken = CancelToken();
+    final child = await breedingRepository.getByChild(slug, cancelToken: cancelToken);
+    final parent = await breedingRepository.getByParent(slug, cancelToken: cancelToken);
+    print(child.length);
+    print(parent.length);
+    return ParentChildEntity(parent: parent, child: child);
+  }
+}

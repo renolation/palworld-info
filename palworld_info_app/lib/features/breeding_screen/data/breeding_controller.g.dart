@@ -320,5 +320,150 @@ class _BreedingChildControllerProviderElement
   @override
   String get slug => (origin as BreedingChildControllerProvider).slug;
 }
+
+String _$breedingControllerHash() =>
+    r'fe75c33ae26c913599a9926be16fe93210fad9c9';
+
+abstract class _$BreedingController
+    extends BuildlessAsyncNotifier<ParentChildEntity> {
+  late final String slug;
+
+  FutureOr<ParentChildEntity> build(
+    String slug,
+  );
+}
+
+/// See also [BreedingController].
+@ProviderFor(BreedingController)
+const breedingControllerProvider = BreedingControllerFamily();
+
+/// See also [BreedingController].
+class BreedingControllerFamily extends Family<AsyncValue<ParentChildEntity>> {
+  /// See also [BreedingController].
+  const BreedingControllerFamily();
+
+  /// See also [BreedingController].
+  BreedingControllerProvider call(
+    String slug,
+  ) {
+    return BreedingControllerProvider(
+      slug,
+    );
+  }
+
+  @override
+  BreedingControllerProvider getProviderOverride(
+    covariant BreedingControllerProvider provider,
+  ) {
+    return call(
+      provider.slug,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'breedingControllerProvider';
+}
+
+/// See also [BreedingController].
+class BreedingControllerProvider
+    extends AsyncNotifierProviderImpl<BreedingController, ParentChildEntity> {
+  /// See also [BreedingController].
+  BreedingControllerProvider(
+    String slug,
+  ) : this._internal(
+          () => BreedingController()..slug = slug,
+          from: breedingControllerProvider,
+          name: r'breedingControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$breedingControllerHash,
+          dependencies: BreedingControllerFamily._dependencies,
+          allTransitiveDependencies:
+              BreedingControllerFamily._allTransitiveDependencies,
+          slug: slug,
+        );
+
+  BreedingControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.slug,
+  }) : super.internal();
+
+  final String slug;
+
+  @override
+  FutureOr<ParentChildEntity> runNotifierBuild(
+    covariant BreedingController notifier,
+  ) {
+    return notifier.build(
+      slug,
+    );
+  }
+
+  @override
+  Override overrideWith(BreedingController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: BreedingControllerProvider._internal(
+        () => create()..slug = slug,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        slug: slug,
+      ),
+    );
+  }
+
+  @override
+  AsyncNotifierProviderElement<BreedingController, ParentChildEntity>
+      createElement() {
+    return _BreedingControllerProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BreedingControllerProvider && other.slug == slug;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, slug.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin BreedingControllerRef on AsyncNotifierProviderRef<ParentChildEntity> {
+  /// The parameter `slug` of this provider.
+  String get slug;
+}
+
+class _BreedingControllerProviderElement
+    extends AsyncNotifierProviderElement<BreedingController, ParentChildEntity>
+    with BreedingControllerRef {
+  _BreedingControllerProviderElement(super.provider);
+
+  @override
+  String get slug => (origin as BreedingControllerProvider).slug;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
