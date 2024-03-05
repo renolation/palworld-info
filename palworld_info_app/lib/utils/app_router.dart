@@ -122,14 +122,14 @@ class ScaffoldWithNavBar extends StatelessWidget {
                   tabs: const [
                     GButton(
                       icon: FontAwesomeIcons.house,
-                      text: 'Home',
-                    ),
-                    GButton(
-                      icon: FontAwesomeIcons.houseChimneyMedical,
-                      text: 'Breeding',
+                      text: 'Pals',
                     ),
                     GButton(
                       icon: FontAwesomeIcons.heart,
+                      text: 'Breeding',
+                    ),
+                    GButton(
+                      icon: FontAwesomeIcons.shieldHalved,
                       text: 'Skills',
                     ),
 

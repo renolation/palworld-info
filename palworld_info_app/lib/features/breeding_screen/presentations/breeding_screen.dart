@@ -4,11 +4,14 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:palworld_info_app/domains/breeding_entity.dart';
 import 'package:palworld_info_app/features/breeding_screen/data/breeding_controller.dart';
 import 'package:palworld_info_app/features/home_screen/data/pals_controller.dart';
 import '../../../domains/pal_entity.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
+import '../../../providers/providers.dart';
 
 class BreedingScreen extends HookConsumerWidget {
   const BreedingScreen({
@@ -19,6 +22,8 @@ class BreedingScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabBarController = useTabController(initialLength: 2);
     final selectingPal = useState<PalEntity>(const PalEntity());
+    final textEditingController = useTextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Breeding'),
@@ -28,76 +33,146 @@ class BreedingScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          InkWell(
-            child: selectingPal.value.name != null
-                ? Container(
-                    height: 90,
-                    width: 150,
-                    color: Colors.red,
-                    padding: const EdgeInsets.all(4),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(child: CachedNetworkImage(imageUrl: selectingPal.value.iconUrl!)),
-                          Text(selectingPal.value.name!),
-                        ],
+          Align(
+            alignment: Alignment.topCenter,
+            child: InkWell(
+              child: selectingPal.value.name != null
+                  ? Container(
+                      height: 90,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 1),
+                        color: Colors.blue.withOpacity(0.2)
                       ),
-                    ),
-                  )
-                : const Icon(FontAwesomeIcons.addressBook),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return Consumer(builder: (context, ref, child) {
-                      final pals = ref.watch(palControllerProvider);
-                      return pals.when(
-                        data: (data) {
-                          return Scaffold(
-                            body: Column(
-                              children: [
-                                const Text('Select pal name'),
-                                Expanded(
-                                  child: GridView.builder(
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                                      itemCount: data.length,
-                                      itemBuilder: (context, index) {
-                                        PalEntity palEntity = data[index];
-                                        return InkWell(
-                                          onTap: () {
-                                            selectingPal.value = palEntity;
-                                            Navigator.pop(context);
-                                          },
-                                          child: AspectRatio(
-                                            aspectRatio: 10 / 7,
-                                            child: Container(
-                                              height: 50,
-                                              color: Colors.blue,
-                                              margin: EdgeInsets.all(5),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Expanded(child: CachedNetworkImage(imageUrl: palEntity.iconUrl!)),
-                                                  Text(palEntity.name!),
-                                                ],
+                      padding: const EdgeInsets.all(4),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(child: CachedNetworkImage(imageUrl: selectingPal.value.iconUrl!)),
+                            Text(selectingPal.value.name!),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(
+                height: 90,
+                width: 150,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white, width: 1),
+                    color: Colors.blue.withOpacity(0.2)
+                ),
+                padding: const EdgeInsets.all(4),
+                child: const AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Icon(FontAwesomeIcons.plus),
+                ),
+              ),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Consumer(builder: (context, ref, child) {
+                        final pals = ref.watch(palControllerProvider);
+                        final filterText = ref.watch(filterBreedingPalTextState);
+                        return pals.when(
+                          data: (data) {
+                            List<PalEntity> listItem = [];
+                            if(filterText.isEmpty) {
+                              listItem = [...data];
+                            } else {
+                              listItem = data.where((element) =>
+                                  element.name!.toLowerCase().contains(textEditingController.text.toLowerCase()))
+                                  .toList();
+                            }
+                            return Scaffold(
+                              appBar: AppBar(
+                                title: const Text('Select pal name'),
+                              ),
+                              body: Column(
+                                children: [
+                                  Consumer(builder: (context, ref, child) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+                                      child: TextField(
+                                        controller: textEditingController,
+                                        decoration: InputDecoration(
+                                            contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                                            filled: true,
+                                            isDense: true,
+                                            suffixIcon: const Padding( padding: EdgeInsets.fromLTRB(0, 0, 0, 0), child: Icon(FontAwesomeIcons.magnifyingGlass), ),
+                                            fillColor: Colors.grey.withOpacity(0.4),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                              borderSide: BorderSide.none,
+                                            )
+                                        ),
+                                        onChanged: (newText) {
+                                          textEditingController.text = newText;
+                                          textEditingController.selection =
+                                              TextSelection.fromPosition(TextPosition(
+                                                  offset: textEditingController.text.length));
+                                          ref.read(filterBreedingPalTextState.notifier).state = newText;
+
+                                        },
+                                      ),
+                                    );
+                                  }),
+                                  Expanded(
+                                    child: GridView.builder(
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                                        itemCount: listItem.length,
+                                        itemBuilder: (context, index) {
+                                          PalEntity palEntity = listItem[index];
+                                          return InkWell(
+                                            onTap: () {
+                                              selectingPal.value = palEntity;
+                                              ref
+                                                  .read(countAdProvider.notifier)
+                                                  .update();
+                                              Navigator.pop(context);
+                                            },
+                                            child: AspectRatio(
+                                              aspectRatio: 10 / 7,
+                                              child: Container(
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    border: Border.all(color: Colors.white, width: 1),
+                                                    color: Colors.blue.withOpacity(0.2)
+                                                ),
+                                                margin: EdgeInsets.all(5),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Expanded(child: CachedNetworkImage(imageUrl: palEntity.iconUrl!)),
+                                                    AutoSizeText(palEntity.name!, style: TextStyle(fontSize: 16),maxLines: 1,minFontSize: 10,),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      }),
-                                ),
-                              ],
+                                          );
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          error: (err, stack) => Text('Error $err'),
+                          loading: () => Center(
+                            child: LoadingAnimationWidget.dotsTriangle(
+                              color: Colors.white,
+                              size: 70,
                             ),
-                          );
-                        },
-                        error: (err, stack) => Text('Error $err'),
-                        loading: () => Text('loading'),
-                      );
+                          ),
+                        );
+                      });
                     });
-                  });
-            },
+              },
+            ),
           ),
           selectingPal.value.name != null
               ? Consumer(builder: (context, ref, child) {
@@ -183,10 +258,18 @@ class BreedingScreen extends HookConsumerWidget {
                       );
                     },
                     error: (err, stack) => Text('Error $err'),
-                    loading: () => Text('loading'),
+                    loading: () => Expanded(
+                      child: Center(
+                        child: LoadingAnimationWidget.dotsTriangle(
+                          color: Colors.white,
+                          size: 70,
+                        ),
+                      ),
+                    ),
                   );
                 })
-              : SizedBox(),
+              :
+          const SizedBox(),
         ],
       ),
     );
