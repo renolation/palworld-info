@@ -13,8 +13,8 @@ export class ItemsController {
   }
 
   @Get()
-  findAll() {
-    return this.itemsService.findAll();
+  async findAll() {
+    return await this.itemsService.findAll();
   }
 
     @Get('/crawl/get')
@@ -22,6 +22,15 @@ export class ItemsController {
     let itemArray =  await this.itemsService.crawlItem();
     for(const item of itemArray){
       await this.itemsService.create(item);
+    }
+  }
+
+      @Get('/crawl/detail')
+  async crawlItemDetail() {
+    const items =await this.itemsService.findAll();
+    for(let item of items){
+      let data = await this.itemsService.crawlItemDetail(item.name);
+      console.log(data);
     }
   }
 

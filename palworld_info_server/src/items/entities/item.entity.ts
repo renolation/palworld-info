@@ -1,19 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 export enum ItemType {
-  'Weapon' = 'Weapon',
-  'Special Weapon' = 'Special Weapon',
-  'Armor' = 'Armor',
-  'Accessory' = 'Accessory',
-  'Material' = 'Material',
-  'Consume' = 'Consume',
-  'Ammo' = 'Ammo',
-  'Food' = 'Food',
-  'Essential' = 'Essential',
-  'Glider' = 'Glider',
-  'Monster Equip Weapon' = 'Monster Equip Weapon',
-  'Blueprint' = 'Blueprint',
+  "Weapon" = "Weapon",
+  "Special Weapon" = "Special Weapon",
+  "Armor" = "Armor",
+  "Accessory" = "Accessory",
+  "Material" = "Material",
+  "Consume" = "Consume",
+  "Ammo" = "Ammo",
+  "Food" = "Food",
+  "Essential" = "Essential",
+  "Glider" = "Glider",
+  "Monster Equip Weapon" = "Monster Equip Weapon",
+  "Blueprint" = "Blueprint",
 }
 
 @Entity()
@@ -28,8 +28,37 @@ export class ItemEntity {
   iconUrl: string;
 
   @Column({
-    type: 'enum',
-    enum: ItemType,
+    type: "enum",
+    enum: ItemType
   })
   itemType: ItemType;
+
+
+  @Column({ nullable: true })
+  rank: number;
+
+  @Column({ nullable: true })
+  price: number;
+
+  @Column({ nullable: true })
+  weight: number;
+
+  @Column({ nullable: true })
+  maxStackCount: number;
+
+  @Column({ nullable: true })
+  physAttack: number;
+
+  @Column({ nullable: true })
+  durability: number;
+
+  @Column({ nullable: true })
+  restoreConcentration: number;
+
+  @Column({ nullable: true })
+  restoreSatiety: number;
+
+  @Column({ nullable: true })
+  passiveSkill: string;
+
 }
