@@ -5,7 +5,6 @@ import puppeteer from "puppeteer-extra";
 import { ItemEntity, ItemType } from "./entities/item.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import slugify from "slugify";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
@@ -62,13 +61,14 @@ export class ItemsService {
     return `This action returns a #${id} item`;
   }
 
-  async updateBySlug(name: string, updateItemDto: UpdateItemDto) {
+  async updateBySlug(slug: string, updateItemDto: UpdateItemDto) {
     const itemToUpdate = await this.repo.findOne({
-      where: { name }
+      where: { slug }
 
     });
     if (!itemToUpdate) {
-      throw new Error(`Item with ID: ${name} not found.`);
+      return
+      // throw new Error(`Item with ID: ${name} not found.`);
     }
     const updatedItem = this.repo.merge(itemToUpdate, updateItemDto);
     try {
@@ -98,7 +98,6 @@ export class ItemsService {
     // console.log(filterButtons.length);
     for (let i = 0; i < filterButtons.length; i++) {
 
-
       const buttonText = await page.evaluate(el => el.textContent, filterButtons[i]);
       console.log(buttonText);
       if (buttonText === "Special Weapon") {
@@ -111,14 +110,14 @@ export class ItemsService {
       // for(let i = 0; i<2; i++){
       for (const item of items) {
         let name = await page.evaluate(el => el.querySelector(".item-name")?.textContent, item);
-        let imgSrc = await page.evaluate(el => el.querySelector("img")?.getAttribute("src"), item);
-        let itemType = ItemType[buttonText];
-        let itemEntity = new ItemEntity();
+        let slug = await page.evaluate(el => el.getAttribute("href"), item);
+        console.log(slug);
+        let itemEntity = new UpdateItemDto();
+
         itemEntity.name = name;
-        itemEntity.iconUrl = imgSrc;
-        itemEntity.itemType = itemType;
+        itemEntity.slug = slug;
+        await this.updateBySlug(name, itemEntity);
         itemsArray.push(itemEntity);
-        console.log(name, imgSrc);  // Use or store 'name' as needed
       }
       console.log(items.length);
 
@@ -130,17 +129,17 @@ export class ItemsService {
     return itemsArray;
   }
 
-  async crawlItemDetail(name: string) {
-    const slug = slugify(name.toLowerCase().replace("_", "").replace("+", "-"), {
-      replacement: "-",
-      lower: true, strict: false, locale: "en"
-    });
 
-    console.log(`https://palworldtrainer.com/items/${slug}`);
-    const response = await axios.get(`https://palworldtrainer.com/items/${slug}`);
+
+  async crawlItemDetail(slug: string) {
+
+    console.log(`https://palworldtrainer.com${slug}`);
+    const response = await axios.get(`https://palworldtrainer.com${slug}`);
+
     const $ = cheerio.load(response.data);
     const content = $(".item");
 
+    const summary = $(".content .summary").eq(0).find("p").text();
     const rankStr = content.find(".row:has(.label:contains('Rank')) .right .value").text();
     const rank = rankStr ? Number(rankStr) : null;
 
@@ -169,6 +168,7 @@ export class ItemsService {
     const passiveSkill = content.find(".row:has(.label:contains(\"Passive Skill\")) .right .value").text();
 
     return {
+      summary,
       rank,
       price,
       weight,

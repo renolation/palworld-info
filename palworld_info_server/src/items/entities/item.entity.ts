@@ -25,7 +25,13 @@ export class ItemEntity {
   name: string;
 
   @Column({ nullable: true })
+  slug: string;
+
+  @Column({ nullable: true })
   iconUrl: string;
+
+  @Column({ nullable: true })
+  summary: string;
 
   @Column({
     type: "enum",
@@ -40,7 +46,7 @@ export class ItemEntity {
   @Column({ nullable: true })
   price: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true,   type: 'float', })
   weight: number;
 
   @Column({ nullable: true })

@@ -14,6 +14,14 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
 
   @IsString()
   @IsOptional()
+  slug: string;
+
+  @IsString()
+  @IsOptional()
+  summary: string;
+
+  @IsString()
+  @IsOptional()
   itemType: ItemType;
 
   @IsString()
