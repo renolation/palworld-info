@@ -6,6 +6,8 @@ import { ItemEntity, ItemType } from "./entities/item.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import slugify from "slugify";
+import axios from "axios";
+import * as cheerio from "cheerio";
 
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
@@ -60,6 +62,23 @@ export class ItemsService {
     return `This action returns a #${id} item`;
   }
 
+  async updateBySlug(name: string, updateItemDto: UpdateItemDto) {
+    const itemToUpdate = await this.repo.findOne({
+      where: { name }
+
+    });
+    if (!itemToUpdate) {
+      throw new Error(`Item with ID: ${name} not found.`);
+    }
+    const updatedItem = this.repo.merge(itemToUpdate, updateItemDto);
+    try {
+      await this.repo.save(updatedItem);
+    } catch (error) {
+      throw new Error(`Item could not be saved: ${error}`);
+    }
+    return updatedItem;
+  }
+
   update(id: number, updateItemDto: UpdateItemDto) {
     return `This action updates a #${id} item`;
   }
@@ -112,11 +131,53 @@ export class ItemsService {
   }
 
   async crawlItemDetail(name: string) {
-    const slug = slugify(name.toLowerCase(), {
+    const slug = slugify(name.toLowerCase().replace("_", "").replace("+", "-"), {
       replacement: "-",
       lower: true, strict: false, locale: "en"
     });
-    console.log(slug);
-    return slug;
+
+    console.log(`https://palworldtrainer.com/items/${slug}`);
+    const response = await axios.get(`https://palworldtrainer.com/items/${slug}`);
+    const $ = cheerio.load(response.data);
+    const content = $(".item");
+
+    const rankStr = content.find(".row:has(.label:contains('Rank')) .right .value").text();
+    const rank = rankStr ? Number(rankStr) : null;
+
+    const priceStr = content.find(".row:has(.label:contains('Price')) .right .value").text();
+    const price = priceStr ? Number(priceStr) : null;
+
+    const weightStr = content.find(".row:has(.label:contains('Weight')) .right .value").text();
+    const weight = weightStr ? Number(weightStr) : null;
+
+    const maxStackCountStr = content.find(".row:has(.label:contains('Max Stack Count')) .right .value").text();
+    const maxStackCount = maxStackCountStr ? Number(maxStackCountStr) : null;
+
+    const physAttackStr = content.find(".row:has(.label:contains('Phys Attack')) .right .value").text();
+    const physAttack = physAttackStr ? Number(physAttackStr) : null;
+
+    const durabilityStr = content.find(".row:has(.label:contains('Durability')) .right .value").text();
+    const durability = durabilityStr ? Number(durabilityStr) : null;
+
+    const restoreConcentrationStr = content.find(".row:has(.label:contains('Restore Concentration')) .right .value").text();
+    const restoreConcentration = restoreConcentrationStr ? Number(restoreConcentrationStr) : null;
+
+    const restoreSatietyStr = content.find(".row:has(.label:contains('Restore Satiety')) .right .value").text();
+    const restoreSatiety = restoreSatietyStr ? Number(restoreSatietyStr) : null;
+
+
+    const passiveSkill = content.find(".row:has(.label:contains(\"Passive Skill\")) .right .value").text();
+
+    return {
+      rank,
+      price,
+      weight,
+      maxStackCount,
+      physAttack,
+      durability,
+      restoreConcentration,
+      restoreSatiety,
+      passiveSkill
+    };
   }
 }
