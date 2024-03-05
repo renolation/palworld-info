@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -203,15 +204,20 @@ class HomeScreen extends HookConsumerWidget {
                           itemBuilder: (context, index) {
                             PalEntity palEntity = listItem[index];
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
 
                                 ref.read(countAdProvider.notifier).update();
                                 context.pushNamed(
                                   AppRoute.detail.name,
                                   pathParameters: {'slug': palEntity.slug!},
                                   extra: palEntity.name
-
                                 );
+                                await FirebaseAnalytics.instance.logSelectContent(
+                                  contentType: "pal",
+                                  itemId: palEntity.slug!,
+                                );
+
+
                               },
                               child: Card(
                                 child: Row(
