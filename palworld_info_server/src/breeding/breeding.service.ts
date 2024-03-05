@@ -57,7 +57,7 @@ export class BreedingService {
       ],
     });
     result.forEach(entity => {
-      if (entity.parent1 !== entity.parent2 && entity.parent2.includes('Blazamut')) {
+      if (entity.parent1 !== entity.parent2 && entity.parent2.includes(keyword)) {
         // swap their values
         [entity.parent1, entity.parent2] = [entity.parent2, entity.parent1];
       }
@@ -73,10 +73,10 @@ export class BreedingService {
     return `This action removes a #${id} breeding`;
   }
 
-  async findByChild(child: string): Promise<BreedingEntity[]> {
+  async findByChild(keyword: string): Promise<BreedingEntity[]> {
     return await this.repo.find({
       where: {
-        child: child,
+        child: Like(`%${keyword}%`),
       },
     });
   }

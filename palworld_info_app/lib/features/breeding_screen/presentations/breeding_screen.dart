@@ -114,10 +114,16 @@ class BreedingScreen extends HookConsumerWidget {
                               controller: tabBarController,
                               tabs: const [
                                 Tab(
-                                  text: 'Child',
+                                  icon: Text(
+                                    'Child',
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 Tab(
-                                  text: 'Parent',
+                                  icon: Text(
+                                    'Parent',
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ],
                             ),
@@ -127,23 +133,26 @@ class BreedingScreen extends HookConsumerWidget {
                                 children: [
                                   DataTable2(columns: kColumnData, rows: [
                                     for (var item in data.child)
-                                      DataRow(cells: [
-                                        DataCell(AutoSizeText(
-                                          item.parent1!,
-                                          minFontSize: 10,
-                                          maxLines: 2,
-                                        )),
-                                        DataCell(AutoSizeText(
-                                          item.parent2!,
-                                          minFontSize: 10,
-                                          maxLines: 2,
-                                        )),
-                                        DataCell(AutoSizeText(
-                                          item.child!,
-                                          minFontSize: 10,
-                                          maxLines: 2,
-                                        )),
-                                      ])
+                                      DataRow(
+                                        cells: [
+                                          DataCell(AutoSizeText(
+                                            item.parent1!,
+                                            minFontSize: 10,
+                                            maxLines: 2,
+                                          )),
+                                          DataCell(AutoSizeText(
+                                            item.parent2!,
+                                            minFontSize: 10,
+                                            maxLines: 2,
+                                          )),
+                                          DataCell(AutoSizeText(
+                                            item.child!,
+                                            minFontSize: 10,
+                                            maxLines: 2,
+                                            style: TextStyle(color: Colors.blue),
+                                          )),
+                                        ],
+                                      )
                                   ]),
                                   DataTable2(columns: kColumnData, rows: [
                                     for (var item in data.parent)
@@ -152,6 +161,7 @@ class BreedingScreen extends HookConsumerWidget {
                                           item.parent1!,
                                           minFontSize: 10,
                                           maxLines: 2,
+                                          style: TextStyle(color: Colors.blue),
                                         )),
                                         DataCell(AutoSizeText(
                                           item.parent2!,
