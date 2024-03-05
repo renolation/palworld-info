@@ -140,8 +140,12 @@ export class ItemsService {
     const content = $(".item");
 
     const summary = $(".content .summary").eq(0).find("p").text();
+
     const rankStr = content.find(".row:has(.label:contains('Rank')) .right .value").text();
     const rank = rankStr ? Number(rankStr) : null;
+
+    const rarityStr = content.find(".row:has(.label:contains('Rarity')) .right .value").text();
+    const rarity = rarityStr ? Number(rarityStr) : null;
 
     const priceStr = content.find(".row:has(.label:contains('Price')) .right .value").text();
     const price = priceStr ? Number(priceStr) : null;
@@ -169,6 +173,7 @@ export class ItemsService {
 
     return {
       summary,
+      rarity,
       rank,
       price,
       weight,

@@ -45,9 +45,10 @@ export class ItemsController {
     const items = await this.itemsService.findAll();
     for (let item of items) {
       const data = await this.itemsService.crawlItemDetail(item.slug);
-      await delay(300);
+      await delay(100);
       let updatedItemDto = new UpdateItemDto();
       updatedItemDto.summary = data.summary;
+      updatedItemDto.rarity = data.rarity;
       updatedItemDto.rank = data.rank;
       updatedItemDto.price = data.price;
       updatedItemDto.weight = data.weight;

@@ -44,6 +44,11 @@ export class ItemEntity {
   rank: number;
 
   @Column({ nullable: true })
+  rarity: number;
+
+
+
+  @Column({ nullable: true })
   price: number;
 
   @Column({ nullable: true,   type: 'float', })

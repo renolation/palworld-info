@@ -24,9 +24,13 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
   @IsOptional()
   itemType: ItemType;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
   rank: number;
+
+    @IsNumber()
+  @IsOptional()
+  rarity: number;
 
   @IsNumber()
   @IsOptional()
