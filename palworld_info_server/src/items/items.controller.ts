@@ -5,7 +5,7 @@ import { UpdateItemDto } from "./dto/update-item.dto";
 import { UpdatePalDto } from "../pals/dto/update-pal.dto";
 import { data } from "cheerio/lib/api/attributes";
 
-function delay(time: number) {
+export function delay(time: number) {
   return new Promise(function(resolve) {
     setTimeout(resolve, time);
   });

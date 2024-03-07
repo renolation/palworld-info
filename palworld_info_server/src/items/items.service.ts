@@ -169,7 +169,8 @@ export class ItemsService {
     const restoreSatiety = restoreSatietyStr ? Number(restoreSatietyStr) : null;
 
 
-    const passiveSkill = content.find(".row:has(.label:contains(\"Passive Skill\")) .right .value").text();
+    const passiveSkillStr = content.find(".row:has(.label:contains(\"Passive Skill\")) .right .value").text();
+    const passiveSkill = passiveSkillStr ? passiveSkillStr : null;
 
     return {
       summary,

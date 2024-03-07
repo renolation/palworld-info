@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { StructuresService } from './structures.service';
 import { CreateStructureDto } from './dto/create-structure.dto';
 import { UpdateStructureDto } from './dto/update-structure.dto';
+import { UpdateItemDto } from "../items/dto/update-item.dto";
+import { delay } from "../items/items.controller";
 
 @Controller('structures')
 export class StructuresController {
@@ -21,9 +23,27 @@ export class StructuresController {
     }
   }
 
+    @Get("/crawl/detail")
+  async crawlItemDetail() {
+    const items = await this.structuresService.findAll();
+    for (let item of items) {
+      const data = await this.structuresService.crawlStructureDetail(item.slug);
+      await delay(50);
+      console.log(data);
+      let updatedStructureDto = new UpdateStructureDto();
+      updatedStructureDto.summary = data.summary;
+      updatedStructureDto.buildWork = data.buildWork;
+      updatedStructureDto.consumeEnergySpeed = data.consumeEnergySpeed;
+      updatedStructureDto.energyType = data.energyType;
+
+      await this.structuresService.updateBySlug(item.slug, updatedStructureDto);
+    }
+    return "aa";
+  }
+
   @Get()
-  findAll() {
-    return this.structuresService.findAll();
+  async findAll() {
+    return await this.structuresService.findAll();
   }
 
   @Get(':id')
