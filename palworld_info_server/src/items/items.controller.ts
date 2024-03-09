@@ -58,7 +58,7 @@ export class ItemsController {
       updatedItemDto.restoreConcentration = data.restoreConcentration;
       updatedItemDto.restoreSatiety = data.restoreSatiety;
       updatedItemDto.passiveSkill = data.passiveSkill;
-      await this.itemsService.updateBySlug(item.slug, updatedItemDto);
+      await this.itemsService.updateBySlug(item.name, updatedItemDto);
     }
     return "aa";
   }

@@ -28,7 +28,7 @@ import { BreedingEntity } from './breeding/entities/breeding.entity';
       password: 'Renolation29',
       database: 'postgres',
       entities: [Pal ,Element,ActiveSkillPal, ActiveSkill, WorkSuitability, LevelWorkSuitability, PassiveSkill, PassiveDesc,PSkillPal, Partner, PartnerPal, ItemEntity, StructureEntity, BreedingEntity],
-      synchronize: true,
+      synchronize: false,
     }),
     PalsModule,
     SkillsModule,

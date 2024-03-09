@@ -61,15 +61,17 @@ export class ItemsService {
     return `This action returns a #${id} item`;
   }
 
-  async updateBySlug(slug: string, updateItemDto: UpdateItemDto) {
+  async updateBySlug(name: string, updateItemDto: UpdateItemDto) {
     const itemToUpdate = await this.repo.findOne({
-      where: { slug }
+      where: { name }
 
     });
     if (!itemToUpdate) {
       return
       // throw new Error(`Item with ID: ${name} not found.`);
     }
+    console.log('good');
+    console.log(itemToUpdate.slug);
     const updatedItem = this.repo.merge(itemToUpdate, updateItemDto);
     try {
       await this.repo.save(updatedItem);

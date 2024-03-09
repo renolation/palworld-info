@@ -36,7 +36,7 @@ export class StructuresController {
       updatedStructureDto.consumeEnergySpeed = data.consumeEnergySpeed;
       updatedStructureDto.energyType = data.energyType;
 
-      await this.structuresService.updateBySlug(item.slug, updatedStructureDto);
+      await this.structuresService.updateBySlug(item.name, updatedStructureDto);
     }
     return "aa";
   }

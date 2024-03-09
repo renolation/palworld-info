@@ -137,11 +137,11 @@ export class StructuresService {
   }
 
 
-  async updateBySlug(slug: string, structureEntity: UpdateStructureDto) {
+  async updateBySlug(name: string, structureEntity: UpdateStructureDto) {
     const structureToUpdate = await this.repo.findOne({
-      where: { slug: slug }
-
+      where: { name: name }
     });
+    console.log(name);
     if (!structureToUpdate) {
       return;
       // throw new Error(`Item with ID: ${name} not found.`);
