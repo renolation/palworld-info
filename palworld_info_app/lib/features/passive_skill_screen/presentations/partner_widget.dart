@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -80,10 +81,11 @@ class PartnerWidget extends StatelessWidget {
                                   SizedBox(
                                       width: 80,
                                       child: InkWell(
-                                        onTap: () {
+                                        onTap: () async {
                                           ref
                                               .read(countAdProvider.notifier)
                                               .update();
+
                                           context.pushNamed(
                                               AppRoute.detail.name,
                                               pathParameters: {
@@ -92,6 +94,10 @@ class PartnerWidget extends StatelessWidget {
                                               },
                                               extra:
                                                   partnerSkills.pal![0].name!);
+                                          await FirebaseAnalytics.instance.logSelectContent(
+                                            contentType: "partner",
+                                            itemId: partnerSkills.pal![0].slug!,
+                                          );
                                         },
                                         child: CachedNetworkImage(
                                           imageUrl:

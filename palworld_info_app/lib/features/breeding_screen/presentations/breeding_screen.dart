@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -128,12 +129,17 @@ class BreedingScreen extends HookConsumerWidget {
                                         itemBuilder: (context, index) {
                                           PalEntity palEntity = listItem[index];
                                           return InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               selectingPal.value = palEntity;
                                               ref
                                                   .read(countAdProvider.notifier)
                                                   .update();
+
                                               Navigator.pop(context);
+                                              await FirebaseAnalytics.instance.logSelectContent(
+                                                contentType: "breeding",
+                                                itemId: palEntity.slug!,
+                                              );
                                             },
                                             child: AspectRatio(
                                               aspectRatio: 10 / 7,
