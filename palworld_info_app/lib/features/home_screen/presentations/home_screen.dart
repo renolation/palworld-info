@@ -59,17 +59,6 @@ class HomeScreen extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 4,),
-            // TextButton(
-            //   onPressed: () {
-            //     context.pushNamed(
-            //       AppRoute.banner.name,
-            //
-            //     );
-            //     // AppOpenAdManager().showAdIfAvailable();
-            //
-            //   },
-            //   child: Text('Button'),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
