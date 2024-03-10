@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../features/item_screen/data/item_controller.dart';
 import '../utils/constants.dart';
 import 'ads_provider.dart';
 
@@ -51,3 +52,20 @@ final nativeAdLoadStateProvider = StateProvider.autoDispose<bool>((ref) => false
 
 final filterPalTextState = StateProvider<String>((ref) => '');
 final filterBreedingPalTextState = StateProvider<String>((ref) => '');
+final itemTypeProvider = StateProvider<List<ItemType>>((ref) => []);
+
+@Riverpod(keepAlive: true)
+class ItemTypes extends _$ItemTypes {
+  @override
+  List<ItemType> build() {
+    return [];
+  }
+  void toggle(ItemType itemType) {
+    if(state.contains(itemType)){
+      state = state.where((item) => item != itemType).toList();
+    } else {
+      state = [...state, itemType];
+    }
+
+  }
+}

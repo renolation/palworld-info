@@ -38,3 +38,20 @@ enum SortType {
   Asc,
   Desc
 }
+enum ItemType {
+  weapon('Weapon'),
+  specialWeapon('Special Weapon'),
+  armor('Armor'),
+  accessory('Accessory'),
+  material('Material'),
+  consume('Consume'),
+  ammo('Ammo'),
+  food('Food'),
+  essential('Essential'),
+  glider('Glider'),
+  monsterEquipWeapon('Monster Equip Weapon'),
+  blueprint('Blueprint');
+
+  const ItemType(this.title);
+  final String title;
+}

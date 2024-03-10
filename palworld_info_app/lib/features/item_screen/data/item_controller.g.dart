@@ -6,7 +6,7 @@ part of 'item_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$itemControllerHash() => r'5e7b2e2d946dec8e5e791070935bea6694b53f52';
+String _$itemControllerHash() => r'88ef1351934c33b2ac74a49d839803d84d11aadd';
 
 /// See also [ItemController].
 @ProviderFor(ItemController)

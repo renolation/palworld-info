@@ -48,5 +48,19 @@ final countAdProvider = NotifierProvider<CountAd, int>.internal(
 );
 
 typedef _$CountAd = Notifier<int>;
+String _$itemTypesHash() => r'844d6147901d8edfa293abeef55ab50d613c959e';
+
+/// See also [ItemTypes].
+@ProviderFor(ItemTypes)
+final itemTypesProvider = NotifierProvider<ItemTypes, List<ItemType>>.internal(
+  ItemTypes.new,
+  name: r'itemTypesProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$itemTypesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ItemTypes = Notifier<List<ItemType>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
