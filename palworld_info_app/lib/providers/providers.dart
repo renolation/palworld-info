@@ -52,7 +52,6 @@ final nativeAdLoadStateProvider = StateProvider.autoDispose<bool>((ref) => false
 
 final filterPalTextState = StateProvider<String>((ref) => '');
 final filterBreedingPalTextState = StateProvider<String>((ref) => '');
-final itemTypeProvider = StateProvider<List<ItemType>>((ref) => []);
 
 @Riverpod(keepAlive: true)
 class ItemTypes extends _$ItemTypes {
@@ -65,6 +64,22 @@ class ItemTypes extends _$ItemTypes {
       state = state.where((item) => item != itemType).toList();
     } else {
       state = [...state, itemType];
+    }
+
+  }
+}
+
+@Riverpod(keepAlive: true)
+class StructuresType extends _$StructuresType {
+  @override
+  List<StructureType> build() {
+    return [];
+  }
+  void toggle(StructureType structureType) {
+    if(state.contains(structureType)){
+      state = state.where((item) => item != structureType).toList();
+    } else {
+      state = [...state, structureType];
     }
 
   }

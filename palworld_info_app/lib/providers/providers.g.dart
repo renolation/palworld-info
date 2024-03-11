@@ -62,5 +62,21 @@ final itemTypesProvider = NotifierProvider<ItemTypes, List<ItemType>>.internal(
 );
 
 typedef _$ItemTypes = Notifier<List<ItemType>>;
+String _$structuresTypeHash() => r'77bbd39041cdeac4f2cc0df9a6aa1382234c9ef5';
+
+/// See also [StructuresType].
+@ProviderFor(StructuresType)
+final structuresTypeProvider =
+    NotifierProvider<StructuresType, List<StructureType>>.internal(
+  StructuresType.new,
+  name: r'structuresTypeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$structuresTypeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$StructuresType = Notifier<List<StructureType>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/item_entity.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
+import 'package:palworld_info_app/domains/structure_entity.dart';
 import 'package:palworld_info_app/features/breeding_screen/presentations/breeding_screen.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
@@ -12,6 +13,8 @@ import 'package:palworld_info_app/features/home_screen/presentations/test_banner
 import 'package:palworld_info_app/features/item_screen/presentations/item_detail_screen.dart';
 import 'package:palworld_info_app/features/item_screen/presentations/item_screen.dart';
 import 'package:palworld_info_app/features/passive_skill_screen/presentations/passive_skill_screen.dart';
+import 'package:palworld_info_app/features/structure_screen/presentations/structure_detail_screen.dart';
+import 'package:palworld_info_app/features/structure_screen/presentations/structure_screen.dart';
 import 'package:yandex_mobileads/mobile_ads.dart';
 
 import '../features/home_screen/presentations/app_open_ad_page.dart';
@@ -22,7 +25,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
-enum AppRoute { home, detail, user, like, passive, banner, breeding, item, itemDetail }
+enum AppRoute { home, detail, user, like, passive, banner, breeding, item, itemDetail, structure, structureDetail }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -79,6 +82,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 ]
               ),
 
+            ]),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                path: '/structure',
+                name: AppRoute.structure.name,
+                builder: (context, state) => const StructureScreen(),
+                  routes: [
+                    GoRoute(
+                      path: ':slug',
+                      name: AppRoute.structureDetail.name,
+                      builder: (context, state) {
+                        // String slug = state.pathParameters['slug']!;
+                        StructureEntity structure = state.extra as StructureEntity;
+                        return StructureDetailScreen(
+                            key: state.pageKey, structureEntity: structure);
+                      },
+                    ),
+                  ]
+              ),
             ]),
             StatefulShellBranch(routes: [
               GoRoute(
@@ -154,6 +176,10 @@ class ScaffoldWithNavBar extends StatelessWidget {
                     GButton(
                       icon: FontAwesomeIcons.gun,
                       text: 'Items',
+                    ),
+                    GButton(
+                      icon: FontAwesomeIcons.chair,
+                      text: 'Structures',
                     ),
                     GButton(
                       icon: FontAwesomeIcons.shieldHalved,

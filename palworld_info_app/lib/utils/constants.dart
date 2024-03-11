@@ -55,3 +55,19 @@ enum ItemType {
   const ItemType(this.title);
   final String title;
 }
+
+enum StructureType {
+  product('Product'),
+  pal('Pal'),
+  food('Food'),
+  infrastructure('Infrastructure'),
+  light('Light'),
+  foundation('Foundation'),
+  defense('Defense'),
+  other('Other'),
+  furniture('Furniture'),
+  dismantle('Dismantle');
+
+  const StructureType(this.title);
+  final String title;
+}

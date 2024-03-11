@@ -1,26 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:palworld_info_app/domains/item_entity.dart';
-import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
+import 'package:palworld_info_app/domains/structure_entity.dart';
 
-class ItemDetailScreen extends HookConsumerWidget {
-  const ItemDetailScreen({Key? key, required this.itemEntity}) : super(key: key);
-  final ItemEntity itemEntity;
+import '../../detail_screen/presentations/detail_screen.dart';
+
+class StructureDetailScreen extends HookConsumerWidget {
+  const StructureDetailScreen({
+    Key? key,
+    required this.structureEntity
+  }) : super(key: key);
+  final StructureEntity structureEntity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(itemEntity.name!),
+        title: Text(structureEntity.name!),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
+
           child: Column(
             children: [
-              Align(alignment: Alignment.topCenter, child: CachedNetworkImage(imageUrl: itemEntity.iconUrl!,
-              height: 250,)),
+              Align(alignment: Alignment.topCenter, child: CachedNetworkImage(
+                  height: 250,
+                  imageUrl: structureEntity.iconUrl!)),
               ...getDetailRows(),
               Padding(
                 padding: const EdgeInsets.only(top: 16),
@@ -51,7 +57,7 @@ class ItemDetailScreen extends HookConsumerWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                        child: Text(itemEntity.summary!),
+                        child: Text(structureEntity.summary!),
                       ),
                     ],
                   ),
@@ -63,7 +69,6 @@ class ItemDetailScreen extends HookConsumerWidget {
       ),
     );
   }
-
   List<Widget> getDetailRows() {
     int i = 0;
     List<Widget> detailRows = [];
@@ -74,18 +79,13 @@ class ItemDetailScreen extends HookConsumerWidget {
         i++;
       }
     }
-    addDetailRow(name: 'Item Type', value: '${itemEntity.itemType}');
-    addDetailRow(name: 'Rank', value: '${itemEntity.rank}');
-    addDetailRow(name: 'Rarity', value: '${itemEntity.rarity}');
-    addDetailRow(name: 'Price', value: '${itemEntity.price}');
-    addDetailRow(name: 'Weight', value: '${itemEntity.weight}');
-    addDetailRow(name: 'Max Stack Count', value: '${itemEntity.maxStackCount}');
-    addDetailRow(name: 'Phys Attack', value: '${itemEntity.physAttack}');
-    addDetailRow(name: 'Durability', value: '${itemEntity.durability}');
-    addDetailRow(name: 'Restore Concentration', value: '${itemEntity.restoreConcentration}');
-    addDetailRow(name: 'Restore Satiety', value: '${itemEntity.restoreSatiety}');
-    addDetailRow(name: 'Passive Skill', value: '${itemEntity.passiveSkill}');
+    addDetailRow(name: 'Structure Type', value: '${structureEntity.structureType}');
+    addDetailRow(name: 'Build Work', value: '${structureEntity.buildWork}');
+    addDetailRow(name: 'Energy Type', value: '${structureEntity.energyType}');
+    addDetailRow(name: 'Consume Energy Speed', value: '${structureEntity.consumeEnergySpeed}');
+
 
     return detailRows;
   }
+
 }
