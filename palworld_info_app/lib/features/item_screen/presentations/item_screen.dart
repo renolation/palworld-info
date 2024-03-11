@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -140,12 +141,17 @@ class ItemScreen extends HookConsumerWidget {
                       itemBuilder: (context, index) {
                         ItemEntity itemEntity = listItem[index];
                         return InkWell(
-                          onTap: (){
+                          onTap: () async {
                             context.pushNamed(
                                 AppRoute.itemDetail.name,
                                 pathParameters: {'slug': itemEntity.slug!},
                                 extra: itemEntity
                             );
+                            await FirebaseAnalytics.instance.logSelectContent(
+                              contentType: "item",
+                              itemId: itemEntity.slug!,
+                            );
+                            ref.read(countAdProvider.notifier).update();
                           },
                           child: Card(
                             child: Column(

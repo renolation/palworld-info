@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -136,12 +137,17 @@ class StructureScreen extends HookConsumerWidget {
                       itemBuilder: (context, index) {
                         StructureEntity structureEntity = listItem[index];
                         return InkWell(
-                          onTap: (){
+                          onTap: () async {
                             context.pushNamed(
                                 AppRoute.structureDetail.name,
                                 pathParameters: {'slug': structureEntity.slug!},
                                 extra: structureEntity
                             );
+                            await FirebaseAnalytics.instance.logSelectContent(
+                              contentType: "structure",
+                              itemId: structureEntity.slug!,
+                            );
+                            ref.read(countAdProvider.notifier).update();
                           },
                           child: Card(
                             child: Column(
