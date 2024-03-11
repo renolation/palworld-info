@@ -5,12 +5,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:palworld_info_app/features/item_screen/data/item_controller.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:palworld_info_app/providers/providers.dart';
 
 import '../../../domains/item_entity.dart';
+import '../../../utils/app_router.dart';
 import '../../../utils/constants.dart';
 
 class ItemScreen extends HookConsumerWidget {
@@ -136,27 +138,36 @@ class ItemScreen extends HookConsumerWidget {
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                       itemBuilder: (context, index) {
                         ItemEntity itemEntity = listItem[index];
-                        return Card(
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: CachedNetworkImage(imageUrl: itemEntity.iconUrl!),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: AutoSizeText(
-                                  itemEntity.name!,
-                                  textAlign: TextAlign.center,
+                        return InkWell(
+                          onTap: (){
+                            context.pushNamed(
+                                AppRoute.itemDetail.name,
+                                pathParameters: {'slug': itemEntity.slug!},
+                                extra: itemEntity
+                            );
+                          },
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: CachedNetworkImage(imageUrl: itemEntity.iconUrl!),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: AutoSizeText(
-                                  itemEntity.itemType!,
-                                  textAlign: TextAlign.center,
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: AutoSizeText(
+                                    itemEntity.name!,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: AutoSizeText(
+                                    itemEntity.itemType!,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       });

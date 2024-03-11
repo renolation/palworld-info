@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:palworld_info_app/domains/item_entity.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/breeding_screen/presentations/breeding_screen.dart';
 import 'package:palworld_info_app/features/detail_screen/presentations/detail_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/home_screen.dart';
 import 'package:palworld_info_app/features/home_screen/presentations/test_banner.dart';
+import 'package:palworld_info_app/features/item_screen/presentations/item_detail_screen.dart';
 import 'package:palworld_info_app/features/item_screen/presentations/item_screen.dart';
 import 'package:palworld_info_app/features/passive_skill_screen/presentations/passive_skill_screen.dart';
 import 'package:yandex_mobileads/mobile_ads.dart';
@@ -20,7 +22,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
-enum AppRoute { home, detail, user, like, passive, banner, breeding, item }
+enum AppRoute { home, detail, user, like, passive, banner, breeding, item, itemDetail }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -63,6 +65,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: '/items',
                 name: AppRoute.item.name,
                 builder: (context, state) => const ItemScreen(),
+              ),
+              GoRoute(
+                path: '/items/:slug',
+                name: AppRoute.itemDetail.name,
+                builder: (context, state) {
+                  // String slug = state.pathParameters['slug']!;
+                  ItemEntity item = state.extra as ItemEntity;
+                  return ItemDetailScreen(
+                      key: state.pageKey, itemEntity: item);
+                },
               ),
             ]),
             StatefulShellBranch(routes: [
@@ -137,7 +149,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                       text: 'Breeding',
                     ),
                     GButton(
-                      icon: FontAwesomeIcons.itunes,
+                      icon: FontAwesomeIcons.gun,
                       text: 'Items',
                     ),
                     GButton(
