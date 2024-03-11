@@ -65,17 +65,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: '/items',
                 name: AppRoute.item.name,
                 builder: (context, state) => const ItemScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':slug',
+                    name: AppRoute.itemDetail.name,
+                    builder: (context, state) {
+                      // String slug = state.pathParameters['slug']!;
+                      ItemEntity item = state.extra as ItemEntity;
+                      return ItemDetailScreen(
+                          key: state.pageKey, itemEntity: item);
+                    },
+                  ),
+                ]
               ),
-              GoRoute(
-                path: '/items/:slug',
-                name: AppRoute.itemDetail.name,
-                builder: (context, state) {
-                  // String slug = state.pathParameters['slug']!;
-                  ItemEntity item = state.extra as ItemEntity;
-                  return ItemDetailScreen(
-                      key: state.pageKey, itemEntity: item);
-                },
-              ),
+
             ]),
             StatefulShellBranch(routes: [
               GoRoute(
