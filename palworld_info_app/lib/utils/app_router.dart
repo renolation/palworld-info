@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+// import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:palworld_info_app/domains/item_entity.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/domains/structure_entity.dart';
@@ -15,6 +15,7 @@ import 'package:palworld_info_app/features/item_screen/presentations/item_screen
 import 'package:palworld_info_app/features/passive_skill_screen/presentations/passive_skill_screen.dart';
 import 'package:palworld_info_app/features/structure_screen/presentations/structure_detail_screen.dart';
 import 'package:palworld_info_app/features/structure_screen/presentations/structure_screen.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:yandex_mobileads/mobile_ads.dart';
 
 import '../features/home_screen/presentations/app_open_ad_page.dart';
@@ -151,44 +152,33 @@ class ScaffoldWithNavBar extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                child: GNav(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  tabBorderRadius: 10,
-                  rippleColor: Colors.grey[300]!,
-                  hoverColor: Colors.grey[100]!,
-                  gap: 8,
-                  activeColor: Colors.black,
-                  iconSize: 24,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  duration: const Duration(milliseconds: 400),
-                  tabBackgroundColor: Colors.grey[100]!,
-                  color: Colors.black,
-                  tabs: const [
-                    GButton(
-                      icon: FontAwesomeIcons.house,
-                      text: 'Pals',
+                child: SalomonBottomBar(
+                  selectedItemColor: Colors.blueAccent,
+                  items:  [
+                    SalomonBottomBarItem(
+                      icon: const Icon(FontAwesomeIcons.house),
+                      title: const Text('Pals'),
                     ),
-                    GButton(
-                      icon: FontAwesomeIcons.heart,
-                      text: 'Breeding',
+                    SalomonBottomBarItem(
+                      icon:const Icon(FontAwesomeIcons.heart),
+                      title:const Text('Breeding'),
                     ),
-                    GButton(
-                      icon: FontAwesomeIcons.gun,
-                      text: 'Items',
+                    SalomonBottomBarItem(
+                      icon:const Icon(FontAwesomeIcons.gun),
+                        title:const Text('Items'),
                     ),
-                    GButton(
-                      icon: FontAwesomeIcons.chair,
-                      text: 'Structures',
+                    SalomonBottomBarItem(
+                      icon:const Icon(FontAwesomeIcons.chair),
+                        title:const Text('Structures'),
                     ),
-                    GButton(
-                      icon: FontAwesomeIcons.shieldHalved,
-                      text: 'Skills',
+                    SalomonBottomBarItem(
+                      icon:const Icon(FontAwesomeIcons.shieldHalved),
+                        title:const Text('Skills'),
                     ),
 
                   ],
-                  selectedIndex: 0,
-                  onTabChange: (index) {
+                  currentIndex: navigationShell.currentIndex,
+                  onTap: (index) {
                     _onTap(context, index);
                   },
                 ),

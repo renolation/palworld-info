@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/domains/work_suitability_entity.dart';
