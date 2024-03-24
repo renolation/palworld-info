@@ -121,7 +121,11 @@ export class PalsService {
       where: {
         slug: slug
       },
+
       relations: {
+        palItems: {
+          item: true
+        },
         elements: true,
         levelWorkSuitability: {
           workSuitability: true
@@ -139,7 +143,8 @@ export class PalsService {
             element: true
           }
         }
-      }
+      },
+
     });
   }
 

@@ -63,11 +63,17 @@ export class ItemsController {
     return "aa";
   }
 
-  @Get(":id")
+
+
+  @Get("/id/:id")
   findOne(@Param("id") id: string) {
     return this.itemsService.findOne(+id);
   }
 
+      @Get("/:id")
+  findOneById(@Param("id") id: string) {
+    return this.itemsService.findOneBySlug(id);
+  }
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.itemsService.update(+id, updateItemDto);

@@ -5,6 +5,7 @@ import { PSkillPal } from '../../skills/entities/passive_skill.entity';
 import { PartnerPal } from "./partner.entity";
 import { ActiveSkill } from "../../skills/entities/active_skill.entity";
 import { ActiveSkillPal } from "../../skills/entities/active_skill_pal.entity";
+import { PalItemEntity } from './pal_item.entity';
 
 export enum PalSize {
   S = "S",
@@ -19,6 +20,9 @@ export class Pal {
 
   @Column({unique: true})
   name: string;
+
+   @OneToMany(() => PalItemEntity, palItem => palItem.pal)
+    palItems: PalItemEntity[];
 
   @Column({nullable: true})
   title: string;

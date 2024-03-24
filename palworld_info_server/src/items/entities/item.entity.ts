@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { PalItemEntity } from '../../pals/entities/pal_item.entity';
 
 
 export enum ItemType {
@@ -23,6 +24,9 @@ export class ItemEntity {
 
   @Column({ unique: true })
   name: string;
+
+  @OneToMany(() => PalItemEntity, palItem => palItem.item)
+    palItems: PalItemEntity[];
 
   @Column({ nullable: true })
   slug: string;
