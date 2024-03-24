@@ -36,6 +36,7 @@ mixin _$ItemEntity {
   int? get restoreConcentration => throw _privateConstructorUsedError;
   int? get restoreSatiety => throw _privateConstructorUsedError;
   String? get passiveSkill => throw _privateConstructorUsedError;
+  List<PalItemEntity>? get palItems => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -65,7 +66,8 @@ abstract class $ItemEntityCopyWith<$Res> {
       int? durability,
       int? restoreConcentration,
       int? restoreSatiety,
-      String? passiveSkill});
+      String? passiveSkill,
+      List<PalItemEntity>? palItems});
 }
 
 /// @nodoc
@@ -97,6 +99,7 @@ class _$ItemEntityCopyWithImpl<$Res, $Val extends ItemEntity>
     Object? restoreConcentration = freezed,
     Object? restoreSatiety = freezed,
     Object? passiveSkill = freezed,
+    Object? palItems = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -163,6 +166,10 @@ class _$ItemEntityCopyWithImpl<$Res, $Val extends ItemEntity>
           ? _value.passiveSkill
           : passiveSkill // ignore: cast_nullable_to_non_nullable
               as String?,
+      palItems: freezed == palItems
+          ? _value.palItems
+          : palItems // ignore: cast_nullable_to_non_nullable
+              as List<PalItemEntity>?,
     ) as $Val);
   }
 }
@@ -191,7 +198,8 @@ abstract class _$$ItemEntityImplCopyWith<$Res>
       int? durability,
       int? restoreConcentration,
       int? restoreSatiety,
-      String? passiveSkill});
+      String? passiveSkill,
+      List<PalItemEntity>? palItems});
 }
 
 /// @nodoc
@@ -221,6 +229,7 @@ class __$$ItemEntityImplCopyWithImpl<$Res>
     Object? restoreConcentration = freezed,
     Object? restoreSatiety = freezed,
     Object? passiveSkill = freezed,
+    Object? palItems = freezed,
   }) {
     return _then(_$ItemEntityImpl(
       id: freezed == id
@@ -287,6 +296,10 @@ class __$$ItemEntityImplCopyWithImpl<$Res>
           ? _value.passiveSkill
           : passiveSkill // ignore: cast_nullable_to_non_nullable
               as String?,
+      palItems: freezed == palItems
+          ? _value._palItems
+          : palItems // ignore: cast_nullable_to_non_nullable
+              as List<PalItemEntity>?,
     ));
   }
 }
@@ -310,7 +323,9 @@ class _$ItemEntityImpl implements _ItemEntity {
       this.durability,
       this.restoreConcentration,
       this.restoreSatiety,
-      this.passiveSkill});
+      this.passiveSkill,
+      final List<PalItemEntity>? palItems})
+      : _palItems = palItems;
 
   factory _$ItemEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemEntityImplFromJson(json);
@@ -347,10 +362,19 @@ class _$ItemEntityImpl implements _ItemEntity {
   final int? restoreSatiety;
   @override
   final String? passiveSkill;
+  final List<PalItemEntity>? _palItems;
+  @override
+  List<PalItemEntity>? get palItems {
+    final value = _palItems;
+    if (value == null) return null;
+    if (_palItems is EqualUnmodifiableListView) return _palItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ItemEntity(id: $id, name: $name, slug: $slug, iconUrl: $iconUrl, summary: $summary, itemType: $itemType, rank: $rank, rarity: $rarity, price: $price, weight: $weight, maxStackCount: $maxStackCount, physAttack: $physAttack, durability: $durability, restoreConcentration: $restoreConcentration, restoreSatiety: $restoreSatiety, passiveSkill: $passiveSkill)';
+    return 'ItemEntity(id: $id, name: $name, slug: $slug, iconUrl: $iconUrl, summary: $summary, itemType: $itemType, rank: $rank, rarity: $rarity, price: $price, weight: $weight, maxStackCount: $maxStackCount, physAttack: $physAttack, durability: $durability, restoreConcentration: $restoreConcentration, restoreSatiety: $restoreSatiety, passiveSkill: $passiveSkill, palItems: $palItems)';
   }
 
   @override
@@ -380,7 +404,8 @@ class _$ItemEntityImpl implements _ItemEntity {
             (identical(other.restoreSatiety, restoreSatiety) ||
                 other.restoreSatiety == restoreSatiety) &&
             (identical(other.passiveSkill, passiveSkill) ||
-                other.passiveSkill == passiveSkill));
+                other.passiveSkill == passiveSkill) &&
+            const DeepCollectionEquality().equals(other._palItems, _palItems));
   }
 
   @JsonKey(ignore: true)
@@ -402,7 +427,8 @@ class _$ItemEntityImpl implements _ItemEntity {
       durability,
       restoreConcentration,
       restoreSatiety,
-      passiveSkill);
+      passiveSkill,
+      const DeepCollectionEquality().hash(_palItems));
 
   @JsonKey(ignore: true)
   @override
@@ -435,7 +461,8 @@ abstract class _ItemEntity implements ItemEntity {
       final int? durability,
       final int? restoreConcentration,
       final int? restoreSatiety,
-      final String? passiveSkill}) = _$ItemEntityImpl;
+      final String? passiveSkill,
+      final List<PalItemEntity>? palItems}) = _$ItemEntityImpl;
 
   factory _ItemEntity.fromJson(Map<String, dynamic> json) =
       _$ItemEntityImpl.fromJson;
@@ -472,6 +499,8 @@ abstract class _ItemEntity implements ItemEntity {
   int? get restoreSatiety;
   @override
   String? get passiveSkill;
+  @override
+  List<PalItemEntity>? get palItems;
   @override
   @JsonKey(ignore: true)
   _$$ItemEntityImplCopyWith<_$ItemEntityImpl> get copyWith =>

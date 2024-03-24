@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:palworld_info_app/domains/pal_item_entity.dart';
 
 part 'item_entity.freezed.dart';
 part 'item_entity.g.dart';
@@ -22,7 +23,9 @@ class ItemEntity with _$ItemEntity {
     int? durability,
     int? restoreConcentration,
     int? restoreSatiety,
-    String? passiveSkill
+    String? passiveSkill,
+    List<PalItemEntity>? palItems,
+
   }) = _ItemEntity;
 
   factory ItemEntity.fromJson(Map<String, dynamic> json) =>

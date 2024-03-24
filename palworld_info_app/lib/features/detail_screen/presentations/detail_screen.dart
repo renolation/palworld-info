@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:palworld_info_app/domains/pal_entity.dart';
 import 'package:palworld_info_app/features/detail_screen/data/detail_pal_controller.dart';
 import 'package:palworld_info_app/utils/constants.dart';
 
+import '../../../domains/pal_item_entity.dart';
 import '../../../providers/ads_provider.dart';
 
 class DetailScreen extends HookConsumerWidget {
@@ -24,6 +26,64 @@ class DetailScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailPal = ref.watch(detailPalControllerProvider(slug));
+    GridView itemDropGridView(List<PalItemEntity> itemList) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: itemList.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+        ),
+        itemBuilder: (context, index) {
+          PalItemEntity palItem = itemList[index];
+          return Card(
+            child: Stack(
+              children: [
+
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AutoSizeText(
+                      palItem.item!.name!,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    )),
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: Container(
+                    height: 30,
+                    width: 32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.yellowAccent.withOpacity(0.8),
+                    ),
+                    child: Center(child: AutoSizeText('${palItem.chance!}%', style: const TextStyle(color: Colors.black),)),
+                  ),
+                ),
+                Positioned(
+                  top: 4,
+                  left: 4,
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.grey.withOpacity(0.8),
+                    ),
+                    child: Center(child: AutoSizeText(palItem.itemCount!, style: const TextStyle(color: Colors.black),)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: CachedNetworkImage(imageUrl: palItem.item!.iconUrl!),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     print('a');
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +94,9 @@ class DetailScreen extends HookConsumerWidget {
           child: detailPal.when(
               data: (data) {
                 PalEntity palEntity = data;
+
                 return ListView(
+                  shrinkWrap: true,
                   children: [
                     Container(
                       color: Colors.black26,
@@ -61,6 +123,7 @@ class DetailScreen extends HookConsumerWidget {
                         ],
                       ),
                     ),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -68,8 +131,7 @@ class DetailScreen extends HookConsumerWidget {
                       children: [
                         const Text(
                           'Element: ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16),
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                         ),
                         for (var element in palEntity.elements!)
                           CachedNetworkImage(
@@ -82,16 +144,13 @@ class DetailScreen extends HookConsumerWidget {
                       children: [
                         const Text(
                           'Work Suitabilities: ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 16),
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                         ),
-                        for (var workSuitability
-                            in palEntity.levelWorkSuitability!)
+                        for (var workSuitability in palEntity.levelWorkSuitability!)
                           Column(
                             children: [
                               CachedNetworkImage(
-                                imageUrl:
-                                    workSuitability.workSuitability!.iconUrl!,
+                                imageUrl: workSuitability.workSuitability!.iconUrl!,
                                 width: 30,
                               ),
                               Text(workSuitability.level!.toString()),
@@ -105,6 +164,7 @@ class DetailScreen extends HookConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           DetailRow(
                             name: 'Size',
@@ -187,13 +247,86 @@ class DetailScreen extends HookConsumerWidget {
                     const SizedBox(
                       height: 20,
                     ),
+
+                    //region items
+                    // Refactored Dart code:
+
+                    Consumer(builder: (context, ref, child) {
+                      List<PalItemEntity> palItem = data.palItems!;
+                      List<PalItemEntity> normalList = List<PalItemEntity>.empty(growable: true);
+                      List<PalItemEntity> bossList = List<PalItemEntity>.empty(growable: true);
+
+                      for (var element in palItem) {
+                        if (element.isBoss!) {
+                          bossList.add(element);
+                        } else {
+                          normalList.add(element);
+                        }
+                      }
+
+                      return palItem.isEmpty
+                          ? const SizedBox()
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white24,
+                                  ),
+
+                                  // margin: const EdgeInsets.symmetric(vertical: 4),
+                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Item Drops',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: Text(
+                                    'Normal',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                itemDropGridView(normalList),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  child: Text(
+                                    'Boss',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                itemDropGridView(bossList),
+                              ],
+                            );
+                    }),
+                    //endregion
+
                     SizedBox(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 4),
-                            child: Text('Partner Skill', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                            child: Text(
+                              'Partner Skill',
+                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Container(
                             decoration: BoxDecoration(
@@ -207,18 +340,29 @@ class DetailScreen extends HookConsumerWidget {
                                 Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.circular(5),
+                                        bottomLeft: Radius.circular(0),
+                                        bottomRight: Radius.circular(0)),
                                     color: Colors.white30,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      CachedNetworkImage(imageUrl: data.partnerPal!.partner!.iconUrl!, height: 36,fit: BoxFit.contain,),
-                                      Text(data.partnerPal!.name!,style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                      CachedNetworkImage(
+                                        imageUrl: data.partnerPal!.partner!.iconUrl!,
+                                        height: 36,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Text(
+                                        data.partnerPal!.name!,
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                 Padding(
+                                Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                   child: Text(data.partnerPal!.description!),
                                 ),
@@ -228,61 +372,81 @@ class DetailScreen extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    data.pSkillPals!.isEmpty ? const SizedBox() :SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 4),
-                            child: Text('Passive Skills', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                          ),
-                          for(var pSkillPal in data.pSkillPals!)
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.black26,
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 4),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+
+                    //region partnerSkill
+                    data.pSkillPals!.isEmpty
+                        ? const SizedBox()
+                        : SizedBox(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                  child: Text(
+                                    'Passive Skills',
+                                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                for (var pSkillPal in data.pSkillPals!)
                                   Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                                      color: Colors.white30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.black26,
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    margin: const EdgeInsets.symmetric(vertical: 4),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(pSkillPal!.passiveSkill!.name!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                                        Text('Rank ${pSkillPal!.rank!}',style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(5),
+                                                topRight: Radius.circular(5),
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight: Radius.circular(0)),
+                                            color: Colors.white30,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                pSkillPal!.passiveSkill!.name!,
+                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Rank ${pSkillPal!.rank!}',
+                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        for (var item in pSkillPal!.passiveSkill!.passiveDesc!)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                            child: Text(item.name!),
+                                          ),
                                       ],
                                     ),
                                   ),
-                                  for(var item in pSkillPal!.passiveSkill!.passiveDesc!) Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                    child: Text(item.name!),
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
-                        ],
-                      ),
-                    ),
+                          ),
+                    //endregion
                     //region active skill
-
                     SizedBox(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 4),
-                            child: Text('Partner Skill', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                            child: Text(
+                              'Partner Skill',
+                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          for(var item in data.activeSkillsPal!)
+                          for (var item in data.activeSkillsPal!)
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
@@ -295,32 +459,47 @@ class DetailScreen extends HookConsumerWidget {
                                   Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(5),
+                                          topRight: Radius.circular(5),
+                                          bottomLeft: Radius.circular(0),
+                                          bottomRight: Radius.circular(0)),
                                       color: Colors.white30,
                                     ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        CachedNetworkImage(imageUrl: item.activeSkill!.element!.iconUrl!, height: 32,fit: BoxFit.contain,),
-                                        SizedBox(width: 4,),
-                                        Text(item.activeSkill!.name!,style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        CachedNetworkImage(
+                                          imageUrl: item.activeSkill!.element!.iconUrl!,
+                                          height: 32,
+                                          fit: BoxFit.contain,
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          item.activeSkill!.name!,
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        ),
                                         Spacer(),
-                                        Text("Lvl: ${item.level!}",style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                        Text(
+                                          "Lvl: ${item.level!}",
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                    child: Text('Power ${item.activeSkill!.power} \nCooldown: ${item.activeSkill!.cd}\nRange: ${item.range}'),
+                                    child: Text(
+                                        'Power ${item.activeSkill!.power} \nCooldown: ${item.activeSkill!.cd}\nRange: ${item.range}'),
                                   ),
                                 ],
                               ),
                             ),
-
                         ],
                       ),
                     ),
-
                     //endregion
                     const SizedBox(
                       height: 20,

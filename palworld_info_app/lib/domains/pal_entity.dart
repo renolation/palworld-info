@@ -10,6 +10,7 @@ import 'package:palworld_info_app/domains/partner_skill_entity.dart';
 import '../utils/constants.dart';
 import 'active_skill_pal_entity.dart';
 import 'p_skill_pal_entity.dart';
+import 'pal_item_entity.dart';
 part 'pal_entity.freezed.dart';
 part 'pal_entity.g.dart';
 
@@ -42,6 +43,8 @@ class PalEntity with _$PalEntity {
     List<PSkillPalEntity>? pSkillPals,
     PartnerSkillEntity? partnerPal,
     List<ActiveSkillPalEntity>? activeSkillsPal,
+    List<PalItemEntity>? palItems,
+
   }) = _PalEntity;
   factory PalEntity.fromJson(Map<String, dynamic> json) => _$PalEntityFromJson(json);
 }

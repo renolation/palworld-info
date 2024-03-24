@@ -151,7 +151,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
               }),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4),
                 child: SalomonBottomBar(
                   selectedItemColor: Colors.blueAccent,
                   items:  [
@@ -175,7 +175,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
                       icon:const Icon(FontAwesomeIcons.shieldHalved),
                         title:const Text('Skills'),
                     ),
-
                   ],
                   currentIndex: navigationShell.currentIndex,
                   onTap: (index) {

@@ -48,6 +48,7 @@ mixin _$PalEntity {
   PartnerSkillEntity? get partnerPal => throw _privateConstructorUsedError;
   List<ActiveSkillPalEntity>? get activeSkillsPal =>
       throw _privateConstructorUsedError;
+  List<PalItemEntity>? get palItems => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -86,7 +87,8 @@ abstract class $PalEntityCopyWith<$Res> {
       List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
       List<PSkillPalEntity>? pSkillPals,
       PartnerSkillEntity? partnerPal,
-      List<ActiveSkillPalEntity>? activeSkillsPal});
+      List<ActiveSkillPalEntity>? activeSkillsPal,
+      List<PalItemEntity>? palItems});
 
   $PartnerSkillEntityCopyWith<$Res>? get partnerPal;
 }
@@ -130,6 +132,7 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
     Object? pSkillPals = freezed,
     Object? partnerPal = freezed,
     Object? activeSkillsPal = freezed,
+    Object? palItems = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -236,6 +239,10 @@ class _$PalEntityCopyWithImpl<$Res, $Val extends PalEntity>
           ? _value.activeSkillsPal
           : activeSkillsPal // ignore: cast_nullable_to_non_nullable
               as List<ActiveSkillPalEntity>?,
+      palItems: freezed == palItems
+          ? _value.palItems
+          : palItems // ignore: cast_nullable_to_non_nullable
+              as List<PalItemEntity>?,
     ) as $Val);
   }
 
@@ -286,7 +293,8 @@ abstract class _$$PalEntityImplCopyWith<$Res>
       List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
       List<PSkillPalEntity>? pSkillPals,
       PartnerSkillEntity? partnerPal,
-      List<ActiveSkillPalEntity>? activeSkillsPal});
+      List<ActiveSkillPalEntity>? activeSkillsPal,
+      List<PalItemEntity>? palItems});
 
   @override
   $PartnerSkillEntityCopyWith<$Res>? get partnerPal;
@@ -329,6 +337,7 @@ class __$$PalEntityImplCopyWithImpl<$Res>
     Object? pSkillPals = freezed,
     Object? partnerPal = freezed,
     Object? activeSkillsPal = freezed,
+    Object? palItems = freezed,
   }) {
     return _then(_$PalEntityImpl(
       id: freezed == id
@@ -435,6 +444,10 @@ class __$$PalEntityImplCopyWithImpl<$Res>
           ? _value._activeSkillsPal
           : activeSkillsPal // ignore: cast_nullable_to_non_nullable
               as List<ActiveSkillPalEntity>?,
+      palItems: freezed == palItems
+          ? _value._palItems
+          : palItems // ignore: cast_nullable_to_non_nullable
+              as List<PalItemEntity>?,
     ));
   }
 }
@@ -468,11 +481,13 @@ class _$PalEntityImpl implements _PalEntity {
       final List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
       final List<PSkillPalEntity>? pSkillPals,
       this.partnerPal,
-      final List<ActiveSkillPalEntity>? activeSkillsPal})
+      final List<ActiveSkillPalEntity>? activeSkillsPal,
+      final List<PalItemEntity>? palItems})
       : _elements = elements,
         _levelWorkSuitability = levelWorkSuitability,
         _pSkillPals = pSkillPals,
-        _activeSkillsPal = activeSkillsPal;
+        _activeSkillsPal = activeSkillsPal,
+        _palItems = palItems;
 
   factory _$PalEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$PalEntityImplFromJson(json);
@@ -562,9 +577,19 @@ class _$PalEntityImpl implements _PalEntity {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<PalItemEntity>? _palItems;
+  @override
+  List<PalItemEntity>? get palItems {
+    final value = _palItems;
+    if (value == null) return null;
+    if (_palItems is EqualUnmodifiableListView) return _palItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'PalEntity(id: $id, name: $name, title: $title, slug: $slug, iconUrl: $iconUrl, summary: $summary, size: $size, rarity: $rarity, hp: $hp, meleeAttack: $meleeAttack, magicAttack: $magicAttack, defense: $defense, support: $support, craftSpeed: $craftSpeed, captureRate: $captureRate, price: $price, slowWalkSpeed: $slowWalkSpeed, runSpeed: $runSpeed, rideSprintSpeed: $rideSprintSpeed, foodAmount: $foodAmount, maleProbability: $maleProbability, elements: $elements, levelWorkSuitability: $levelWorkSuitability, pSkillPals: $pSkillPals, partnerPal: $partnerPal, activeSkillsPal: $activeSkillsPal)';
+    return 'PalEntity(id: $id, name: $name, title: $title, slug: $slug, iconUrl: $iconUrl, summary: $summary, size: $size, rarity: $rarity, hp: $hp, meleeAttack: $meleeAttack, magicAttack: $magicAttack, defense: $defense, support: $support, craftSpeed: $craftSpeed, captureRate: $captureRate, price: $price, slowWalkSpeed: $slowWalkSpeed, runSpeed: $runSpeed, rideSprintSpeed: $rideSprintSpeed, foodAmount: $foodAmount, maleProbability: $maleProbability, elements: $elements, levelWorkSuitability: $levelWorkSuitability, pSkillPals: $pSkillPals, partnerPal: $partnerPal, activeSkillsPal: $activeSkillsPal, palItems: $palItems)';
   }
 
   @override
@@ -610,7 +635,8 @@ class _$PalEntityImpl implements _PalEntity {
             (identical(other.partnerPal, partnerPal) ||
                 other.partnerPal == partnerPal) &&
             const DeepCollectionEquality()
-                .equals(other._activeSkillsPal, _activeSkillsPal));
+                .equals(other._activeSkillsPal, _activeSkillsPal) &&
+            const DeepCollectionEquality().equals(other._palItems, _palItems));
   }
 
   @JsonKey(ignore: true)
@@ -642,7 +668,8 @@ class _$PalEntityImpl implements _PalEntity {
         const DeepCollectionEquality().hash(_levelWorkSuitability),
         const DeepCollectionEquality().hash(_pSkillPals),
         partnerPal,
-        const DeepCollectionEquality().hash(_activeSkillsPal)
+        const DeepCollectionEquality().hash(_activeSkillsPal),
+        const DeepCollectionEquality().hash(_palItems)
       ]);
 
   @JsonKey(ignore: true)
@@ -686,7 +713,8 @@ abstract class _PalEntity implements PalEntity {
       final List<LevelWorkSuitabilityEntity>? levelWorkSuitability,
       final List<PSkillPalEntity>? pSkillPals,
       final PartnerSkillEntity? partnerPal,
-      final List<ActiveSkillPalEntity>? activeSkillsPal}) = _$PalEntityImpl;
+      final List<ActiveSkillPalEntity>? activeSkillsPal,
+      final List<PalItemEntity>? palItems}) = _$PalEntityImpl;
 
   factory _PalEntity.fromJson(Map<String, dynamic> json) =
       _$PalEntityImpl.fromJson;
@@ -743,6 +771,8 @@ abstract class _PalEntity implements PalEntity {
   PartnerSkillEntity? get partnerPal;
   @override
   List<ActiveSkillPalEntity>? get activeSkillsPal;
+  @override
+  List<PalItemEntity>? get palItems;
   @override
   @JsonKey(ignore: true)
   _$$PalEntityImplCopyWith<_$PalEntityImpl> get copyWith =>

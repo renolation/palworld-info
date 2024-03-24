@@ -24,6 +24,9 @@ _$ItemEntityImpl _$$ItemEntityImplFromJson(Map<String, dynamic> json) =>
       restoreConcentration: json['restoreConcentration'] as int?,
       restoreSatiety: json['restoreSatiety'] as int?,
       passiveSkill: json['passiveSkill'] as String?,
+      palItems: (json['palItems'] as List<dynamic>?)
+          ?.map((e) => PalItemEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ItemEntityImplToJson(_$ItemEntityImpl instance) =>
@@ -44,4 +47,5 @@ Map<String, dynamic> _$$ItemEntityImplToJson(_$ItemEntityImpl instance) =>
       'restoreConcentration': instance.restoreConcentration,
       'restoreSatiety': instance.restoreSatiety,
       'passiveSkill': instance.passiveSkill,
+      'palItems': instance.palItems,
     };
