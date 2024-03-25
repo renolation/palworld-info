@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:palworld_info_app/utils/constants.dart';
 
 import '../../../domains/pal_item_entity.dart';
 import '../../../providers/ads_provider.dart';
+import '../../../utils/app_router.dart';
 
 class DetailScreen extends HookConsumerWidget {
   const DetailScreen({
@@ -36,48 +38,61 @@ class DetailScreen extends HookConsumerWidget {
         ),
         itemBuilder: (context, index) {
           PalItemEntity palItem = itemList[index];
-          return Card(
-            child: Stack(
-              children: [
+          return InkWell(
+            onTap: () async {
+              context.pushNamed(
+                  AppRoute.itemDetail.name,
+                  pathParameters: {'slug': palItem.item!.slug!},
+                  extra: palItem.item!
+              );
+              await FirebaseAnalytics.instance.logSelectContent(
+                contentType: "item",
+                itemId: palItem.item!.slug!,
+              );
+            },
+            child: Card(
+              child: Stack(
+                children: [
 
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AutoSizeText(
-                      palItem.item!.name!,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                    )),
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: Container(
-                    height: 30,
-                    width: 32,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.yellowAccent.withOpacity(0.8),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AutoSizeText(
+                        palItem.item!.name!,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                      )),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: Container(
+                      height: 30,
+                      width: 32,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.yellowAccent.withOpacity(0.8),
+                      ),
+                      child: Center(child: AutoSizeText('${palItem.chance!}%', style: const TextStyle(color: Colors.black),)),
                     ),
-                    child: Center(child: AutoSizeText('${palItem.chance!}%', style: const TextStyle(color: Colors.black),)),
                   ),
-                ),
-                Positioned(
-                  top: 4,
-                  left: 4,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.grey.withOpacity(0.8),
+                  Positioned(
+                    top: 4,
+                    left: 4,
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.grey.withOpacity(0.8),
+                      ),
+                      child: Center(child: AutoSizeText(palItem.itemCount!, style: const TextStyle(color: Colors.black),)),
                     ),
-                    child: Center(child: AutoSizeText(palItem.itemCount!, style: const TextStyle(color: Colors.black),)),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: CachedNetworkImage(imageUrl: palItem.item!.iconUrl!),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: CachedNetworkImage(imageUrl: palItem.item!.iconUrl!),
+                  ),
+                ],
+              ),
             ),
           );
         },
