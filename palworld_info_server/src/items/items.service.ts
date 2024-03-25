@@ -54,6 +54,11 @@ export class ItemsService {
       order: {
         name: 'ASC',
       },
+      relations: {
+          palItems: {
+            pal: true
+          }
+        }
     });
   }
 
