@@ -75,6 +75,12 @@ export class ItemsService {
           palItems: {
             pal: true,
           },
+          material: {
+            material: true
+          },
+          recipe: {
+            recipe: true
+          },
         },
       },
     );
@@ -89,6 +95,12 @@ export class ItemsService {
         relations: {
           palItems: {
             pal: true,
+          },
+          material: {
+            material: true
+          },
+          recipe: {
+            recipe: true
           },
         },
       },
