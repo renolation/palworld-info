@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { PalItemEntity } from '../pals/entities/pal_item.entity';
+import { ItemRecipeEntity } from './entities/item_recipe.entity';
 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
@@ -23,6 +25,7 @@ export class ItemsService {
 
   constructor(
     @InjectRepository(ItemEntity) private repo: Repository<ItemEntity>,
+    @InjectRepository(ItemRecipeEntity) private itemRecipeRepo: Repository<ItemRecipeEntity>,
   ) {
   }
 
@@ -55,10 +58,10 @@ export class ItemsService {
         name: 'ASC',
       },
       relations: {
-          palItems: {
-            pal: true
-          }
-        }
+        palItems: {
+          pal: true,
+        },
+      },
     });
   }
 
@@ -66,16 +69,15 @@ export class ItemsService {
     return await this.repo.find(
       {
         where: {
-          id: id
+          id: id,
         },
         relations: {
           palItems: {
-            pal: true
-          }
-        }
+            pal: true,
+          },
+        },
       },
-
-    )
+    );
   }
 
   async findOneBySlug(slug: string) {
@@ -86,9 +88,9 @@ export class ItemsService {
         },
         relations: {
           palItems: {
-            pal: true
-          }
-        }
+            pal: true,
+          },
+        },
       },
     );
   }
@@ -219,4 +221,57 @@ export class ItemsService {
       passiveSkill,
     };
   }
+
+  async crawlRecipesFromSlug(slug: string) {
+    try {
+      const response = await axios.get(`https://palworldtrainer.com/${slug}`);
+      const html = response.data;
+
+      const parentEntity = await this.repo.findOne({
+        where: {
+          slug: slug,
+        },
+      });
+      const $ = cheerio.load(html);
+
+      const pText = $('p:contains("Required Crafting Materials")');
+      if (pText.html() === null) {
+        console.log('No Item Drops found. Skipping.');
+        return Promise.resolve();
+      }
+      const parentSection = pText.parents('section');
+      const material = parentSection.find('div.summary.recipes a');
+
+      const promises = material.map(async (index, element) => {
+        const itemName = $(element).find('.item-name').text();
+        const childEntity = await this.repo.findOne({
+          where: {
+            name: itemName,
+          },
+        });
+        const itemCount = $(element).find('.item-count').text();
+        console.log(`${itemCount} : ${itemName}`);
+        const itemRecipe = this.itemRecipeRepo.create(
+          {
+            material: childEntity,
+            itemCount: Number(itemCount),
+            recipe: parentEntity,
+          },
+        );
+        try {
+          await this.itemRecipeRepo.save(itemRecipe);
+          // console.log(itemRecipe);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      });
+      await Promise.all(promises);
+      return material.html();
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+
 }

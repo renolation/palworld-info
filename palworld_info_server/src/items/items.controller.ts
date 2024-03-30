@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
-import { ItemsService } from "./items.service";
-import { CreateItemDto } from "./dto/create-item.dto";
-import { UpdateItemDto } from "./dto/update-item.dto";
-import { UpdatePalDto } from "../pals/dto/update-pal.dto";
-import { data } from "cheerio/lib/api/attributes";
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ItemsService } from './items.service';
+import { CreateItemDto } from './dto/create-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
+import { UpdatePalDto } from '../pals/dto/update-pal.dto';
+import { data } from 'cheerio/lib/api/attributes';
 
 export function delay(time: number) {
   return new Promise(function(resolve) {
@@ -11,7 +11,7 @@ export function delay(time: number) {
   });
 }
 
-@Controller("items")
+@Controller('items')
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {
   }
@@ -26,7 +26,7 @@ export class ItemsController {
     return await this.itemsService.findAll();
   }
 
-  @Get("/crawl/get")
+  @Get('/crawl/get')
   async crawlItems() {
     let itemArray = await this.itemsService.crawlItem();
     for (const item of itemArray) {
@@ -34,13 +34,22 @@ export class ItemsController {
     }
   }
 
-    @Get("/crawl/get-slug")
-  async crawlSlug() {
-        let itemArray = await this.itemsService.crawlItem();
-        return itemArray;
+    @Get('/crawl/recipe')
+  async crawlRecipes() {
+        const items = await this.itemsService.findAll();
+    for (let item of items) {
+           await this.itemsService.crawlRecipesFromSlug(item.slug);
+    }
+    return 'a';
   }
 
-  @Get("/crawl/detail")
+  @Get('/crawl/get-slug')
+  async crawlSlug() {
+    let itemArray = await this.itemsService.crawlItem();
+    return itemArray;
+  }
+
+  @Get('/crawl/detail')
   async crawlItemDetail() {
     const items = await this.itemsService.findAll();
     for (let item of items) {
@@ -60,27 +69,27 @@ export class ItemsController {
       updatedItemDto.passiveSkill = data.passiveSkill;
       await this.itemsService.updateBySlug(item.name, updatedItemDto);
     }
-    return "aa";
+    return 'aa';
   }
 
 
-
-  @Get("/id/:id")
-  findOne(@Param("id") id: string) {
+  @Get('/id/:id')
+  findOne(@Param('id') id: string) {
     return this.itemsService.findOne(+id);
   }
 
-      @Get("/:id")
-  findOneById(@Param("id") id: string) {
+  @Get('/:id')
+  findOneById(@Param('id') id: string) {
     return this.itemsService.findOneBySlug(id);
   }
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateItemDto: UpdateItemDto) {
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.itemsService.update(+id, updateItemDto);
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.itemsService.remove(+id);
   }
 }
